@@ -1,0 +1,17 @@
+# Files that must not be committed
+__pycache__/
+*.pyc
+target/
+node_modules/
+.DS_Store
+
+# Local collections and personal review data
+*.anki2
+*.anki2-wal
+*.anki2-shm
+*.apkg
+*.colpkg
+
+# Held-out evaluation sets must never enter training data
+data/holdout/
+.env
