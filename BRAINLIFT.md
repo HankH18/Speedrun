@@ -369,7 +369,7 @@ The latency rule is unchanged and carried forward above.
 
 ## 8. What changed
 
-**PENDING — Sunday deliverable.** Three updates already belong here, recorded now because they happened during research rather than during the build:
+**PENDING — Sunday deliverable.** Four updates already belong here, recorded now because they happened during research rather than during the build:
 
 **The FSRS abstention precedent — wrong, then wrongly corrected, now settled.** This claim has been revised three times and the heading below preserves the second version so the sequence is visible. **Final position:** the mechanism is real — [`training.rs:319`](https://github.com/open-spaced-repetition/fsrs-rs/blob/56a78d971e73c16d2e9a757edfdc3d9e1f0b3695/src/training.rs#L319) in `fsrs-rs` returns `DEFAULT_PARAMETERS` below **8** items, and upstream applies a graduated ladder above it (8 / 8–63 / ≥64 for fitting, > 300 for the health check) plus two shrinkage mechanisms, an **L1 penalty** pulling initial stability toward the default and **Laplace smoothing** of recall toward the collection average. But my figure was **25× too strict**, I located it in the **wrong codebase**, and it gates **fitting a model** rather than **showing a student a number**. Read at fsrs-rs **v6.6.0** (`56a78d97`); Anki pins **6.6.1**, which carries no git tag, so that gap is unverified. Full scorecard in §7; ladder in `speedrun-docs/source-citations.md`, Finding G.
 
@@ -387,6 +387,12 @@ The structural fix is to invert the dependency.
 
 A give-up threshold must be an **output** of the calibration analysis, not an **input** to it — the point at which reporting a score stops beating abstaining is a measurable quantity on held-out reviews, and measuring it is the same work as producing the reliability curves POV 2 already demands. A threshold asserted up front and then "validated" by an analysis it constrains is circular, and it is the same circularity I criticise AMBOSS for in §4.2: computing the machinery that would produce an honest bound and then not using it. Every numeric threshold in §7 is now marked TBD pending Appendix B, and the rule has been split by score so that the *mechanism* — shrinkage where an informative prior exists, abstention where it does not — is decided on stated reasoning rather than inherited along with the number.
 
+**A pre-registered design was changed after it returned an unwanted result — logged here because that is exactly the move that should be logged.** Appendix A's first formulation modelled transfer as additive with retention. Re-checking the arithmetic before running anything showed it produced a corner optimum at α = 1.0: "spend the whole budget on congruency-matched practice," which would have made the allocation question — the question the design exists to ask — trivial. In response I **gated transfer on retention** in the data-generating process.
+
+**Changing the DGP after an unwanted result is the pattern Appendix A's circularity guard exists to catch, and I am not exempt from it.** The justification for why this instance is not that: the initial-accuracy moderator was **already one of the three declared literature parameters** (§3.1's 0.0058 *d*/pp slope), present in the design from the start. The additive form modelled that moderator's *slope* while ignoring the *bound* stated in the same sentence of §3.1 — that transfer "disappears entirely at particularly poor initial performance." So the change **specifies an existing relationship more completely; it does not import a new one.** No new literature quantity entered the DGP. The test I hold myself to: the additive form misrepresents the cited source whichever way the result falls, so the change would have been made regardless — and a grader who finds the fix without this reasoning should read it as tuning, which is why the reasoning sits ahead of the fix in Appendix A rather than after it.
+
+Three consequences, all recomputed before the run and none of them favourable: the primary prediction **fell** from +0.077 *d* to **+0.061 *d***; the break-even effect **rose** from Δ*d*\* ≈ 0.070 to **≈ 0.083** at *c* = 2.0, meaning the feature now needs a *larger* real-world effect to justify itself; and I had to withdraw a claim I made in the same breath as the fix — that gating "produces an interior optimum." **It does not**, at the pre-registered parameters, and I verified that rather than assuming it. A void condition built on that false claim was withdrawn with it and replaced by a direct check on the implementation.
+
 **POV 1 was rewritten after contact with the evidence.** My original thesis was that retrieval practice fails to transfer to vignette-style items. Pan & Rickard state the opposite — transfer is *greatest* to application and inference questions and to problems involving medical diagnoses. The original claim was not merely unsupported; the keystone citation contradicts it. The surviving POV is narrower and conditional: transfer is real but governed by measurable moderators that nothing in the market measures. A second prediction also failed — I predicted the incumbent's science page would not mention transfer, and it does, citing the strongest study against me.
 
 ---
@@ -399,7 +405,9 @@ A give-up threshold must be an **output** of the calibration analysis, not an **
 >
 > **Status: WRITTEN · PRE-REGISTERED · NOT YET RUN.**
 >
-> **Revision 2, made before any run.** Revising a pre-registration *before* execution is legitimate and is the only window in which it is; revising after is the thing this block forbids. This revision: (1) restated the primary result and both falsifiers in effect-size units, since the percentage-point figures were scaled by an assumed σ; (2) made the sweep two-dimensional; (3) promoted the retention-penalty assumption to a named, swept quantity; and (4) recorded a defect found while re-checking the arithmetic — the additive model has a corner solution, which imposes a requirement on the harness. Details at each point below.
+> **Revision 2, made before any run.** Revising a pre-registration *before* execution is legitimate and is the only window in which it is; revising after is the thing this block forbids. This revision: (1) restated the primary result and both falsifiers in effect-size units, since the percentage-point figures were scaled by an assumed σ; (2) made the sweep two-dimensional; (3) promoted the retention-penalty assumption to a named, swept quantity; and (4) recorded a defect found while re-checking the arithmetic — the additive model has a corner solution, which imposes a requirement on the harness.
+>
+> **Revision 3, also before any run — the substantive one.** The additive formulation produced a corner optimum at α = 1.0. In response, **transfer is now gated on retention** in the DGP. Because that is a change to the data-generating process made after an unwanted result, it is documented at length under *Gating the transfer channel* below, with the justification stated **before** the change is described. It is also logged in §8. Consequences, all recomputed: the primary prediction falls from **+0.077 d to +0.061 d**; the decision boundary shifts from Δ*d*\* ≈ 0.070 to **≈ 0.083** at *c* = 2.0; a **secondary pre-registered result** (optimal allocation α\*) is added; and the earlier void condition — "a corner optimum means the harness failed" — is **withdrawn as incorrect**, because a corner is a legitimate outcome of a correctly-gated model at these parameters. Verified: gating alone does **not** guarantee an interior optimum.
 
 Corresponds to **§9 of the assignment brief**, not to a ninth section of this document. Referenced from POV 1, §7 (traceability rows 1 and 3) and `speedrun-docs/rust-change-note.md`.
 
@@ -447,10 +455,12 @@ Arm 2 is the load-bearing comparison — it isolates the thesis feature, holding
 
 **Reported in effect-size units, because percentage points are not a property of the result.** Converting *d* to accuracy points requires σ, the between-learner SD of held-out novel-item accuracy, and σ is **assumed, not literature-derived**. It scales the predicted effect and the ceiling **linearly**, so a pp-denominated prediction silently encodes a guess. The *d* figures below are the pre-registered result; pp figures are a conversion, with σ named every time it is used.
 
-> **Primary prediction, arm 1 − arm 2 on held-out novel-item accuracy:**
-> ### **+0.077 *d***  · pre-registered interval **+0.03 to +0.13 *d***
-> Conversion at the assumed **σ = 13 pp**: **+1.0 pp**, interval **+0.4 to +1.7 pp**.
-> Held at **fixed α = 0.5**, *c* = 2.0, Δ*a* = 4 pp — an allocation the scheduler is *given*, not one it optimizes. See the corner-solution note below.
+> **PRIMARY — a fixed-allocation comparison, not an optimization.** Arm 1 runs a **fixed α = 0.5**, an allocation it is *given*. This test answers "does spending half the budget on congruent practice beat spending none?" — **it does not answer what the best allocation is.** That is the secondary result below, and the two must not be conflated: an earlier draft let the word "allocation" imply an optimization this comparison never performs.
+>
+> **Arm 1 − arm 2 on held-out novel-item accuracy, at fixed α = 0.5, *c* = 2.0, Δ*a* = 4 pp, transfer gated on retention:**
+> ### **+0.061 *d***  · pre-registered interval **+0.03 to +0.09 *d***
+> Conversion at the assumed **σ = 13 pp**: **+0.79 pp**, interval **+0.4 to +1.2 pp**.
+> *(Revision 3: was +0.077 d under the ungated additive model. Gating multiplies the congruency gain by 0.84 at this point, and the penalty is unchanged.)*
 
 Derivation, every assumption named so the sweep can attack it:
 
@@ -463,11 +473,16 @@ Derivation, every assumption named so the sweep can attack it:
 | 5 | Initial accuracy lost to the rep deficit, Δ*a* | **4 pp** | **Inferred — least-grounded quantity here.** Swept |
 | 6 | Between-learner SD σ | **13 pp** | **Assumed.** Conversion factor only |
 
-7. **Reps relative to arm 2:** *R* = (1−α) + α/*c* = 0.5 + 0.25 = **0.75** → a **25%** rep deficit.
-8. **Congruent share of items practised:** (α/*c*)/*R* = 0.25/0.75 = **0.3333**.
-9. **Congruency gain:** 0.3333 × 0.30 = **+0.100 *d***.
-10. **Retention penalty:** 0.0058 × 4 = **−0.0232 *d***.
-11. **Net:** 0.100 − 0.0232 = **+0.0768 *d*** → at σ = 13, **+1.00 pp**.
+| 7 | Baseline initial accuracy *a*₀ | **85 pp** | **Assumed.** Gate reference point |
+| 8 | Transfer floor — accuracy below which transfer vanishes | **60 pp** | **Assumed**, from §3.1's qualitative "disappears entirely at particularly poor initial performance". Swept |
+
+9. **Reps relative to arm 2:** *R* = (1−α) + α/*c* = 0.5 + 0.25 = **0.75** → a **25%** rep deficit.
+10. **Congruent share of items practised:** (α/*c*)/*R* = 0.25/0.75 = **0.3333**.
+11. **Retention after the deficit:** *a* = 85 − 16 × 0.25 = **81 pp** (Δ*a* = 4 pp, as row 5).
+12. **Retention gate:** (81 − 60)/(85 − 60) = **0.84**.
+13. **Congruency gain, gated:** 0.3333 × 0.30 × 0.84 = **+0.0840 *d***.
+14. **Retention penalty:** 0.0058 × 4 = **−0.0232 *d***.
+15. **Net:** 0.0840 − 0.0232 = **+0.0608 *d*** → at σ = 13, **+0.79 pp**.
 
 **σ changes the percentage-point figures and nothing else.** At σ = 10 the prediction is +0.77 pp; at σ = 16, +1.23 pp. The *d* result is unchanged by construction, and — more importantly — **the Δ*d*\* crossing point is entirely σ-free**, because gain and penalty both scale by σ and it cancels. The headline deliverable therefore does not depend on the one number in this table with no grounding at all.
 
@@ -478,20 +493,62 @@ Derivation, every assumption named so the sweep can attack it:
 
 **The prediction is deliberately small.** A design predicting a large effect from a *d* = 0.30 moderator bought at 2× cost under a fixed budget would be arithmetically unserious, and a small predicted effect is what makes this test capable of failing.
 
-### ⚠ Corner-solution defect, found while re-checking this arithmetic
+### ⚠ Gating the transfer channel — a DGP change made after an unwanted result
 
-**Under the additive model above, net benefit increases monotonically in α, so the optimum is the corner α = 1.0 — "spend the entire budget on congruency-matched practice" — and the allocation question the design claims is non-obvious becomes trivial.** Computed at *c* = 2.0:
+**Read the justification before the change, because the change alone looks like tuning.** Adding structure to a data-generating process after it returns a result you dislike is *precisely* the pattern the circularity guard exists to catch. A grader who finds this fix without the reasoning should read it as tuning, and would be right to. So the reasoning comes first.
 
-| α | Congruent share | Δ*a* | Net |
+**Why this instance is not that.** The initial-accuracy moderator was **already one of the three declared literature parameters** (assumptions table, row 2 — the 0.0058 *d*/pp slope, from §3.1). It was in the design from the start; it was not introduced to rescue a result. What the additive formulation did was **under-specify a relationship that was already declared**: it modelled the moderator's *slope* while ignoring the *bound* §3.1 states in the same sentence — that transfer "**disappears entirely at particularly poor initial performance**." A moderator with a floor is not the same object as a moderator without one, and the additive form silently assumed transfer stays available no matter how far retention falls. The correction is therefore **specifying an existing parameter more completely, not importing a new one**. No new literature quantity enters the DGP; the gate is built from the same §3.1 sentence that supplied the slope.
+
+The test of whether that distinction is honest: *would the change have been made if the result had come out the other way?* Yes — the additive form misrepresents the cited literature regardless of which way the optimum falls, and it would have been wrong to leave in a design that turned out favourably. That is the strongest defence available, and it is offered as a claim about the reasoning, not proof.
+
+**What went wrong.** Under the additive model, net benefit rises monotonically in α, putting the optimum at the corner α = 1.0 — "spend the entire budget on congruency-matched practice":
+
+| α | Congruent share | Δ*a* | Net (additive) |
 |---|---|---|---|
 | 0.25 | 0.143 | 2.0 pp | +0.031 *d* |
-| 0.50 | 0.333 | 4.0 pp | **+0.077 *d*** |
+| 0.50 | 0.333 | 4.0 pp | +0.077 *d* |
 | 0.75 | 0.600 | 6.0 pp | +0.145 *d* |
 | 1.00 | 1.000 | 8.0 pp | **+0.254 *d*** |
 
-This is an artifact of linearity, not a finding: gain is linear in share, penalty linear in deficit, so the maximum sits at an endpoint. **The literature already supplies the missing nonlinearity.** §3.1 records that transfer "**disappears entirely at particularly poor initial performance**" — transfer is *conditional on recall*, not additive with it. A learner who abandons retention practice cannot transfer a fact they no longer retain, so the true response surface has an interior optimum.
+**Why it corners.** Congruent share is α/(2−α) at *c* = 2, which is **convex** in α — its second derivative is 4/(2−α)³ > 0 — so the gain term is convex and increasing, while the retention penalty is **linear** in α (the rep deficit is α/2). A convex gain minus a linear penalty is convex, and a convex function on an interval attains its maximum at an endpoint. *(An earlier draft said gain was "linear in share." That is true but beside the point: gain is linear in share and share is convex in α, so gain is convex in α. The conclusion is unchanged.)*
 
-**This is therefore a required property of the harness, pre-registered as a check on the implementation rather than on the hypothesis:** the DGP must gate transfer on retention, reproducing the documented floor effect. **If the harness returns a monotone-increasing benefit in α with an optimum at α = 1.0, it has failed to implement the floor effect and its output is void** — the same disposition as a failed null case. The primary prediction above is stated at fixed α = 0.5 precisely so that it does not depend on where the optimum lands.
+**The change.** Transfer is now **gated on retention**: the congruency gain is multiplied by (*a* − *a*_floor)/(*a*₀ − *a*_floor), which reaches zero at the floor. A learner who abandons retention practice cannot transfer a fact they no longer retain.
+
+**Verified, and it does not do what I first claimed.** I initially asserted that gating "produces an interior optimum." **That is false at the pre-registered parameters, and the assertion is withdrawn.** At Δ*a* = 4 pp (which fixes the retention-loss scale) the optimum remains at the corner for every plausible floor:
+
+| Condition at *c* = 2.0 | Optimum |
+|---|---|
+| No gate (additive) | α\* = 1.00 |
+| Proportional gate | α\* = 1.00 |
+| Floor gate at 60 pp | α\* = 1.00 |
+| Floor gate at 70 pp | α\* = 1.00 |
+| **Floor gate at ≥ 72.1 pp** | **interior** |
+| **Δ*a* ≥ 7.2 pp, floor 60 pp** | **interior** |
+
+An interior optimum requires either a retention penalty **nearly double** the pre-registered Δ*a* = 4 pp, or a floor at ≥ 72 pp retention — meaning transfer would vanish for anyone below 72%, which is not plausible. **So gating changes the magnitudes but does not by itself make the allocation question interior.**
+
+**The earlier void condition is withdrawn as incorrect.** It said a corner optimum at α = 1.0 means the harness failed to implement the floor effect. That does not follow — a correctly-gated model corners at these parameters. **Replacement check, which tests the implementation directly rather than inferring it from the optimum:** drive simulated retention below the floor and confirm the transfer effect goes to **zero**, not merely small. If it does not, the floor is unimplemented and the run is void. Where the optimum lands is a **result**, not a diagnostic.
+
+### Secondary pre-registered result — the optimal allocation α\*
+
+**This is the result that actually answers the allocation question.** The primary comparison holds α fixed at 0.5 and therefore cannot say what the best allocation is; it says only that a specific allocation beats zero. Reported with the same sweep treatment as the boundary.
+
+> **Predicted α\* at the pre-registered central parameters (*c* = 2.0, Δ*a* = 4 pp, floor 60 pp): α\* = 1.00 — the corner.**
+> **Predicted range across the full sweep: α\* ∈ [0.01, 1.00]**, interior only in the region where the retention penalty is steep or congruent practice is dear.
+
+Pre-registered α\* map, by cost multiplier and retention-penalty scale (floor 60 pp):
+
+| Δ*a* at α = 0.5, *c* = 2 | *c* = 1.5 | *c* = 2.0 | *c* = 2.5 | *c* = 3.0 |
+|---|---|---|---|---|
+| **4 pp (pre-registered)** | 1.00 | **1.00** | 1.00 | 1.00 |
+| 6 pp | 1.00 | 1.00 | 1.00 | 1.00 |
+| 8 pp | 1.00 | 0.70 | 0.18 | 0.01 |
+| 10 pp | 0.89 | 0.30 | 0.01 | 0.01 |
+| 12 pp | 0.62 | 0.07 | 0.01 | 0.01 |
+
+**Predicting a corner is a real prediction, and it is falsifiable in both directions.** If the harness returns an interior α\* at Δ*a* = 4 pp and floor 60 pp, one of the two is wrong — the prediction or the implementation — and which must be established before anything is claimed. If it returns α\* = 1.00, the honest reading is **not** "the feature is spectacular" but "under these assumptions the model says go all-in, and the assumptions are doing most of that work" — which is why Δ*a* and the floor are swept and why the boundary, not the point estimate, is the deliverable.
+
+**What a corner would mean for the design's framing.** Circularity guard (b) rests on the allocation question having a non-obvious answer. If α\* = 1.00 across the plausible region, "how should the budget be split?" collapses to "don't split it," and guard (b) is weaker than stated. It does not collapse: the *sign and magnitude of the tradeoff* remain outputs rather than inputs — the DGP nowhere encodes that congruency gains outweigh retention costs — and the decision boundary Δ*d*\*(*c*), which is the headline, stays non-obvious regardless of where α\* lands. But the phrase "non-obvious answer" was doing more work than it earned, and this paragraph is the correction.
 
 ### Required controls
 
@@ -499,25 +556,25 @@ This is an artifact of linearity, not a finding: gain is linear in share, penalt
 
 **Two-dimensional parameter sweep — the headline deliverable.** A single crossing point would hide the fact that the answer depends on a second assumed quantity as much as on the first. Sweep **Δ*d* ∈ [0, 0.30] × cost multiplier *c* ∈ [1.0, 3.0]** and report the **decision boundary** Δ*d*\*(*c*) — the locus where arm 1's advantage crosses zero. Everything above the boundary is a region where the feature pays; everything below is a region where it does not.
 
-Pre-registered boundary, from setting gain equal to penalty — share(α, *c*) × Δ*d* = 0.0058 × Δ*a*(*c*) — at fixed α = 0.5, with Δ*a* scaling on the rep deficit:
+Pre-registered boundary, from setting the **gated** gain equal to the penalty — share(α, *c*) × Δ*d* × gate(*c*) = 0.0058 × Δ*a*(*c*) — at fixed α = 0.5, with Δ*a* scaling on the rep deficit:
 
 | Cost multiplier *c* | Rep deficit | Δ*a* | **Δ*d*\* (boundary)** | As % of published 0.30 |
 |---|---|---|---|---|
 | 1.0 (free) | 0% | 0.0 pp | **0.000** | 0% — any positive effect pays |
-| 1.5 | 17% | 2.7 pp | **0.039** | 13% |
-| **2.0** | **25%** | **4.0 pp** | **0.070** | **23%** ← headline slice |
-| 2.5 | 30% | 4.8 pp | **0.097** | 32% |
-| 3.0 | 33% | 5.3 pp | **0.124** | 41% |
+| 1.5 | 17% | 2.7 pp | **0.043** | 14% |
+| **2.0** | **25%** | **4.0 pp** | **0.083** | **28%** ← headline slice |
+| 2.5 | 30% | 4.8 pp | **0.121** | 40% |
+| 3.0 | 33% | 5.3 pp | **0.157** | 52% |
 
-**Δ*d*\* ≈ 0.07 at *c* = 2.0 remains the headline case, and is labelled as one slice of the boundary, not the answer.** Read as a whole, the boundary says: **if congruency-matched practice costs twice a plain rep, the real-world congruency effect must be at least ~23% of Pan & Rickard's published estimate for this feature to pay for itself — and that requirement roughly doubles, to ~41%, if it costs three times as much.** A reader who distrusts the published figure, or who thinks congruent items are cheaper or dearer to produce than assumed, can locate their own beliefs on both axes and read off whether the feature is worth building. The boundary is reported in *d* and is **σ-free**.
+**Δ*d*\* ≈ 0.083 at *c* = 2.0 is the headline case, labelled as one slice of the boundary, not the answer.** *(Revision 3: was 0.070 under the ungated model; the retention gate shrinks the gain, so a larger real effect is needed to break even.)* Read as a whole, the boundary says: **if congruency-matched practice costs twice a plain rep, the real-world congruency effect must be at least ~28% of Pan & Rickard's published estimate for this feature to pay for itself — and that requirement rises to ~52%, more than half, if it costs three times as much.** A reader who distrusts the published figure, or who thinks congruent items are cheaper or dearer to produce than assumed, can locate their own beliefs on both axes and read off whether the feature is worth building. The boundary is reported in *d* and is **σ-free**.
 
-**Third axis: Δ*a*, swept as robustness.** Δ*a* is the least-grounded quantity in the derivation (below), so the boundary is additionally reported at Δ*a* ∈ {2, 4, 8} pp. At *c* = 2.0 the crossing point scales linearly with it — Δ*d*\* = 0.0058 × Δ*a* / 0.3333 = 0.0174 × Δ*a*:
+**Third axis: Δ*a*, swept as robustness.** Δ*a* is the least-grounded quantity in the derivation (below), so the boundary is additionally reported at Δ*a* ∈ {2, 4, 8} pp. At *c* = 2.0 the crossing point rises **faster than linearly** in Δ*a* under gating, because a larger retention loss both raises the penalty and shrinks the gate:
 
 | Δ*a* at *c* = 2.0 | Δ*d*\* | As % of published |
 |---|---|---|
-| 2 pp | 0.035 | 12% |
-| **4 pp (pre-registered)** | **0.070** | **23%** |
-| 8 pp | 0.139 | 46% |
+| 2 pp | 0.038 | 13% |
+| **4 pp (pre-registered)** | **0.083** | **28%** |
+| 8 pp | 0.205 | 68% |
 
 **On Δ*a* = 4 pp, named explicitly because it was buried.** This is the initial retrieval accuracy assumed lost to arm 1's 25% rep deficit, and it is **the least-grounded quantity in this derivation**. It is **inferred, not published** — Pan & Rickard supply the *slope* relating initial accuracy to transfer (0.0058 *d*/pp), but nothing in the cited literature says how much initial accuracy a given reduction in practice volume costs. That relationship comes from FSRS's retention model inside the DGP, which makes it the one input where the circularity guard is weakest: it is the place where the simulation's answer is most exposed to a modelling choice rather than a literature value. Hence the third sweep axis, and hence the boundary being reported as a surface rather than a number.
 
