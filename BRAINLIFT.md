@@ -407,6 +407,8 @@ Three consequences, all recomputed before the run and none of them favourable: t
 >
 > **Revision 2, made before any run.** Revising a pre-registration *before* execution is legitimate and is the only window in which it is; revising after is the thing this block forbids. This revision: (1) restated the primary result and both falsifiers in effect-size units, since the percentage-point figures were scaled by an assumed σ; (2) made the sweep two-dimensional; (3) promoted the retention-penalty assumption to a named, swept quantity; and (4) recorded a defect found while re-checking the arithmetic — the additive model has a corner solution, which imposes a requirement on the harness.
 >
+> **Revision 4, before any run.** Reclassified the *shape* of the retention penalty as the model's weakest assumption, above Δ*a*'s magnitude: it is linear by construction, calibrated at α = 0.5 and extrapolated to α = 1.0, which is precisely where the corner sits. Verified symbolically that the penalty is exactly linear (second derivative identically zero), and that mild convexity — *p* ≈ 1.55, short of quadratic — is enough to break the corner. α\* = 1.00 is therefore relabelled a prediction of the *analytic* model that may not survive simulation. Added *What the simulation tests that the algebra does not*, and recorded in advance that the fixed α = 0.5 primary understates the feature by ~2.6× if α\* = 1.00 holds.
+>
 > **Revision 3, also before any run — the substantive one.** The additive formulation produced a corner optimum at α = 1.0. In response, **transfer is now gated on retention** in the DGP. Because that is a change to the data-generating process made after an unwanted result, it is documented at length under *Gating the transfer channel* below, with the justification stated **before** the change is described. It is also logged in §8. Consequences, all recomputed: the primary prediction falls from **+0.077 d to +0.061 d**; the decision boundary shifts from Δ*d*\* ≈ 0.070 to **≈ 0.083** at *c* = 2.0; a **secondary pre-registered result** (optimal allocation α\*) is added; and the earlier void condition — "a corner optimum means the harness failed" — is **withdrawn as incorrect**, because a corner is a legitimate outcome of a correctly-gated model at these parameters. Verified: gating alone does **not** guarantee an interior optimum.
 
 Corresponds to **§9 of the assignment brief**, not to a ninth section of this document. Referenced from POV 1, §7 (traceability rows 1 and 3) and `speedrun-docs/rust-change-note.md`.
@@ -461,6 +463,8 @@ Arm 2 is the load-bearing comparison — it isolates the thesis feature, holding
 > ### **+0.061 *d***  · pre-registered interval **+0.03 to +0.09 *d***
 > Conversion at the assumed **σ = 13 pp**: **+0.79 pp**, interval **+0.4 to +1.2 pp**.
 > *(Revision 3: was +0.077 d under the ungated additive model. Gating multiplies the congruency gain by 0.84 at this point, and the penalty is unchanged.)*
+>
+> **This comparison is conservative, and I am saying so before the run rather than after.** If the secondary result holds and α\* = 1.00, then α = 0.5 is **not** the feature's best configuration and the primary deliberately handicaps it: net at α\* would be 0.158 *d* against 0.061 *d* here, so **the fixed comparison captures about 39% of the achievable benefit — a 2.6× understatement.** A positive primary result under that handicap is therefore stronger than it looks, and a *negative* one is correspondingly damning, since the feature would have failed at an allocation that is not even its best. Stating the direction of the bias in advance is what stops it from becoming an excuse afterwards: **if the primary comes out negative, "we should have optimized α" is not available as a defence** — the sweep and the secondary result are already specified here, and the honest response is the one in *How I would know it failed*. Note the handicap shrinks sharply if α\* turns out interior: at *p* = 2 the optimum is α\* = 0.65 and the fixed comparison captures ~92%.
 
 Derivation, every assumption named so the sweep can attack it:
 
@@ -470,7 +474,8 @@ Derivation, every assumption named so the sweep can attack it:
 | 2 | Initial-accuracy slope | **0.0058 *d* / pp** | Published (§3.1) |
 | 3 | Cost multiplier *c* of a congruency-matched rep | **2.0×** | **Assumed.** Swept over [1.0, 3.0] |
 | 4 | Allocation α of budget to congruent practice | **0.5** | **Fixed by design**, not optimized |
-| 5 | Initial accuracy lost to the rep deficit, Δ*a* | **4 pp** | **Inferred — least-grounded quantity here.** Swept |
+| 5 | Initial accuracy lost to the rep deficit, Δ*a* | **4 pp** | **Inferred.** Weakest *magnitude* assumption. Swept |
+| 5b | **Shape of that penalty in α** | **linear** | **Weakest assumption in the model, structural — see below.** Not swept analytically; the simulation replaces it |
 | 6 | Between-learner SD σ | **13 pp** | **Assumed.** Conversion factor only |
 
 | 7 | Baseline initial accuracy *a*₀ | **85 pp** | **Assumed.** Gate reference point |
@@ -549,6 +554,44 @@ Pre-registered α\* map, by cost multiplier and retention-penalty scale (floor 6
 **Predicting a corner is a real prediction, and it is falsifiable in both directions.** If the harness returns an interior α\* at Δ*a* = 4 pp and floor 60 pp, one of the two is wrong — the prediction or the implementation — and which must be established before anything is claimed. If it returns α\* = 1.00, the honest reading is **not** "the feature is spectacular" but "under these assumptions the model says go all-in, and the assumptions are doing most of that work" — which is why Δ*a* and the floor are swept and why the boundary, not the point estimate, is the deliverable.
 
 **What a corner would mean for the design's framing.** Circularity guard (b) rests on the allocation question having a non-obvious answer. If α\* = 1.00 across the plausible region, "how should the budget be split?" collapses to "don't split it," and guard (b) is weaker than stated. It does not collapse: the *sign and magnitude of the tradeoff* remain outputs rather than inputs — the DGP nowhere encodes that congruency gains outweigh retention costs — and the decision boundary Δ*d*\*(*c*), which is the headline, stays non-obvious regardless of where α\* lands. But the phrase "non-obvious answer" was doing more work than it earned, and this paragraph is the correction.
+
+### ⚠ The weakest assumption in this model is the *shape* of the retention penalty, not its size
+
+Δ*a* = 4 pp is flagged above as the least-grounded *magnitude*. **The linearity of the penalty in α is a worse problem, and it is the assumption α\* = 1.00 rests on entirely.**
+
+**It is calibrated in one place and used in another.** Δ*a* is pinned at α = 0.5, where the rep deficit is 25%. The penalty is then extended linearly to α = 1.0, a 50% deficit — and **α = 1.0 is exactly where the corner sits.** The prediction is therefore made at the point furthest from its own calibration, by pure extrapolation. Confirmed symbolically: deficit = α(1 − 1/*c*), so the penalty is α·*k*·*s*·(*c*−1)/*c*, whose second derivative in α is identically zero. Exactly linear, by construction rather than by evidence.
+
+**There is good reason to think the truth is convex.** FSRS's model grows card stability with each successful review, and retrievability decays against that stability. Cutting review throughput does not merely slow stability growth proportionally — cards that slip past their due window lapse, and a lapse resets stability rather than pausing it. Losses of that kind compound, so **the real penalty is plausibly convex in α**, accelerating as allocation approaches the extreme where retention practice is abandoned. The linear form assumes the second half of the budget shift costs exactly what the first half did, which is the least likely of the available shapes.
+
+**And convexity is enough to break the corner.** The corner survives only because a convex gain is racing a *linear* penalty. Against a convex penalty it need not corner at all — verified by re-solving with Δ*a* ∝ deficit^*p*, calibrated so that all forms agree at α = 0.5:
+
+| *p* | Δ*a* at α = 1 | α\* | Net at α\* |
+|---|---|---|---|
+| **1.0 (current, linear)** | 8.0 pp | **1.00** | 0.158 *d* |
+| 1.5 | 11.3 pp | 1.00 | 0.099 *d* |
+| **1.55** | **11.7 pp** | **corner breaks** | — |
+| 1.75 | 13.5 pp | 0.78 | 0.075 *d* |
+| 2.0 | 16.0 pp | 0.65 | 0.066 *d* |
+| 3.0 | 32.0 pp | 0.49 | 0.061 *d* |
+
+**Mild convexity is sufficient**: the corner breaks at *p* ≈ 1.55, well short of quadratic.
+
+> **α\* = 1.00 is therefore a prediction of the *analytic* model, not of the system under test, and it may not survive the simulation.** It is pre-registered as stated because pre-registering the number I actually derived is the point, but it is the prediction in this appendix I expect least to hold.
+
+**One thing this does not threaten: the primary result.** Because Δ*a* is calibrated *at* α = 0.5, every penalty shape agrees there by construction — net = **+0.0608 *d*** at *p* = 1, 2 and 3 alike. **The fixed-allocation primary is insulated from the assumption that governs α\*.** That is the strongest argument for keeping the primary fixed rather than optimized, and it was not the reason the design was built that way.
+
+### What the simulation tests that the algebra does not
+
+Everything above is closed-form. Its penalty shape is asserted; the simulation's is **produced**.
+
+The analytic model has one hand-written line standing in for the entire retention consequence of studying less. The simulation does not: it contains FSRS, and the penalty emerges from scheduling dynamics — **spacing intervals lengthening or not, forgetting between reviews, lapses resetting stability, and per-card gating accumulating over simulated time**. Whatever shape that produces is the shape the model actually implies, and no algebra here can anticipate it. That is the whole reason to run a simulation rather than publish the closed form.
+
+**Pre-registered disposition, stated before the run so it cannot be chosen afterwards:**
+
+- **The analytic figures are a pre-registered baseline, not a prediction the simulation is expected to reproduce.** They exist to be compared against.
+- **Divergence between simulated α\* and analytic α\* = 1.00 is a reportable finding, not an error.** If the simulation returns an interior α\*, the correct conclusion is that FSRS's dynamics make the retention penalty convex — which is informative about the mechanism and is exactly what the simulation was run to discover. It is not evidence that the harness is broken, and it must not be "corrected" toward the algebra.
+- **If the simulation merely reproduces the algebra, say so plainly.** That too is a result: it means the closed-form model was sufficient, the scheduling dynamics added nothing the linear approximation missed, and any future version of this analysis can use the cheaper model. A null finding about one's own added machinery is still a finding.
+- **Divergence in the primary is a different matter.** The primary is insulated from penalty shape (above), so a simulated primary far from +0.061 *d* points at something else — the gate, the item construction, the budget accounting — and should be investigated as a possible defect rather than reported as a finding.
 
 ### Required controls
 
