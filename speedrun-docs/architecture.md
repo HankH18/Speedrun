@@ -36,28 +36,37 @@ The prediction layer being empty in stock Anki is precisely where Speedrun adds 
 
 ---
 
-## Abstention vs shrinkage
+## Abstention vs shrinkage — resolved as neither
 
-The first version of this design applied one rule to all three scores: refuse to report below a review threshold. That was wrong, and the reason it was wrong is architectural rather than cosmetic — **the right mechanism for thin data depends on whether an informative prior exists, and the three scores do not have the same answer.**
+This section has been rewritten twice, and both earlier versions were wrong in the same way. The first said: refuse to report below a review threshold. The second said: shrink toward a prior where one is informative, abstain where it is not. **Both were answering "do I have enough data?" — a question that can only be settled by asserting a number.** The resolution is a third mechanism that asks a different question.
 
-Refusing and shrinking are both responses to "I do not have enough data to say." They differ in what they do with the prior:
+**Validation-gating.** Fit the model. Then test it against the thing you would otherwise have said. Report it only if it wins. No constant is asserted anywhere, and the test is the thing a threshold was only ever a proxy for.
 
-- **Abstention** discards the estimate entirely. It is correct when any prior you could fall back on would itself mislead.
-- **Shrinkage** reports `w · x̂_user + (1 − w) · x̂_prior`, with `w` rising as data accumulates. It is correct when the prior encodes real information the user's own data has not yet earned.
+This is upstream's own resolution, reached after they deleted their review-count gate ([PR #3106](https://github.com/ankitects/anki/pull/3106), [PR #3246](https://github.com/ankitects/anki/pull/3246)). Damien Elmes's proposal — "stop showing an error, and just fall back on the default parameters instead" — shipped as [`params.rs:156`](https://github.com/ankitects/anki/blob/d735cd25d076051c6788b5a5acf65b57b9ea7277/rslib/src/scheduler/fsrs/params.rs#L156): fitted parameters are evaluated against the incumbent on the same items and discarded unless they win on log loss.
 
-Upstream reached the same conclusion by a different route. Anki once gated FSRS optimization on a review count and removed enforcement in two steps ([PR #3106](https://github.com/ankitects/anki/pull/3106), [PR #3246](https://github.com/ankitects/anki/pull/3246)), leaving the error variant and its string as dead code. The replacement reasoning is Damien Elmes's: "stop showing an error, and just fall back on the default parameters instead."
+Shrinkage does not disappear; it stops being the gate and becomes an implementation detail of the *fallback*. Where the model loses, what you fall back to may still be a shrunk estimate rather than a raw prior — that is a modelling choice, not an honesty gate.
 
-| Score | Prior available | Informative? | Mechanism |
-|---|---|---|---|
-| **Memory** | FSRS default parameters, fitted across ~20k collections | **Yes** — upstream's benchmark has fitting beating defaults only from ~16 items, so defaults are a strong fallback below that | Shrinkage, weight `n / (50 + n)` |
-| **Performance** | Topic-level performance across other students | **Partly** — informative, but no validated population model underneath it | Shrinkage, plus a floor where the prior is itself unmeasured |
-| **Readiness** | First-attempt pass rate: 91% US MD, 86% US DO, 73% IMG | **No — degenerate** | **Abstention** |
+| Score | Gate | Validated against | Held-out unit | Layer |
+|---|---|---|---|---|
+| **Memory** | Accept-only-if-better | The incumbent memory model (current FSRS parameters, or shipped defaults) | The student's own later reviews | **Per-student** |
+| **Performance** | Accept-only-if-better | The topic prior — what we would say knowing nothing about this student | The student's own later scored items | **Per-student** |
+| **Readiness** | Accept-only-if-better **at model level**, plus per-student abstention | The base-rate null — a constant at the cohort pass rate (91% / 86% / 73%) | Held-out **students** | **Model-level** |
 
-**Why Readiness is the exception.** Its only population prior is the pass rate, which is a near-constant clustered high. Shrinking toward it means every data-poor student is told they will pass at roughly the base rate — a constant function wearing a probability's clothing, and the exact degenerate classifier that `BRAINLIFT.md` §1 forbids by banning accuracy as a metric. A prior that already encodes the answer is not a prior. Abstention is the only honest mechanism there, and it is the one place in this system where refusing to answer is a feature rather than a fallback.
+**Why Readiness sits at a different layer.** Memory and Performance are validated inside a single student: their future reviews and items are a real held-out set, plentiful and continuously arriving. Readiness has no such set. **A student sits Step 1 once, the outcome is one bit, and it arrives after the app has stopped mattering to them.** You cannot hold out an individual's exam result and test against it in time to decide whether to show that individual a number. So validation moves up to the population — does the model beat a constant base-rate predictor across students whose outcomes are known? — and that licenses a claim about the *model*, never about *this student*. Abstention survives at the individual layer for exactly one reason: the validation that replaced it everywhere else cannot reach there.
 
 **Two things this section is careful not to claim.** First, `n / (50 + n)` is borrowed as a *functional form* from [fsrs-optimizer#116](https://github.com/open-spaced-repetition/fsrs-optimizer/issues/116), where it smooths **median review times** — not FSRS parameters. No upstream code shrinks FSRS parameters, and the Anki-side implementation of #116 (which shrank first-rating probabilities) was deleted in PR #3298; it is not present at commit `d735cd25`. Second, the constant 50 was tuned for review-time medians in a different estimator and carries no authority here — it is a starting value to be fitted, not a result to be cited. Both points are documented in `source-citations.md`.
 
-**What this forces into the build.** The give-up rule is no longer one predicate. Memory and Performance need a shrinkage estimator with the prior as a first-class input, which means the per-topic mastery query has to return the *count* backing each estimate alongside the estimate itself — a shrunk score is uninterpretable without its `n`. Readiness needs a genuine refusal path through the UI. And `n` is measured in **`fsrs_items`** — the count Anki computes and returns to callers — not graded reviews: a card's first review yields nothing, `delta_t > 0` excludes same-day repeats, and cram reviews are dropped before item construction, so a card with *k* qualifying reviews yields up to *k* − 1 items and the naive denominator overcounts.
+**What this forces into the build, and it is more than the previous design demanded.** A gated score is uninterpretable without the evidence that it passed its gate, so the per-topic mastery query cannot return an estimate alone. **Every estimate must carry two companions: the `fsrs_items` count backing it, and the held-out log loss of the model against its comparator.** The first says how much evidence there is; the second says whether that evidence bought anything. A score without the count cannot be shrunk or interpreted; a score without the loss cannot be gated at all, because "better than the incumbent" is not a property of the estimate — it is a property of the comparison, and it has to be computed and carried, not recovered later.
+
+Three consequences follow:
+
+- **The query returns a triple, not a number.** `(estimate, n, held_out_log_loss_vs_comparator)` per topic. This is a wider protobuf message and a heavier query than a bare mastery figure, and it is the reason the change belongs in Rust rather than being assembled in Python per dashboard render.
+- **The comparator must be materialized.** Accept-only-if-better needs the incumbent model kept and evaluable, not discarded on each refit. For Memory that is the student's previous FSRS parameters; for Performance, the topic prior. Both must be storable and scoreable on the same held-out set as the challenger.
+- **Readiness needs a genuine refusal path through the UI**, distinct from "no data yet" and distinct from a low score. Refusing is a first-class output here, not an error state.
+
+`n` is measured in **`fsrs_items`** — the count Anki computes and returns to callers — not graded reviews: a card's first review yields nothing, `delta_t > 0` excludes same-day repeats, and cram reviews are dropped before item construction, so a card with *k* qualifying reviews yields up to *k* − 1 items and the naive denominator overcounts.
+
+**A second gate, separate from the first.** Accept-only-if-better is relative and a model can win it while remaining badly calibrated. Upstream pairs it with an absolute check at [`params.rs:182`](https://github.com/ankitects/anki/blob/d735cd25d076051c6788b5a5acf65b57b9ea7277/rslib/src/scheduler/fsrs/params.rs#L182), evaluated with time-series splits against fixed bounds and gated at > 300 items. Speedrun needs the same pairing: a **skill gate** deciding whether to prefer the model, and a **sanity gate** deciding whether it is fit to display at all.
 
 ---
 
