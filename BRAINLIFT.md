@@ -12,6 +12,8 @@ This is a partial Brainlift submitted at the Friday deadline. Rather than presen
 | Required section | Status |
 |---|---|
 | 1. Purpose and scope | Complete |
+| 1b. The spike | Complete |
+| 1c. The bet | Complete |
 | 2. DOK 1 — named sources | Complete (7 primary + systems lineage) |
 | 3. DOK 2 — own words, took/rejected | Complete |
 | 4. DOK 3 — disagreements, assumptions, teardown | Complete |
@@ -19,7 +21,7 @@ This is a partial Brainlift submitted at the Friday deadline. Rather than presen
 | 6. AI consensus check transcripts | **NOT RUN** — harness designed, not executed |
 | 7. Traceability table | Complete as specification; no code yet |
 | 8. What changed by Sunday | **PENDING** — Sunday deliverable |
-| Appendix A — Thesis test design (brief §9) | **NOT WRITTEN** — stub only; referenced from POV 1 and §7 |
+| Appendix A — Thesis test design (brief §9) | **WRITTEN · PRE-REGISTERED · NOT YET RUN** |
 | Appendix B — Score model and calibration plan (brief §10) | **NOT WRITTEN** — stub only; every §7 threshold depends on it |
 
 Additional known gaps, disclosed rather than hidden:
@@ -44,6 +46,24 @@ Additional known gaps, disclosed rather than hidden:
 - Any claim about long-run learning outcomes. One week does not permit a learning-outcomes study.
 - Step 2 CK and Step 3.
 - Reproducing NBME's equating. We map to pass probability, not to any numeric score, because Step 1 has no numeric score.
+
+---
+
+## 1b. The spike
+
+> **Why do USMLE Step 1 students who can reliably recall a fact still miss the vignette that requires it?**
+
+**Why this exam follows from this spike.** The question is about the gap between *knowing* and *using*, so it needs an exam where that gap is the whole difficulty and where the outcome is checkable. Step 1 is built almost entirely from clinical vignettes that require applying recalled facts to a novel case, and it has been pass/fail since 26 January 2022 — a binary outcome, which makes any readiness claim a classifier that can be scored honestly by Brier score and log loss rather than a scaled number I would have to invent and could not validate (§1). It is also the exam where the recall-heavy study tool in question, Anki, is most heavily used, so the population that exhibits the spike is exactly the population already generating the data.
+
+**Why it is narrow enough to be tractable in a week.** The spike is one question about one transition (DOK 1 → DOK 2/3) on one exam, and the moderators governing that transition are already named and quantified in a single meta-analysis of 192 effect sizes (§3.1). I do not have to discover the mechanism; I have to measure three moderators that a published synthesis has already identified and that Anki's own revlog either logs or could log. That is a week's worth of work, and it is enough to become the local expert on this specific failure — which is a much smaller claim than being expert on Step 1, on spaced repetition, or on medical education.
+
+---
+
+## 1c. The bet
+
+**The finding I am betting the app on is Pan & Rickard's moderator structure** (§2 source 1, unpacked in §3.1): that transfer is not a fixed property of retrieval practice but is *conditional* on three moderators — **response congruency**, **initial retrieval accuracy**, and **elaboration** — and that all three are measurable from data Anki already logs or could log. The bet is specifically on the *conditionality*. If transfer were uniform, the right product would be more cards; if it is moderated, the right product is one that measures the moderators and acts on them, and nothing in the market does either.
+
+**What it forces me to build that no observed tool does: scheduling that allocates study time between retention-maximizing and transfer-maximizing practice, rather than optimizing interval alone.** FSRS answers *when* to show a card so that it is recalled. It has no representation of whether the card's response structure resembles the item the student will actually face, and therefore no way to trade a review that would maximize retention for one that would maximize transfer. Every tool in the teardown (§4.3) optimizes on one side of that boundary or the other — AnKing and AnkiHub on retention, AMBOSS and UWorld on application — and the incumbent's own courseware routes users across the gap to a competitor rather than spanning it. Making the allocation itself a scheduling decision is the concrete, falsifiable consequence of the bet, and it is what Appendix A is designed to test.
 
 ---
 
@@ -373,9 +393,148 @@ A give-up threshold must be an **output** of the calibration analysis, not an **
 
 ## Appendix A — Thesis test design (assignment brief §9)
 
-**NOT WRITTEN.** Corresponds to **§9 of the assignment brief**, not to a ninth section of this document — BRAINLIFT's own required contents run to eight items, so a bare "§9" was ambiguous and every reference now names which document it means. Referenced from POV 1, §7 (traceability rows 1 and 3) and `rust-change-note.md`; the stub exists so those cross-references resolve rather than dangling.
+> ## ⚠ PRE-REGISTRATION
+>
+> **This design was written before the test was run, and must not be edited afterwards to match results.** Every number below — the predicted effect, its interval, the break-even point, the null-case prediction — is a commitment made in advance. If the results disagree with them, the results stand and this text stays as written; corrections go in §8 with the original preserved, exactly as the FSRS precedent error was handled. A pre-registration that gets quietly reconciled with its own outcome is worth less than no pre-registration at all.
+>
+> **Status: WRITTEN · PRE-REGISTERED · NOT YET RUN.**
+>
+> **Revision 2, made before any run.** Revising a pre-registration *before* execution is legitimate and is the only window in which it is; revising after is the thing this block forbids. This revision: (1) restated the primary result and both falsifiers in effect-size units, since the percentage-point figures were scaled by an assumed σ; (2) made the sweep two-dimensional; (3) promoted the retention-penalty assumption to a named, swept quantity; and (4) recorded a defect found while re-checking the arithmetic — the additive model has a corner solution, which imposes a requirement on the harness. Details at each point below.
 
-Planned: the three-arm comparison at equal study time — plain cards, congruency-structured cards, and the matched-pair transfer harness (30 cards × 2 reworded exam-style items). The falsifier is stated in POV 1: no advantage over plain cards means the moderator is not actionable even if it is real.
+Corresponds to **§9 of the assignment brief**, not to a ninth section of this document. Referenced from POV 1, §7 (traceability rows 1 and 3) and `speedrun-docs/rust-change-note.md`.
+
+### Method, and why this one
+
+**Synthetic learner simulation.** Real student outcome data cannot honestly be gathered in a week, and simulation is the most rerunnable of the options actually available: it is seed-controlled, it can be swept across parameter values, and anyone can re-execute it and get the same numbers. The alternatives were a small self-experiment (n = 1, confounded, unblinded) or a literature-only argument (no test at all). Simulation is chosen for reproducibility, not because it is strong evidence — see **Limitations**, which is not buried.
+
+### ⚠ The circularity guard — this design's main risk
+
+**If the data-generating process is FSRS's own model, the simulation can only return what was baked into it.** This is the failure mode most likely to make this whole appendix worthless, so it is stated before the design rather than after. Two structural defenses:
+
+**(a) The DGP's transfer parameters are literature-derived, not fitted by me.** Every transfer parameter is fixed at a published value from Pan & Rickard (2018), taken from §2 source 1 and §3.1, and none is tuned to make the result come out:
+
+| Parameter | Value | Source |
+|---|---|---|
+| Non-congruent transfer | *d* = 0.28 | §3.1 |
+| Congruent transfer | *d* = 0.58 | §3.1 |
+| **Congruency delta Δ*d*** | **0.30** | §3.1 (stated there as "congruency adds an estimated *d* = 0.30") |
+| Initial-accuracy slope | 0.0058 *d* per percentage point | §3.1 |
+| Elaboration bonus | *d* = 0.23 | §3.1 — held constant across all arms, not manipulated |
+
+The retention side of the DGP is FSRS's published model, and that is the part I am *not* testing. Retention behaviour being FSRS-shaped is fine precisely because the question is not about retention.
+
+**(b) The question under test is an allocation question, not an efficacy question.** "Does congruency help transfer?" is baked in by construction — Δ*d* = 0.30 is an input. Asking it would be circular and the answer would be meaningless. The question actually asked is: **under a fixed study-time budget, does a scheduler that trades retention practice for transfer practice beat one that maximizes retention alone?** That has a genuinely non-obvious answer, because congruency-matched practice is **costlier per item** — it buys a larger per-item effect with fewer total items, and whether that trade pays depends on the interaction between the congruency delta, the cost multiplier, and the initial-accuracy slope. Nothing in the DGP settles it in advance.
+
+### Three arms
+
+Same simulated learners, same item pool, same total study-time budget.
+
+| Arm | Description |
+|---|---|
+| **1 — Full** | Congruency-aware allocation **ON**: the scheduler may spend budget on congruency-matched practice |
+| **2 — Ablation** | Same app, that allocation **OFF**: retention-maximizing scheduling only |
+| **3 — Baseline** | Stock unmodified Anki/FSRS scheduling |
+
+Arm 2 is the load-bearing comparison — it isolates the thesis feature, holding everything else in the app constant. Arm 3 catches the case where the app's other machinery, not the feature, is doing the work.
+
+### Outcome measure
+
+**Primary:** accuracy on a **held-out set of novel items requiring a different response than trained.** Held out means never practised in any arm.
+
+**Reported alongside, separately and always:** plain **recall accuracy** on trained material. **Arm 3 may well win on recall while losing on transfer.** That is a reportable result, not a problem to be tuned away — it is the trade the feature exists to make, and hiding it would misrepresent the cost. Any presentation of this test that shows transfer without recall is incomplete.
+
+### Pre-registered main number
+
+**Reported in effect-size units, because percentage points are not a property of the result.** Converting *d* to accuracy points requires σ, the between-learner SD of held-out novel-item accuracy, and σ is **assumed, not literature-derived**. It scales the predicted effect and the ceiling **linearly**, so a pp-denominated prediction silently encodes a guess. The *d* figures below are the pre-registered result; pp figures are a conversion, with σ named every time it is used.
+
+> **Primary prediction, arm 1 − arm 2 on held-out novel-item accuracy:**
+> ### **+0.077 *d***  · pre-registered interval **+0.03 to +0.13 *d***
+> Conversion at the assumed **σ = 13 pp**: **+1.0 pp**, interval **+0.4 to +1.7 pp**.
+> Held at **fixed α = 0.5**, *c* = 2.0, Δ*a* = 4 pp — an allocation the scheduler is *given*, not one it optimizes. See the corner-solution note below.
+
+Derivation, every assumption named so the sweep can attack it:
+
+| # | Quantity | Value | Grounding |
+|---|---|---|---|
+| 1 | Congruency delta Δ*d* = 0.58 − 0.28 | **0.30** | Published (§3.1) |
+| 2 | Initial-accuracy slope | **0.0058 *d* / pp** | Published (§3.1) |
+| 3 | Cost multiplier *c* of a congruency-matched rep | **2.0×** | **Assumed.** Swept over [1.0, 3.0] |
+| 4 | Allocation α of budget to congruent practice | **0.5** | **Fixed by design**, not optimized |
+| 5 | Initial accuracy lost to the rep deficit, Δ*a* | **4 pp** | **Inferred — least-grounded quantity here.** Swept |
+| 6 | Between-learner SD σ | **13 pp** | **Assumed.** Conversion factor only |
+
+7. **Reps relative to arm 2:** *R* = (1−α) + α/*c* = 0.5 + 0.25 = **0.75** → a **25%** rep deficit.
+8. **Congruent share of items practised:** (α/*c*)/*R* = 0.25/0.75 = **0.3333**.
+9. **Congruency gain:** 0.3333 × 0.30 = **+0.100 *d***.
+10. **Retention penalty:** 0.0058 × 4 = **−0.0232 *d***.
+11. **Net:** 0.100 − 0.0232 = **+0.0768 *d*** → at σ = 13, **+1.00 pp**.
+
+**σ changes the percentage-point figures and nothing else.** At σ = 10 the prediction is +0.77 pp; at σ = 16, +1.23 pp. The *d* result is unchanged by construction, and — more importantly — **the Δ*d*\* crossing point is entirely σ-free**, because gain and penalty both scale by σ and it cancels. The headline deliverable therefore does not depend on the one number in this table with no grounding at all.
+
+**Both falsifiers, restated in *d*:**
+
+- **Upper tripwire: 0.30 *d*** (= 3.9 pp at σ = 13). This is Δ*d* itself — the effect if congruency were free and wholly allocated. No cost-bearing design can exceed it, so an observed gap above 0.30 *d* means a harness bug, not a discovery.
+- **Lower falsifier: 0.0 *d*.** Arm 1 failing to beat arm 2 at published parameters kills the engineering claim (see *How I would know it failed*).
+
+**The prediction is deliberately small.** A design predicting a large effect from a *d* = 0.30 moderator bought at 2× cost under a fixed budget would be arithmetically unserious, and a small predicted effect is what makes this test capable of failing.
+
+### ⚠ Corner-solution defect, found while re-checking this arithmetic
+
+**Under the additive model above, net benefit increases monotonically in α, so the optimum is the corner α = 1.0 — "spend the entire budget on congruency-matched practice" — and the allocation question the design claims is non-obvious becomes trivial.** Computed at *c* = 2.0:
+
+| α | Congruent share | Δ*a* | Net |
+|---|---|---|---|
+| 0.25 | 0.143 | 2.0 pp | +0.031 *d* |
+| 0.50 | 0.333 | 4.0 pp | **+0.077 *d*** |
+| 0.75 | 0.600 | 6.0 pp | +0.145 *d* |
+| 1.00 | 1.000 | 8.0 pp | **+0.254 *d*** |
+
+This is an artifact of linearity, not a finding: gain is linear in share, penalty linear in deficit, so the maximum sits at an endpoint. **The literature already supplies the missing nonlinearity.** §3.1 records that transfer "**disappears entirely at particularly poor initial performance**" — transfer is *conditional on recall*, not additive with it. A learner who abandons retention practice cannot transfer a fact they no longer retain, so the true response surface has an interior optimum.
+
+**This is therefore a required property of the harness, pre-registered as a check on the implementation rather than on the hypothesis:** the DGP must gate transfer on retention, reproducing the documented floor effect. **If the harness returns a monotone-increasing benefit in α with an optimum at α = 1.0, it has failed to implement the floor effect and its output is void** — the same disposition as a failed null case. The primary prediction above is stated at fixed α = 0.5 precisely so that it does not depend on where the optimum lands.
+
+### Required controls
+
+**Null case.** Set Δ*d* = 0 and rerun. Arm 1 must show **no advantage** over arm 2 — and the sharper pre-registered prediction is that it shows a **small disadvantage of −0.023 *d*** (−0.3 pp at σ = 13), the retention penalty standing alone once the congruency gain is removed, because arm 1 still pays the allocation cost while receiving no benefit. **If arm 1 wins under the null, the harness is rigged and the entire result is void**, not merely weakened. This check runs and is reported whether or not the main result is favourable.
+
+**Two-dimensional parameter sweep — the headline deliverable.** A single crossing point would hide the fact that the answer depends on a second assumed quantity as much as on the first. Sweep **Δ*d* ∈ [0, 0.30] × cost multiplier *c* ∈ [1.0, 3.0]** and report the **decision boundary** Δ*d*\*(*c*) — the locus where arm 1's advantage crosses zero. Everything above the boundary is a region where the feature pays; everything below is a region where it does not.
+
+Pre-registered boundary, from setting gain equal to penalty — share(α, *c*) × Δ*d* = 0.0058 × Δ*a*(*c*) — at fixed α = 0.5, with Δ*a* scaling on the rep deficit:
+
+| Cost multiplier *c* | Rep deficit | Δ*a* | **Δ*d*\* (boundary)** | As % of published 0.30 |
+|---|---|---|---|---|
+| 1.0 (free) | 0% | 0.0 pp | **0.000** | 0% — any positive effect pays |
+| 1.5 | 17% | 2.7 pp | **0.039** | 13% |
+| **2.0** | **25%** | **4.0 pp** | **0.070** | **23%** ← headline slice |
+| 2.5 | 30% | 4.8 pp | **0.097** | 32% |
+| 3.0 | 33% | 5.3 pp | **0.124** | 41% |
+
+**Δ*d*\* ≈ 0.07 at *c* = 2.0 remains the headline case, and is labelled as one slice of the boundary, not the answer.** Read as a whole, the boundary says: **if congruency-matched practice costs twice a plain rep, the real-world congruency effect must be at least ~23% of Pan & Rickard's published estimate for this feature to pay for itself — and that requirement roughly doubles, to ~41%, if it costs three times as much.** A reader who distrusts the published figure, or who thinks congruent items are cheaper or dearer to produce than assumed, can locate their own beliefs on both axes and read off whether the feature is worth building. The boundary is reported in *d* and is **σ-free**.
+
+**Third axis: Δ*a*, swept as robustness.** Δ*a* is the least-grounded quantity in the derivation (below), so the boundary is additionally reported at Δ*a* ∈ {2, 4, 8} pp. At *c* = 2.0 the crossing point scales linearly with it — Δ*d*\* = 0.0058 × Δ*a* / 0.3333 = 0.0174 × Δ*a*:
+
+| Δ*a* at *c* = 2.0 | Δ*d*\* | As % of published |
+|---|---|---|
+| 2 pp | 0.035 | 12% |
+| **4 pp (pre-registered)** | **0.070** | **23%** |
+| 8 pp | 0.139 | 46% |
+
+**On Δ*a* = 4 pp, named explicitly because it was buried.** This is the initial retrieval accuracy assumed lost to arm 1's 25% rep deficit, and it is **the least-grounded quantity in this derivation**. It is **inferred, not published** — Pan & Rickard supply the *slope* relating initial accuracy to transfer (0.0058 *d*/pp), but nothing in the cited literature says how much initial accuracy a given reduction in practice volume costs. That relationship comes from FSRS's retention model inside the DGP, which makes it the one input where the circularity guard is weakest: it is the place where the simulation's answer is most exposed to a modelling choice rather than a literature value. Hence the third sweep axis, and hence the boundary being reported as a surface rather than a number.
+
+**Seed control.** Fixed seeds, stated in the harness and in the results, so any reader can rerun and obtain identical numbers. Sweeps report across a fixed seed set, not a single draw.
+
+### How I would know it failed
+
+**If the optimal allocation converges to ~100% plain retention practice even at the published effect sizes, the feature is not worth building and POV 1's engineering claim is dead** — while POV 1's descriptive claim about the market, that no tool measures these moderators, may still stand.
+
+### Limitations
+
+Stated in the open because burying them would be the same failure this document keeps recording.
+
+- **This tests whether the mechanism could work *given* the published effect sizes hold in this population.** It is not evidence that it works in humans, and it cannot become such evidence by being run more times or more carefully.
+- **Simulation cannot discover an effect it was not given.** Its only honest outputs are conditional and directional: *if* Δ*d* is at least X, *then* the allocation pays. That conditional is the deliverable.
+- **The published effect sizes come from a meta-analysis of laboratory studies**, not from medical students preparing for Step 1. Whether they transfer to this population is exactly the assumption the sweep exists to expose, and it is not tested here.
+- **No claim of student efficacy is made anywhere in this project**, and none may be inferred from this appendix. §1 already places long-run learning outcomes out of scope; this appendix does not quietly bring them back in.
 
 ---
 
