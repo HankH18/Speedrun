@@ -197,9 +197,13 @@ Two studies found **no** performance benefit while 87% and 74% of participants r
 
 ### POV 1 — the thesis tested in Appendix A (assignment brief §9)
 
-> **Consensus says** more cards means more readiness — the market's flagship deck ships 28,000 notes to 185,000 subscribers, and three published studies show a dose-response between card volume and Step 1 score.
+> **The market's consensus — expressed in what it ships and sells, not in what the field believes** — is that more cards means more readiness. The flagship deck ships 28,000 notes to 185,000 subscribers and advertises exactly two numbers, note count and subscriber count; the paid tier buys content freshness and AI search, not measurement; and three published studies report a dose-response between card volume and Step 1 score. **No serious learning scientist claims volume equals readiness**, and an earlier version of this POV framed the target as "consensus" without saying whose — which let it attack a position no researcher holds. The target is the market's revealed preference, and the gap between what the field knows and what the products do is itself the finding.
 >
-> **I think** card mastery's predictive power degrades as item DOK rises, and that transfer is governed by three *measurable* moderators — response congruency, initial retrieval accuracy, and elaboration — none of which any shipping tool measures or optimizes. FSRS optimizes *when* you see a card. Nothing optimizes whether the card's response structure resembles the item you will actually face.
+> **I think** card mastery's predictive power degrades as item DOK rises, and that transfer is governed by three moderators — response congruency, initial retrieval accuracy, and elaboration — that are **measurable from data these tools already hold, and that none of them measures or optimizes**.
+>
+> **The moderators are not my discovery, and the POV does not claim they are.** They are established findings: response congruency descends from transfer-appropriate processing (Morris, Bransford & Franks 1977; Tulving & Thomson's encoding specificity, 1973), and Pan & Rickard's contribution is quantifying them, not introducing them. **The claim is about the applied context: nothing in this market operationalizes them.** Identifying a moderator and building a system that acts on it are different achievements, and only the second is being claimed.
+>
+> **The sharpest rebuttal to that, and my answer.** Anki's Again/Hard/Good/Easy *does* encode retrieval accuracy — the second of the three moderators — and FSRS consumes it directly. So the flat claim "nothing measures these" is wrong as stated. But **FSRS uses that signal to decide *when* to show the card next, and nothing anywhere uses it to decide what *kind* of practice to give.** Recording a variable and optimizing against it are different operations, and the moderator structure is only actionable under the second. That distinction is the whole of the build: FSRS optimizes the interval; nothing optimizes whether the card's response structure resembles the item the student will actually face.
 >
 > **My evidence:** Pan & Rickard — transfer falls to d = 0.28 when the required response differs from training, versus an estimated 0.58 when it matches, and rises with initial accuracy at 0.0058 per percentage point, vanishing entirely at very poor initial performance. Winter et al. — mature-card count is the only independent CBSE predictor at R² = 0.427, leaving 57% unexplained. Frappa et al. — the Anki association holds for Step 1 and vanishes for Step 2 CK (p = 0.440), the higher-DOK assessment.
 >
@@ -272,6 +276,9 @@ Every row states the POV, what it forces into the build, and the number that wou
 | 7 | POV 3 | Coverage map to the official USMLE content outline, not vendor tags | % of outline covered; app abstains below stated threshold |
 | 8 | POV 3 | One engine consuming both card-level FSRS memory state and novel-item performance | Does the performance model read per-card D/S/R? Verifiable in code, yes or no |
 | 9 | POV 1 + 3 | Rust change: per-topic mastery query returning mastery and average recall over 50,000 cards | Benchmark p50/p95/worst-case; dashboard first load under 1s |
+| 10 | POV 1 | **Congruency classification for card/item pairs** — an operational rule assigning any (card, exam-item) pair as response-congruent or not | Inter-rater agreement on the classification. **Falsified if agreement is at or below chance, or if the rule cannot be applied to all 30 paraphrase-test pairs.** |
+
+**Row 10 exists because the consensus check found the hole.** Response congruency is the moderator POV 1 leans on hardest, and until this row it was **unoperationalized at the level where it has to work** — the individual card/item pair. "Does this card's required response match this vignette's?" has no stated decision procedure, and without one the construct is not measurable, whatever the meta-analysis says about it in aggregate. **Two things already depend on it and neither can proceed without it:** Appendix A's congruency parameter Δ*d* presumes pairs can be labelled congruent or not, and the matched-pair paraphrase test (row 1) presumes the same labelling applied to 30 real pairs. This is now build work, not analysis, and it is the most likely single point of failure in POV 1's engineering claim — a moderator that cannot be labelled reliably cannot be scheduled against at any effect size.
 
 **Provisional decision, flagged as open:** the Rust change is currently scoped to the mastery query (option 3 in the brief's §8) because all three scores plus the coverage map depend on per-topic aggregation being fast enough for the dashboard on a 50,000-card collection, which is a genuine reason for it to live in Rust rather than Python. The points-at-stake queue remains a candidate if the ablation needs the thesis feature to sit in the scheduler itself.
 
@@ -406,6 +413,8 @@ Three consequences, all recomputed before the run and none of them favourable: t
 > **Status: WRITTEN · PRE-REGISTERED · NOT YET RUN.**
 >
 > **Revision 2, made before any run.** Revising a pre-registration *before* execution is legitimate and is the only window in which it is; revising after is the thing this block forbids. This revision: (1) restated the primary result and both falsifiers in effect-size units, since the percentage-point figures were scaled by an assumed σ; (2) made the sweep two-dimensional; (3) promoted the retention-penalty assumption to a named, swept quantity; and (4) recorded a defect found while re-checking the arithmetic — the additive model has a corner solution, which imposes a requirement on the harness.
+>
+> **Revision 5, before any run.** Narrowed an over-broad insulation claim. The primary is insulated from the penalty's *shape* (*p*) but **not** its *level* (Δ*a*): net = 0.100 − 0.0098 × Δ*a*, reversing sign beyond Δ*a* ≈ 10.2 pp. Since FSRS determines the real accuracy loss in simulation, the primary now carries a second pre-registered question — whether the simulated dynamics reproduce the assumed Δ*a* = 4 pp at the calibration point — and a divergent primary is a finding to be back-calculated, not a defect to be diagnosed.
 >
 > **Revision 4, before any run.** Reclassified the *shape* of the retention penalty as the model's weakest assumption, above Δ*a*'s magnitude: it is linear by construction, calibrated at α = 0.5 and extrapolated to α = 1.0, which is precisely where the corner sits. Verified symbolically that the penalty is exactly linear (second derivative identically zero), and that mild convexity — *p* ≈ 1.55, short of quadratic — is enough to break the corner. α\* = 1.00 is therefore relabelled a prediction of the *analytic* model that may not survive simulation. Added *What the simulation tests that the algebra does not*, and recorded in advance that the fixed α = 0.5 primary understates the feature by ~2.6× if α\* = 1.00 holds.
 >
@@ -578,7 +587,19 @@ Pre-registered α\* map, by cost multiplier and retention-penalty scale (floor 6
 
 > **α\* = 1.00 is therefore a prediction of the *analytic* model, not of the system under test, and it may not survive the simulation.** It is pre-registered as stated because pre-registering the number I actually derived is the point, but it is the prediction in this appendix I expect least to hold.
 
-**One thing this does not threaten: the primary result.** Because Δ*a* is calibrated *at* α = 0.5, every penalty shape agrees there by construction — net = **+0.0608 *d*** at *p* = 1, 2 and 3 alike. **The fixed-allocation primary is insulated from the assumption that governs α\*.** That is the strongest argument for keeping the primary fixed rather than optimized, and it was not the reason the design was built that way.
+**The primary is insulated from the *shape*, and not at all from the *level*.** An earlier draft stated this too broadly and is corrected here. Because Δ*a* is calibrated *at* α = 0.5, every penalty **shape** agrees there by construction — net = **+0.0608 *d*** at *p* = 1, 2 and 3 alike, so *p* cannot move the primary. **But Δ*a* = 4 pp is itself calibrated, not derived, and the primary is strongly dependent on it:**
+
+net(α = 0.5) = 0.100 − **0.0098** × Δ*a*   *(in *d*, at *c* = 2)*
+
+| Δ*a* at 25% deficit | Primary |
+|---|---|
+| 2 pp | +0.080 *d* |
+| **4 pp (pre-registered)** | **+0.061 *d*** |
+| 6 pp | +0.041 *d* |
+| 8 pp | +0.022 *d* |
+| **10.2 pp** | **0.000 *d* — sign flip** |
+
+Two channels carry that sensitivity: the direct penalty (59%) and the retention gate, which shrinks as accuracy falls (41%). **If FSRS's true accuracy loss from a 25% rep deficit exceeds ~10.2 pp, the primary prediction reverses sign and the feature loses at α = 0.5.** So the correct statement is narrow: *p* is a free parameter the primary does not see; Δ*a* is a load-bearing one it sees directly.
 
 ### What the simulation tests that the algebra does not
 
@@ -591,7 +612,8 @@ The analytic model has one hand-written line standing in for the entire retentio
 - **The analytic figures are a pre-registered baseline, not a prediction the simulation is expected to reproduce.** They exist to be compared against.
 - **Divergence between simulated α\* and analytic α\* = 1.00 is a reportable finding, not an error.** If the simulation returns an interior α\*, the correct conclusion is that FSRS's dynamics make the retention penalty convex — which is informative about the mechanism and is exactly what the simulation was run to discover. It is not evidence that the harness is broken, and it must not be "corrected" toward the algebra.
 - **If the simulation merely reproduces the algebra, say so plainly.** That too is a result: it means the closed-form model was sufficient, the scheduling dynamics added nothing the linear approximation missed, and any future version of this analysis can use the cheaper model. A null finding about one's own added machinery is still a finding.
-- **Divergence in the primary is a different matter.** The primary is insulated from penalty shape (above), so a simulated primary far from +0.061 *d* points at something else — the gate, the item construction, the budget accounting — and should be investigated as a possible defect rather than reported as a finding.
+- **α\* is not the only live question — the primary is a second one, and an earlier draft got this wrong.** It said a simulated primary far from +0.061 *d* "points at a defect rather than a finding," on the grounds that the primary is insulated from the penalty. **It is insulated from the penalty's *shape*, not its *level*.** Δ*a* = 4 pp at a 25% deficit is a calibration I chose; **in simulation, FSRS determines the actual accuracy loss from 25% fewer reviews**, and that quantity is an *output* of the scheduling dynamics rather than an input to them. If it lands anywhere other than 4 pp, the primary moves with it at 0.0098 *d* per pp — and reverses sign beyond ~10.2 pp.
+- **So the primary tests something specific: whether FSRS's real dynamics reproduce the assumed Δ*a* at the calibration point.** A simulated primary that diverges is therefore a **finding about the retention cost of studying less**, reported as such, with the implied Δ*a* back-calculated and stated. Only a divergence that *cannot* be reconciled with any plausible Δ*a* — one that survives back-calculation — points at a defect in the gate, the item construction, or the budget accounting. Diagnosing before back-calculating would be the same error in a new place.
 
 ### Required controls
 
