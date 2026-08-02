@@ -1,17 +1,43 @@
-# Files that must not be committed
-__pycache__/
-*.pyc
-target/
-node_modules/
+__pycache__
+.mypy_cache
 .DS_Store
+anki.prof
+target
+/user.bazelrc
+.dmypy.json
+/.idea/
+/.vscode
+/.bazel
+/windows.bazelrc
+/out
+node_modules
+.n2_db
+.ninja_log
+.ninja_deps
+/extra
+yarn-error.log
+ts/.svelte-kit
+.yarn
+.claude/settings.local.json
+.claude/user.md
+.venv
+docs/_build/
+docs/autoapi/
+.complexipy_cache
+
+# --- Speedrun additions ---
 
 # Local collections and personal review data
 *.anki2
 *.anki2-wal
 *.anki2-shm
-*.apkg
-*.colpkg
 
 # Held-out evaluation sets must never enter training data
 data/holdout/
+
+# Carried over from Speedrun's pre-merge .gitignore. Not in the four rules
+# specified for the merge, but dropping them would be a regression: .env in
+# particular guards against committing secrets.
+*.apkg
+*.colpkg
 .env
