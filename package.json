@@ -17,7 +17,7 @@
         "test:e2e:ui": "playwright test --ui"
     },
     "devDependencies": {
-        "@bufbuild/protoc-gen-es": "^1.8.0",
+        "@bufbuild/protoc-gen-es": "^2.13.0",
         "@playwright/test": "^1.60.0",
         "@poppanator/sveltekit-svg": "^5.0.0",
         "@sqltools/formatter": "^1.2.2",
