@@ -19,12 +19,14 @@ This is a partial Brainlift submitted at the Friday deadline. Rather than presen
 | 6. AI consensus check transcripts | **NOT RUN** — harness designed, not executed |
 | 7. Traceability table | Complete as specification; no code yet |
 | 8. What changed by Sunday | **PENDING** — Sunday deliverable |
+| Appendix A — Thesis test design (brief §9) | **NOT WRITTEN** — stub only; referenced from POV 1 and §7 |
+| Appendix B — Score model and calibration plan (brief §10) | **NOT WRITTEN** — stub only; every §7 threshold depends on it |
 
 Additional known gaps, disclosed rather than hidden:
 
 - **Teardown depth.** Three tools observed hands-on (MDSteps, AMBOSS, 7Sage). A fourth (Anki/AnkiHub/AnKing) is covered by vendor documentation plus database inspection, not full UI observation. UWorld is covered by documented claims only — excluded on cost, labeled as such throughout.
 - **Zero-effort probe.** All hands-on sessions were answered at 1–4 seconds per item against ~90-second targets. This was deliberate (see §4.3) and is disclosed everywhere it is used. It licenses claims about tool behavior on worthless input. It licenses **nothing** about these tools' accuracy under genuine study.
-- **Source verification.** Several source-code citations are marked UNVERIFIED because `git clone` was blocked by an egress proxy and GitHub's rendered line gutter was unreadable through the fetch layer. These are labeled VERIFIED / UNVERIFIED / UNKNOWN inline. None were upgraded by guessing a plausible line number.
+- **Source verification — now resolved, with two claims falsified.** Source-code citations were previously marked UNVERIFIED because `git clone` was blocked by an egress proxy and GitHub's rendered line gutter was unreadable through the fetch layer. None were upgraded by guessing a plausible line number. They have since been checked against a full clone pinned to commit `d735cd25`; the audit is in `speedrun-docs/source-citations.md`. **Two claims did not survive:** the FSRS optimizer review-count threshold I cited in §7 does not exist, and my revlog SQL approximation was over-inclusive. Both corrections are recorded in §8 rather than quietly applied.
 - **No code exists yet.** The traceability table in §7 specifies what each POV forces; it does not yet point at commits.
 
 ---
@@ -173,7 +175,7 @@ Two studies found **no** performance benefit while 87% and 74% of participants r
 
 ## 5. DOK 4 — Spiky POVs
 
-### POV 1 — the thesis tested in §9
+### POV 1 — the thesis tested in Appendix A (assignment brief §9)
 
 > **Consensus says** more cards means more readiness — the market's flagship deck ships 28,000 notes to 185,000 subscribers, and three published studies show a dose-response between card volume and Step 1 score.
 >
@@ -181,7 +183,7 @@ Two studies found **no** performance benefit while 87% and 74% of participants r
 >
 > **My evidence:** Pan & Rickard — transfer falls to d = 0.28 when the required response differs from training, versus an estimated 0.58 when it matches, and rises with initial accuracy at 0.0058 per percentage point, vanishing entirely at very poor initial performance. Winter et al. — mature-card count is the only independent CBSE predictor at R² = 0.427, leaving 57% unexplained. Frappa et al. — the Anki association holds for Step 1 and vanishes for Step 2 CK (p = 0.440), the higher-DOK assessment.
 >
-> **What would prove me wrong:** if FSRS-derived memory mastery predicts vignette accuracy at r > 0.7 on matched paraphrase pairs, the gap I am claiming is not there. If the congruency-structured condition shows no advantage over plain cards at equal study time in the §9 ablation, the moderator is not actionable even if it is real.
+> **What would prove me wrong:** if FSRS-derived memory mastery predicts vignette accuracy at r > 0.7 on matched paraphrase pairs, the gap I am claiming is not there. If the congruency-structured condition shows no advantage over plain cards at equal study time in the Appendix A ablation (assignment brief §9), the moderator is not actionable even if it is real.
 >
 > **Known counter-evidence:** Price et al. (2025), 26,000+ physicians, found spaced repetition improved retention *and* transfer. My claim is conditional, not a denial — but this is the study that would most likely defeat a stronger version of it.
 
@@ -193,7 +195,23 @@ Two studies found **no** performance benefit while 87% and 74% of participants r
 >
 > **My evidence:** zero of three tools observed hands-on displayed any band, range, or confidence indicator. The only instrument in the space that publishes a validated model — NBME's CBSSA — attaches a ±4 likely-score range, an annual model-update date, and an explicit statement that 90% still means 1 in 10 will fail. The honest instrument is the non-commercial one.
 >
-> **What would prove me wrong:** back-test incumbent point estimates against outcomes. If their reliability curves already sit within ±5% of the diagonal, they are calibrated and simply do not display it, and my criticism reduces to a UI complaint.
+> **Additional evidence — and it is not all in my favour.** Anki once enforced a review-count gate on FSRS optimization and then removed enforcement in two steps ([PR #3106](https://github.com/ankitects/anki/pull/3106), 2024-04-05, on the parameter optimizer; [PR #3246](https://github.com/ankitects/anki/pull/3246), 2024-06-28, on minimum recommended retention), leaving `AnkiError::FsrsInsufficientReviews` and `deck-config-must-have-400-reviews` in the tree as dead code. That a serious project built an abstention gate is weak support for abstention being a real design concern. That the same project *removed* it, on benchmark evidence, is stronger evidence against my particular threshold. Both directions are recorded here rather than only the convenient one.
+>
+> **What would prove me wrong (1):** back-test incumbent point estimates against outcomes. If their reliability curves already sit within ±5% of the diagonal, they are calibrated and simply do not display it, and my criticism reduces to a UI complaint.
+>
+> **The strongest surviving objection to this POV is shrinkage, not calibration.** Every criticism above assumes the alternative to a bare point estimate is a *band or a refusal*. It is not. The third option is a shrunk estimate: report a number, but pull it toward a known-good prior in proportion to how little data supports it. Upstream chose exactly this when it retired its own gate — Damien Elmes's "stop showing an error, and just fall back on the default parameters instead," and Expertium's weighted blend in [fsrs-optimizer#116](https://github.com/open-spaced-repetition/fsrs-optimizer/issues/116). If shrinkage dominates abstention, then my complaint against the incumbents narrows sharply: they would be wrong to omit the band, but not wrong to emit a number.
+>
+> **My response, and it is a conditional one.** The mechanism depends entirely on whether an informative prior exists, and that differs by score. For Memory it does — FSRS ships default parameters fitted across ~20k collections — so shrinkage is right and I have adopted it (§7). For Readiness it does not. The only available population prior is the first-attempt pass rate (91% US MD, 86% US DO, 73% IMG), which is a near-constant that already encodes the answer. Shrinking toward it tells every data-poor student they will pass at roughly the base rate, which is the *exact* degenerate classifier §1 forbids. **Shrinkage is not a universal improvement on abstention; it is an improvement wherever the prior carries information the student does not already have.** Where the prior is the answer, abstention is the only honest mechanism.
+>
+> **Abstention now has to beat four rivals, not one.** The A6 audit of `fsrs-rs` v6.6.0 found that upstream's answer to thin data is not one mechanism but a stack of them, and each is a distinct alternative my give-up rule must outperform rather than assume away: (i) **hard refusal below a floor**, which upstream does apply — at 8 items, 25× below my 200; (ii) **partial fitting**, estimating only the parameters the data can support and defaulting the rest (the 8–63 band); (iii) **regularization toward a prior**, as an L1 penalty on distance from the default rather than an explicit weighted average; and (iv) **accept-only-if-better**, fitting freely and then discarding the result unless it beats the incumbent on log loss. The fourth is the one I find most threatening to my position, because it needs no threshold at all — it tests the thing a threshold is only a proxy for. Appendix B must compare against it directly, and a give-up rule that cannot beat "fit it and check whether it helped" is not defensible merely because it is more cautious.
+>
+> **What would prove me wrong (3) — the load-bearing test.** If a shrinkage estimator toward the population base rate outperforms abstention on Brier score in the low-data regime, then abstention is the wrong mechanism and POV 2 needs rewriting, not patching. This is a direct empirical comparison on held-out reviews, it is scheduled for Appendix B (assignment brief §10), and I have no result yet. Note the asymmetry that makes this a real test rather than a safe one: abstention cannot be scored by Brier at all on the sessions where it fires, so the comparison has to be run on the sessions where *both* would have produced an output, and abstention has to justify the information it destroys on the rest.
+>
+> **What would prove me wrong (2) — NOT FIRED. Correcting an overstatement of my own.** An earlier revision of this section claimed this falsifier had fired, on the strength of [issue #3094](https://github.com/ankitects/anki/issues/3094)'s finding that **"after approximately 16 reviews optimising FSRS performs better than the default parameters."** That was a scoping error and I am retracting it. The 16-review benchmark compares **fitting custom parameters against using default parameters**. My give-up rule governs **whether to show a student a score at all**. Those are different operations with different loss functions, and a result about the first does not transfer to the second. Nothing in #3094 tested abstention.
+>
+> What #3094 does establish is narrower but still uncomfortable: at the point Anki's maintainers were willing to fit parameters, the data requirement was of order tens of items, not hundreds. That is a reason to distrust 200 as a *magnitude*. It is not evidence that abstention is the wrong *mechanism*. The mechanism question is falsifier (3), which remains open and untested.
+>
+> A second objection from the same thread is independently damaging and does survive: raw graded-review count is the wrong unit, because a user can log 1,000 reviews that are all *first* reviews and yield zero trainable items. My original rule counted graded reviews; §7 now counts `fsrs_items`. **The 200 figure has no empirical backing and must be re-derived against held-out data or abandoned — but on grounds of provenance (§8) and unit error, not because a benchmark refuted it.**
 
 ### POV 3 — the structural frame
 
@@ -221,9 +239,9 @@ Every row states the POV, what it forces into the build, and the number that wou
 |---|---|---|---|
 | 1 | POV 1 | Matched-pair transfer harness: 30 cards × 2 reworded exam-style items each | Correlation between card recall probability and paraphrase accuracy. r > 0.7 falsifies the gap |
 | 2 | POV 1 | Performance score computed independently of Memory score; never blended | Paraphrase-test gap. If the gap ≈ 0, the performance model is copying the memory model |
-| 3 | POV 1 | Congruency-aware card structuring — the thesis feature ablated in §9 | Three-arm comparison at equal study time. No advantage over plain cards = moderator not actionable |
+| 3 | POV 1 | Congruency-aware card structuring — the thesis feature ablated in Appendix A (assignment brief §9) | Three-arm comparison at equal study time. No advantage over plain cards = moderator not actionable |
 | 4 | POV 2 | All three scores ship with ranges; Brier score, log loss, reliability curve on held-out reviews | Reliability curve deviation from diagonal, stratified by probability band |
-| 5 | POV 2 | Give-up rule gating on review count, coverage, **and response-latency plausibility** | % of sessions where scoring is refused; correctness of refusals on adversarial input |
+| 5 | POV 2 | Give-up rule, **split by score**: shrinkage for Memory and Performance, abstention for Readiness, plus coverage and **response-latency plausibility** gates | Brier score of shrinkage vs abstention in the low-data regime, per score. If shrinkage toward the population base rate beats abstention on Readiness, the split is wrong and POV 2 needs rewriting |
 | 6 | POV 2 | Never report accuracy for the pass/fail classifier | Brier and log loss vs an always-predict-pass baseline at the 91% base rate |
 | 7 | POV 3 | Coverage map to the official USMLE content outline, not vendor tags | % of outline covered; app abstains below stated threshold |
 | 8 | POV 3 | One engine consuming both card-level FSRS memory state and novel-item performance | Does the performance model read per-card D/S/R? Verifiable in code, yes or no |
@@ -233,20 +251,103 @@ Every row states the POV, what it forces into the build, and the number that wou
 
 ### The give-up rule, written down
 
-The app refuses to report a score when any of the following hold:
+**One blanket refusal rule was wrong.** The three scores have different priors available to them, and the right mechanism follows from that, not from a single policy applied uniformly. The split below is the correction.
 
-- **Memory:** fewer than 200 graded reviews. *(Mirrors FSRS's own optimizer gate, which falls back to default parameters rather than fitting noise — precedent from the codebase being forked, not an invention of mine. Exact constant marked UNVERIFIED pending the fork.)*
-- **Performance:** fewer than 50 scored novel items.
-- **Readiness:** both of the above, **and** at least 50% coverage of the official USMLE content outline.
+**Unit change, applied throughout: `fsrs_items`, not graded reviews.** The denominator is not a quantity I get to define — it is the count Anki computes and hands back to callers in the `ComputeFsrsParamsResponse`, and whose doc comment instructs callers to inspect it in place of the gate Anki does not apply. Using anything else means measuring something the engine does not.
+
+Counting graded revlog rows overcounts in three separate ways, all verified against [`fsrs_items_for_training`](https://github.com/ankitects/anki/blob/d735cd25d076051c6788b5a5acf65b57b9ea7277/rslib/src/scheduler/fsrs/params.rs#L351):
+
+1. **A card's first review yields nothing** — items are emitted only from index ≥ 1 ([`params.rs:506`](https://github.com/ankitects/anki/blob/d735cd25d076051c6788b5a5acf65b57b9ea7277/rslib/src/scheduler/fsrs/params.rs#L506)).
+2. **Same-day repeats yield nothing** — the same guard requires `delta_t > 0`, so drilling one card six times in an afternoon contributes at most one item.
+3. **Cram reviews are dropped before item construction** ([`params.rs:412`](https://github.com/ankitects/anki/blob/d735cd25d076051c6788b5a5acf65b57b9ea7277/rslib/src/scheduler/fsrs/params.rs#L412)).
+
+A card with *k* qualifying reviews therefore yields **up to *k* − 1** items, and a student who does 1,000 first-reviews of 1,000 new cards has 1,000 graded reviews and **zero** `fsrs_items`.
+
+**Every numeric threshold below is TBD and must be derived from the Appendix B calibration analysis (assignment brief §10), not asserted.** This is not hedging. The previous figure — 200 — was **lifted from the worked example in the assignment brief, not derived from anything**, and then defended with a fabricated appeal to upstream precedent. A threshold that is an *input* to the calibration analysis cannot also be validated by it. See §8.
+
+| Score | Mechanism | Why this mechanism | Threshold |
+|---|---|---|---|
+| **Memory** | Shrinkage toward default FSRS parameters | An informative prior exists and is already in the product: FSRS ships default parameters fitted across ~20k collections, and upstream's own benchmark says fitting beats them from roughly 16 items. Refusing to report is strictly worse than reporting a shrunk estimate when the fallback is that good. | Shrinkage weight `n / (50 + n)`, *n* = `fsrs_items`. Constant 50 is TBD — see caveat below. |
+| **Performance** | Shrinkage toward a topic-level prior, **plus** abstention below a floor | A topic-level prior is informative (other students' performance on that topic), so shrinkage applies. But unlike Memory there is no validated population model underneath it, so a floor remains where the prior itself is unmeasured. | Minimum scored novel items: **TBD by calibration.** |
+| **Readiness** | **Abstention. No shrinkage.** | Shrinkage requires an informative prior, and here the prior is the first-attempt pass rate — 91% US MD, 86% US DO, 73% IMG (§1). Shrinking toward it means telling every low-data student they will pass, at 91% confidence, on no evidence. That is a degenerate constant wearing a probability's clothing, and it is precisely the failure §1 already forbids by banning accuracy as a metric. A prior that encodes the answer you are trying to measure is not a prior; abstention is the only honest response. | Requires both component floors **and** ≥ 50% coverage of the official USMLE content outline. All TBD. |
+
+**What upstream actually does below the floor — the precedent I earlier said did not exist.** An initial audit concluded there was no low-data handling anywhere upstream. That was wrong: it searched Anki's `rslib` and stopped at the crate boundary. `compute_params` delegates fitting to `fsrs-rs`, and that crate applies a graduated ladder rather than a single rule (read at v6.6.0, [`56a78d97`](https://github.com/open-spaced-repetition/fsrs-rs/commit/56a78d971e73c16d2e9a757edfdc3d9e1f0b3695); Anki pins 6.6.1, which carries no git tag — the gap is unverified):
+
+| `fsrs_items` | What upstream does |
+|---|---|
+| **< 8** | **Refuses to fit.** Returns `DEFAULT_PARAMETERS` unchanged ([`training.rs:319`](https://github.com/open-spaced-repetition/fsrs-rs/blob/56a78d971e73c16d2e9a757edfdc3d9e1f0b3695/src/training.rs#L319)) |
+| **8 – 63** | Fits four initial-stability parameters only; takes the rest from defaults; no gradient training ([`training.rs:333`](https://github.com/open-spaced-repetition/fsrs-rs/blob/56a78d971e73c16d2e9a757edfdc3d9e1f0b3695/src/training.rs#L333)) |
+| **≥ 64** | Full training, initialized from the above |
+| **> 300** | Only now does Anki run the FSRS health check ([`params.rs:182`](https://github.com/ankitects/anki/blob/d735cd25d076051c6788b5a5acf65b57b9ea7277/rslib/src/scheduler/fsrs/params.rs#L182)) |
+
+Throughout, two shrinkage mechanisms operate: an **L1 penalty** pulling initial stability toward the default (`(init_s0 - default_s0).abs() / 16.0`) and **Laplace smoothing** of per-bucket recall toward the collection average. And Anki discards a fitted result outright if it fails to beat the existing parameters on log loss ([`params.rs:156`](https://github.com/ankitects/anki/blob/d735cd25d076051c6788b5a5acf65b57b9ea7277/rslib/src/scheduler/fsrs/params.rs#L156)).
+
+**Three things follow, and only the first is comfortable.** (1) The shrinkage design above is better supported than I thought — upstream shrinks toward defaults in two places. (2) My 200 is **25× stricter** than the strictest refusal upstream applies, which makes it harder to defend, not easier. (3) Every one of these mechanisms governs *whether to fit a model*, never *whether to show a student a number*. **The reporting decision has no precedent anywhere in the stack.** It is ours, and Appendix B has to earn it.
+
+**Caveat on the shrinkage constant, stated because I got this wrong once already.** The `n / (50 + n)` form is taken from [fsrs-optimizer#116](https://github.com/open-spaced-repetition/fsrs-optimizer/issues/116), where Expertium proposes it for smoothing **median review times**, not FSRS parameters:
+
+> "Here `n_reviews` is the number of times the user pressed this particular button, `t_user` is the median time per button estimated from the user's data, and `t_default` is the default median time, estimated from 20k collections. 50 is a constant that determines how quickly the 'smooth' value transitions from the default value to the actual value […] The key idea is that when the number of times the user presses a button is very small, the estimate is not very accurate, and we should rely more on the default time, which we know is accurate."
+
+**I am borrowing the functional form and the reasoning, not a precedent for shrinking FSRS parameters.** No upstream code shrinks FSRS parameters. The Anki-side implementation of #116 shrank *first-rating probabilities* (`DEFAULT_FIRST_RATING_PROB`) in `retention.rs`, and **that code no longer exists** — it was deleted in [`52ce6e6a`](https://github.com/ankitects/anki/commit/52ce6e6a6) ("Feat/FSRS-5", PR #3298). There is no `n / (50 + n)` shrinkage anywhere in `rslib` at commit `d735cd25`. The constant 50 was chosen for review-time medians in a different estimator and carries **no authority** for this application; it is a starting value to be fitted in Appendix B, not a borrowed result.
+
+The app additionally refuses to report any score when:
+
 - **Any score:** if a session's median response latency falls below 20% of the item's target time, that session is flagged and excluded from scoring inputs. *(This rule exists because I ran that exact adversarial probe against three commercial tools and all three responded with a number.)*
+
+---
+
+#### Retracted: the original blanket rule
+
+The rule below is preserved as written for the §8 audit trail. It is superseded by the table above.
+
+- ~~**Memory:** fewer than 200 graded reviews.~~ *(**Our own design decision, at a magnitude with no upstream support.** A later pass found that refusal-below-a-floor *is* upstream precedent after all, at **8** items inside `fsrs-rs` — see the ladder above and Finding G. What has never had precedent is refusing at 200, or refusing to *report a score* as opposed to refusing to *fit a model*.* The earlier claim that this "mirrors FSRS's own optimizer gate" was false and is retracted — see §8. [`Collection::compute_params`](https://github.com/ankitects/anki/blob/d735cd25d076051c6788b5a5acf65b57b9ea7277/rslib/src/scheduler/fsrs/params.rs#L78) does not gate on review count at all; its own doc comment says it "does not return an error if there are less than 400 items — the caller should instead check the `fsrs_items` count in the return value." Anki did once enforce such a gate — 1,000 reviews as of [`66d0046b8`](https://github.com/ankitects/anki/commit/66d0046b8a847df3b460207ed4ed52964da44063) (2024-01-08), later 400 — but enforcement was removed from the **parameter optimizer** in [PR #3106](https://github.com/ankitects/anki/pull/3106) ([`10d567f9`](https://github.com/ankitects/anki/commit/10d567f93744ca2d5fb9593f0922475df573c2f9), 2024-04-05) and from **`compute_minimum_recommended_retention`** in [PR #3246](https://github.com/ankitects/anki/pull/3246) ([`6d13221a`](https://github.com/ankitects/anki/commit/6d13221ae50014e42338213d737e28b3af83d6df), 2024-06-28). What survives is dead code: [`AnkiError::FsrsInsufficientReviews`](https://github.com/ankitects/anki/blob/d735cd25d076051c6788b5a5acf65b57b9ea7277/rslib/src/error/mod.rs#L120) has no construction site anywhere in the tree, and its string [`deck-config-must-have-400-reviews`](https://github.com/ankitects/anki/blob/d735cd25d076051c6788b5a5acf65b57b9ea7277/ftl/core/deck-config.ftl#L391) is unreachable UI text. Full derivation in `speedrun-docs/source-citations.md`, Findings A and B. **The stated reason for the removal cuts against this rule — see POV 2's falsifier, which has already fired.**)*
+- ~~**Performance:** fewer than 50 scored novel items.~~ *(50 was also taken from the brief's example, not derived.)*
+- ~~**Readiness:** both of the above, **and** at least 50% coverage of the official USMLE content outline.~~ *(The coverage condition survives into the new rule; the review-count condition does not.)*
+
+The latency rule is unchanged and carried forward above.
 
 ---
 
 ## 8. What changed
 
-**PENDING — Sunday deliverable.** One update already belongs here, recorded now because it happened during research rather than during the build:
+**PENDING — Sunday deliverable.** Three updates already belong here, recorded now because they happened during research rather than during the build:
+
+**The FSRS abstention precedent did not exist, and I had asserted it.** §7's give-up rule claimed the 200-review Memory gate "mirrors FSRS's own optimizer gate, which falls back to default parameters rather than fitting noise — precedent from the codebase being forked, not an invention of mine." Once the fork was cloned and the claim could actually be checked, it failed. `compute_params` does not gate on review count; its doc comment explicitly says it does not error below 400 items and pushes the decision to the caller. Worse for me, Anki *did* once enforce such a gate and **deliberately removed enforcement** — from the parameter optimizer in PR #3106 (2024-04-05) and from minimum recommended retention in PR #3246 (2024-06-28) — leaving `AnkiError::FsrsInsufficientReviews` and `deck-config-must-have-400-reviews` behind as unreachable dead code. So the design I cited as lineage is code upstream decided to delete.
+
+The correction runs deeper than attribution, but not as deep as I first claimed. The benchmark behind the removal ([issue #3094](https://github.com/ankitects/anki/issues/3094)) found fitted parameters outperforming defaults from **~16 reviews**, against my gate of 200. An earlier revision of this section read that as having falsified the give-up rule outright. **That was an overstatement and is retracted:** #3094 compares *fitting against defaults*, whereas the give-up rule governs *reporting against abstaining*. Different operations. What survives is a reason to distrust 200 as a magnitude, not evidence against abstention as a mechanism — see POV 2, falsifiers (2) and (3).
+
+**The corrected version is stronger, but not because it survived intact.** It is stronger because the rule is now labelled as my own design decision defended on my own terms, instead of borrowing authority from a codebase that does the opposite; because the 200 figure is now explicitly flagged as unbacked and owing a derivation; and because the failure mode this exposes — asserting a source-code fact I had not read, in a section whose entire purpose is traceability — is exactly the failure the give-up rule exists to prevent. I ran a rule against myself that I had not yet run against my own citations. Three further claims were checked at the same time: "400 is dead code" was **confirmed**, my revlog SQL approximation was **falsified** (it failed to exclude cram reviews, inflating every review count I had computed), and the insufficient-data string was **verified** verbatim. Full audit trail in `speedrun-docs/source-citations.md`.
+
+**The give-up rule's thresholds were inherited, not derived — and they were pointed the wrong way round.** The assignment brief's Section 5 reads, verbatim: *"Example: no score below 200 graded reviews and 50% topic coverage."* **Both** numbers in my give-up rule came from that one illustrative sentence — the 200-review Memory gate and the 50% coverage floor for Readiness. Neither was computed from anything. Having taken two numbers from an example, I then went looking for authority for them and asserted an FSRS precedent I had not read. That ordering is the actual defect: the thresholds were fixed first and justified afterwards.
+
+**Three different 50s, stated separately because conflating them is easy and I nearly did.** (1) **50% topic coverage** — from the brief's example, as above. (2) **50 scored novel items**, the Performance floor — origin *not* the brief; I cannot now reconstruct where it came from, so it is recorded as **UNKNOWN provenance** rather than attributed to a source it did not come from. (3) **The shrinkage constant 50** in `n / (50 + n)` — from [fsrs-optimizer#116](https://github.com/open-spaced-repetition/fsrs-optimizer/issues/116), where it was tuned for smoothing median *review times* in a different estimator. It has nothing to do with the brief and no authority for this application. All three are TBD pending Appendix B.
+
+The structural fix is to invert the dependency.
+
+A give-up threshold must be an **output** of the calibration analysis, not an **input** to it — the point at which reporting a score stops beating abstaining is a measurable quantity on held-out reviews, and measuring it is the same work as producing the reliability curves POV 2 already demands. A threshold asserted up front and then "validated" by an analysis it constrains is circular, and it is the same circularity I criticise AMBOSS for in §4.2: computing the machinery that would produce an honest bound and then not using it. Every numeric threshold in §7 is now marked TBD pending Appendix B, and the rule has been split by score so that the *mechanism* — shrinkage where an informative prior exists, abstention where it does not — is decided on stated reasoning rather than inherited along with the number.
 
 **POV 1 was rewritten after contact with the evidence.** My original thesis was that retrieval practice fails to transfer to vignette-style items. Pan & Rickard state the opposite — transfer is *greatest* to application and inference questions and to problems involving medical diagnoses. The original claim was not merely unsupported; the keystone citation contradicts it. The surviving POV is narrower and conditional: transfer is real but governed by measurable moderators that nothing in the market measures. A second prediction also failed — I predicted the incumbent's science page would not mention transfer, and it does, citing the strongest study against me.
+
+---
+
+## Appendix A — Thesis test design (assignment brief §9)
+
+**NOT WRITTEN.** Corresponds to **§9 of the assignment brief**, not to a ninth section of this document — BRAINLIFT's own required contents run to eight items, so a bare "§9" was ambiguous and every reference now names which document it means. Referenced from POV 1, §7 (traceability rows 1 and 3) and `rust-change-note.md`; the stub exists so those cross-references resolve rather than dangling.
+
+Planned: the three-arm comparison at equal study time — plain cards, congruency-structured cards, and the matched-pair transfer harness (30 cards × 2 reworded exam-style items). The falsifier is stated in POV 1: no advantage over plain cards means the moderator is not actionable even if it is real.
+
+---
+
+## Appendix B — Score model and calibration plan (assignment brief §10)
+
+**NOT WRITTEN.** Referenced from §7 and POV 2 as the source of every numeric threshold in the give-up rule. Stub added for the same reason as Appendix A.
+
+This section owes four things, and until it exists no threshold in §7 has support:
+
+1. **Reliability curves** for each of the three scores on held-out reviews, stratified by predicted-probability band, with Brier score and log loss — and never accuracy (§1).
+2. **The abstention-vs-shrinkage comparison** that POV 2's third falsifier turns on: does a shrinkage estimator toward the population base rate beat abstention on Brier score in the low-data regime? Run on the sessions where both mechanisms would emit an output, with abstention separately accountable for the information it destroys elsewhere.
+3. **Derived thresholds** — the review-pair count for Memory, the scored-item floor for Performance, the coverage floor for Readiness — each read off the point where reporting stops beating abstaining, rather than asserted and then checked.
+4. **The fitted shrinkage constant**, replacing the 50 borrowed from [fsrs-optimizer#116](https://github.com/open-spaced-repetition/fsrs-optimizer/issues/116), which was chosen for smoothing median review times in a different estimator and has no authority here.
 
 ---
 
