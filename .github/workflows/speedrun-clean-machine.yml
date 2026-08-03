@@ -1,0 +1,510 @@
+# Copyright: Ankitects Pty Ltd and contributors
+# License: GNU AGPL, version 3 or later; http://www.gnu.org/licenses/agpl.html
+#
+# Clean-machine proof.
+#
+# A GitHub-hosted runner is a fresh VM image with no copy of this repo, no `just`,
+# no n2, no uv, no pinned Rust toolchain and no Anki. This workflow builds the fork
+# from source on one, installs the resulting package the way an end user would, and
+# then starts the *installed* app and proves it reaches an open collection. The job
+# log is the artifact; nothing here is asserted by hand.
+#
+# Honest limit on the word "clean": the runner images DO ship rustup and a stable
+# rustc/cargo, so this is not a bare-metal bootstrap of Rust itself. What the job
+# installs is the toolchain the build actually needs and the image does not have:
+# the 1.92.0 toolchain pinned by rust-toolchain.toml, plus just, n2 and uv. The
+# first step probes for all of it before checkout and prints the result into the
+# job summary, so the log shows exactly what was already present -- read that
+# table rather than taking this comment's word for it.
+#
+# Cost note: this repo is private on GitHub, so Actions minutes are billed, and
+# nothing here is cached, so every run is a full cold build (expect tens of
+# minutes). It is therefore `workflow_dispatch` ONLY -- deliberately no `push`
+# trigger, because auto-running a cold build on every push to main would bill
+# real money for a proof nobody asked for at that moment. Linux is the only
+# runner that runs by default; macOS bills at roughly 10x, so it is behind the
+# `run-macos` dispatch input (default false) -- switch it on only when a macOS
+# installer specifically has to be shown.
+#
+# Note: GitHub only lists a workflow_dispatch workflow in the Actions UI once the
+# file exists on the default branch. Until then, trigger it with
+# `gh workflow run "Speedrun clean-machine proof" --ref <branch>`.
+#
+# Deliberately NOT cached: no cargo cache and no `out/` cache are restored, because
+# a restored build cache would weaken exactly the claim this workflow exists to
+# make. The only reuse is uv's package download cache inside ./.github/actions/setup-anki.
+#
+# One difference from release.yml, stated so nobody reads more into the artifact than
+# it supports: release.yml builds the shipped x86 Linux installer on ubuntu-22.04 so it
+# links against glibc 2.35. This workflow uses ubuntu-latest (24.04), so the package it
+# produces needs glibc 2.39+. That is fine for proving "builds and installs on a clean
+# machine"; it is not a claim about the compatibility of the released binary.
+
+name: Speedrun clean-machine proof
+
+on:
+  workflow_dispatch:
+    inputs:
+      run-macos:
+        description: "Also run the proof on macos-14 (~10x the Linux billing rate)"
+        default: false
+        required: false
+        type: boolean
+
+permissions:
+  contents: read
+
+concurrency:
+  group: speedrun-clean-machine-${{ github.ref }}
+  cancel-in-progress: true
+
+env:
+  N2_OUTPUT_PROGRESS: "1"
+  N2_OUTPUT_SUCCESS: "1"
+
+jobs:
+  clean-machine:
+    name: clean machine (${{ matrix.os }})
+    strategy:
+      fail-fast: false
+      matrix:
+        os: ${{ (github.event_name == 'workflow_dispatch' && inputs['run-macos']) && fromJSON('["ubuntu-latest","macos-14"]') || fromJSON('["ubuntu-latest"]') }}
+    runs-on: ${{ matrix.os }}
+    timeout-minutes: 180
+
+    steps:
+      # Runs before checkout, so it reports the runner image as delivered.
+      - name: Probe the runner for pre-existing tooling
+        id: probe
+        run: |
+          set -eo pipefail
+          out="$RUNNER_TEMP/toolchain-before.txt"
+          {
+            echo "runner: ${{ matrix.os }} ($RUNNER_OS/$RUNNER_ARCH)"
+            echo "date:   $(date -u '+%Y-%m-%dT%H:%M:%SZ')"
+            echo
+            for tool in anki just n2 rustup cargo rustc uv briefcase; do
+              if command -v "$tool" >/dev/null 2>&1; then
+                echo "present : $tool -> $(command -v "$tool")"
+              else
+                echo "ABSENT  : $tool"
+              fi
+            done
+          } | tee "$out"
+
+      # submodules: true is load-bearing. Stage 0 of this project confirmed the
+      # build breaks with uninitialised installer templates (qt/installer/*-template).
+      # fetch-depth: 0 is also load-bearing: check:minilints validates the HEAD
+      # author against `git log CONTRIBUTORS`, which is empty in a shallow clone.
+      - name: Check out the fork with submodules
+        uses: actions/checkout@34e114876b0b11c390a56381ad16ebd13914f8d5 #v4
+        with:
+          submodules: true
+          fetch-depth: 0
+          filter: blob:none
+
+      - name: Confirm submodule contents are present
+        id: submodules
+        run: |
+          set -eo pipefail
+          git submodule status
+          for path in qt/installer/mac-template qt/installer/windows-template ftl/core-repo ftl/qt-repo; do
+            count=$(find "$path" -mindepth 1 | wc -l | tr -d ' ')
+            echo "$path: $count entries"
+            if [ "$count" = "0" ]; then
+              echo "::error::submodule $path is empty - the installer build would fail"
+              exit 1
+            fi
+          done
+
+      # Same composite action release.yml and ci.yml use: system deps, the Rust
+      # toolchain pinned by rust-toolchain.toml (1.92.0), uv, and n2 via the
+      # documented bootstrap tools/install-n2. The runner image already provides
+      # rustup and a stable rustc; what this installs is the *pinned* 1.92.0
+      # toolchain the build requires, plus uv and n2, which the image lacks.
+      - name: Install the pinned toolchain, uv and n2
+        id: toolchain
+        uses: ./.github/actions/setup-anki
+
+      # ci.yml installs just this way; the justfile is the only supported local
+      # entrypoint, so a clean machine needs it too.
+      - name: Install just
+        uses: extractions/setup-just@53165ef7e734c5c07cb06b3c8e7b647c5aa16db3 #v4
+
+      # fcitx5-qt6 is required by qt/tools/build_installer.py:bundle_fcitx(), which
+      # raises if the plugin is missing. release.yml builds it from source only on
+      # its ubuntu-22.04 x86 job (22.04's package is too old); its ubuntu-24.04 ARM
+      # installer job just apt-installs it, which is what we do here.
+      # xdg-utils/shared-mime-info/desktop-file-utils are needed by the package's own
+      # install.sh - every desktop distro ships them, a bare CI image does not.
+      # xvfb/imagemagick/x11-utils are only used by the supplementary screenshot step.
+      - name: Install Linux packaging and verification dependencies
+        if: runner.os == 'Linux'
+        run: |
+          set -eo pipefail
+          sudo apt-get update
+          sudo apt-get install --yes --no-install-recommends \
+            fcitx5-frontend-qt6 \
+            libfcitx5-qt6-1 \
+            patchelf \
+            xdg-utils \
+            shared-mime-info \
+            desktop-file-utils \
+            xvfb \
+            x11-utils \
+            imagemagick
+
+      - name: Record the toolchain this job installed
+        run: |
+          set -eo pipefail
+          mkdir -p out/speedrun-evidence
+          cp "$RUNNER_TEMP/toolchain-before.txt" out/speedrun-evidence/toolchain-before.txt
+          {
+            echo "just:   $(just --version)"
+            echo "rustc:  $(rustc --version)"
+            echo "cargo:  $(cargo --version)"
+            echo "n2:     $(command -v n2)"
+            echo "uv:     $(uv --version)"
+            echo "python: $(python3 --version)"
+            echo "version file: $(cat .version)"
+          } | tee out/speedrun-evidence/toolchain-after.txt
+
+      # (c) the gate the project rules require: lint + typecheck + tests, exit 0.
+      - name: just check
+        id: check
+        env:
+          CONTRIBUTORS_BYPASS_EMAILS: ${{ vars.CONTRIBUTORS_BYPASS_EMAILS }}
+        run: just check
+
+      # (d) exactly the entrypoint release.yml uses (RELEASE=2 ./ninja installer).
+      - name: Build the installer
+        id: build_installer
+        run: ./tools/build-installer
+
+      - name: List the built artifact
+        run: |
+          set -eo pipefail
+          find out/installer/dist -maxdepth 1 -type f -exec ls -l {} + \
+            | tee out/speedrun-evidence/dist-listing.txt
+
+      # (e) install it the way a user would: unpack the tarball, run the shipped
+      # install.sh as root, and confirm `anki` lands on PATH.
+      - name: Install the Linux package with its own install.sh
+        id: install_linux
+        if: runner.os == 'Linux'
+        run: |
+          set -eo pipefail
+          count=$(find out/installer/dist -maxdepth 1 -type f | wc -l | tr -d ' ')
+          if [ "$count" != "1" ]; then
+            echo "::error::expected exactly one file in out/installer/dist, found $count"
+            find out/installer/dist -maxdepth 1 -type f
+            exit 1
+          fi
+          pkg=$(find out/installer/dist -maxdepth 1 -type f)
+          echo "package: $pkg"
+          work="$RUNNER_TEMP/unpacked"
+          rm -rf "$work"
+          mkdir -p "$work"
+          # GNU tar auto-detects the compression (.tar.zst; zstd comes from setup-anki).
+          tar -xf "$pkg" -C "$work"
+          installer=$(find "$work" -maxdepth 3 -name install.sh -print -quit)
+          if [ -z "$installer" ]; then
+            echo "::error::no install.sh found in the unpacked package"
+            find "$work" -maxdepth 3
+            exit 1
+          fi
+          cd "$(dirname "$installer")"
+          sudo ./install.sh 2>&1 | tee "$GITHUB_WORKSPACE/out/speedrun-evidence/install-sh.log"
+          cd "$GITHUB_WORKSPACE"
+          command -v anki
+          echo "ANKI_BIN=$(command -v anki)" >> "$GITHUB_ENV"
+
+      - name: Install the macOS app from the DMG
+        id: install_macos
+        if: runner.os == 'macOS'
+        run: |
+          set -eo pipefail
+          count=$(find out/installer/dist -maxdepth 1 -name '*.dmg' | wc -l | tr -d ' ')
+          if [ "$count" != "1" ]; then
+            echo "::error::expected exactly one .dmg in out/installer/dist, found $count"
+            find out/installer/dist -maxdepth 1
+            exit 1
+          fi
+          dmg=$(find out/installer/dist -maxdepth 1 -name '*.dmg')
+          echo "package: $dmg"
+          mount="$RUNNER_TEMP/dmg-mount"
+          mkdir -p "$mount"
+          hdiutil attach "$dmg" -nobrowse -readonly -mountpoint "$mount"
+          app=$(find "$mount" -maxdepth 1 -name '*.app')
+          if [ -z "$app" ]; then
+            echo "::error::no .app found inside the DMG"
+            ls -l "$mount"
+            hdiutil detach "$mount"
+            exit 1
+          fi
+          cp -R "$app" /Applications/
+          hdiutil detach "$mount"
+          installed="/Applications/$(basename "$app")"
+          exe=$(/usr/libexec/PlistBuddy -c "Print :CFBundleExecutable" "$installed/Contents/Info.plist")
+          echo "installed: $installed (executable: $exe)"
+          echo "ANKI_BIN=$installed/Contents/MacOS/$exe" >> "$GITHUB_ENV"
+
+      # No display needed: aqt prints the version and returns before any
+      # QApplication is created. It still imports PyQt6 and anki._backend
+      # (the Rust extension), so this proves the packaged binary loads its
+      # bundled Python, Qt libraries and native module.
+      - name: Run the installed binary (--version)
+        id: version
+        run: |
+          set -eo pipefail
+          expected=$(tr -d '[:space:]' < .version)
+          "$ANKI_BIN" --version 2>&1 | tee out/speedrun-evidence/anki-version.txt
+          if ! grep -Fxq "Anki $expected" out/speedrun-evidence/anki-version.txt; then
+            echo "::error::installed binary did not report version $expected"
+            exit 1
+          fi
+          echo "installed binary reported version $expected"
+
+      # The strongest headless check this repo supports. Qt's offscreen platform
+      # plugin needs no display; the repo's own Playwright harness
+      # (qt/tests/launch_anki_for_e2e.py + playwright.config.ts) uses the same
+      # plugin and the same readiness endpoint. /_anki/readyz returns 200 only
+      # once aqt.mw.col is open, so a 200 means the installed app started Qt,
+      # ran its event loop, loaded a profile and opened a collection.
+      - name: Start the installed app headlessly and wait for an open collection
+        id: headless
+        env:
+          ANKI_SEED_BASE: ${{ runner.temp }}/anki-base
+        run: |
+          set -eo pipefail
+          log="$GITHUB_WORKSPACE/out/speedrun-evidence/headless-launch.log"
+          rm -rf "$ANKI_SEED_BASE"
+          mkdir -p "$ANKI_SEED_BASE"
+          # Reuse the repo's own e2e seed so the language picker and profile
+          # chooser (modal dialogs) do not block startup.
+          python3 - <<'PY'
+          import os
+          import sys
+          from pathlib import Path
+
+          sys.path.insert(0, "qt/tests")
+          import launch_anki_for_e2e as e2e
+
+          e2e._seed_prefs(Path(os.environ["ANKI_SEED_BASE"]))
+          print("seeded prefs21.db in", os.environ["ANKI_SEED_BASE"])
+          PY
+
+          port=40031
+          QT_QPA_PLATFORM=offscreen \
+          ANKI_API_PORT="$port" \
+          ANKI_SINGLE_INSTANCE_KEY="speedrun-clean-machine-offscreen" \
+          PYTHONUNBUFFERED=1 \
+            "$ANKI_BIN" -b "$ANKI_SEED_BASE" -p test > "$log" 2>&1 &
+          pid=$!
+
+          ready=""
+          for _ in $(seq 1 90); do
+            if ! kill -0 "$pid" 2>/dev/null; then
+              echo "::error::the installed app exited before serving /_anki/readyz"
+              break
+            fi
+            if curl -fsS "http://127.0.0.1:$port/_anki/readyz" >/dev/null 2>&1; then
+              ready=1
+              break
+            fi
+            sleep 2
+          done
+
+          if [ -z "$ready" ]; then
+            echo "----- app output -----"
+            cat "$log" || true
+            echo "::error::installed app never reported an open collection"
+            kill "$pid" 2>/dev/null || true
+            exit 1
+          fi
+          echo "collection open (readyz 200)"
+
+          # Guard against a delayed crash (e.g. QtWebEngine failing after the
+          # collection opens): still alive and still serving 15s later?
+          sleep 15
+          if ! kill -0 "$pid" 2>/dev/null; then
+            echo "----- app output -----"
+            cat "$log" || true
+            echo "::error::installed app died within 15s of opening its collection"
+            exit 1
+          fi
+          if ! curl -fsS "http://127.0.0.1:$port/_anki/readyz" >/dev/null; then
+            cat "$log" || true
+            echo "::error::installed app stopped serving /_anki/readyz"
+            exit 1
+          fi
+          echo "still alive and serving 15s later"
+
+          # Supplementary, non-fatal: proves a bundled asset is served.
+          if curl -fsS -o "$RUNNER_TEMP/favicon.ico" "http://127.0.0.1:$port/favicon.ico"; then
+            echo "favicon_bytes=$(wc -c < "$RUNNER_TEMP/favicon.ico" | tr -d ' ')" >> "$GITHUB_OUTPUT"
+          else
+            echo "favicon_bytes=not-served" >> "$GITHUB_OUTPUT"
+          fi
+
+          kill "$pid" 2>/dev/null || true
+          wait "$pid" 2>/dev/null || true
+          echo "----- app output -----"
+          cat "$log" || true
+
+      # Supplementary only, and allowed to fail: a picture of the app running is
+      # useful evidence for a human, but Xvfb software rendering is not a real
+      # GPU and a screenshot is not a functional test. The outcome is reported
+      # honestly in the job summary either way.
+      - name: Supplementary - screenshot the installed app under Xvfb
+        id: screenshot
+        if: runner.os == 'Linux'
+        continue-on-error: true
+        env:
+          ANKI_SEED_BASE: ${{ runner.temp }}/anki-base-x11
+        run: |
+          set -eo pipefail
+          log="$GITHUB_WORKSPACE/out/speedrun-evidence/xvfb-launch.log"
+          Xvfb :99 -screen 0 1400x1000x24 &
+          xvfb_pid=$!
+          export DISPLAY=:99
+          for _ in $(seq 1 30); do
+            xdpyinfo -display :99 >/dev/null 2>&1 && break
+            sleep 1
+          done
+
+          rm -rf "$ANKI_SEED_BASE"
+          mkdir -p "$ANKI_SEED_BASE"
+          python3 - <<'PY'
+          import os
+          import sys
+          from pathlib import Path
+
+          sys.path.insert(0, "qt/tests")
+          import launch_anki_for_e2e as e2e
+
+          e2e._seed_prefs(Path(os.environ["ANKI_SEED_BASE"]))
+          PY
+
+          port=40032
+          ANKI_API_PORT="$port" \
+          ANKI_SINGLE_INSTANCE_KEY="speedrun-clean-machine-xvfb" \
+          PYTHONUNBUFFERED=1 \
+            "$ANKI_BIN" -b "$ANKI_SEED_BASE" -p test > "$log" 2>&1 &
+          pid=$!
+
+          ready=""
+          for _ in $(seq 1 90); do
+            kill -0 "$pid" 2>/dev/null || break
+            if curl -fsS "http://127.0.0.1:$port/_anki/readyz" >/dev/null 2>&1; then
+              ready=1
+              break
+            fi
+            sleep 2
+          done
+          if [ -z "$ready" ]; then
+            cat "$log" || true
+            kill "$pid" 2>/dev/null || true
+            kill "$xvfb_pid" 2>/dev/null || true
+            exit 1
+          fi
+
+          # let the main window finish painting
+          sleep 20
+          import -window root -display :99 out/speedrun-evidence/anki-screenshot.png
+          colours=$(identify -format '%k' out/speedrun-evidence/anki-screenshot.png)
+          echo "unique colours in screenshot: $colours"
+          echo "colours=$colours" >> "$GITHUB_OUTPUT"
+          kill "$pid" 2>/dev/null || true
+          kill "$xvfb_pid" 2>/dev/null || true
+
+      - name: Upload the installer
+        if: always()
+        uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02 #v4
+        with:
+          name: speedrun-installer-${{ matrix.os }}
+          path: out/installer/dist/
+          if-no-files-found: warn
+
+      - name: Upload logs and evidence
+        if: always()
+        uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02 #v4
+        with:
+          name: speedrun-logs-${{ matrix.os }}
+          path: |
+            out/installer/logs/
+            out/speedrun-evidence/
+          if-no-files-found: warn
+
+      - name: Job summary
+        if: always()
+        run: |
+          set -eo pipefail
+          status() {
+            case "$1" in
+              success) echo "PASS" ;;
+              failure) echo "FAIL" ;;
+              skipped) echo "not run" ;;
+              "") echo "not recorded" ;;
+              *) echo "$1" ;;
+            esac
+          }
+          favicon="${{ steps.headless.outputs.favicon_bytes }}"
+          colours="${{ steps.screenshot.outputs.colours }}"
+          [ -n "$favicon" ] || favicon="not recorded"
+          [ -n "$colours" ] || colours="not recorded"
+          {
+            echo "# Clean-machine proof - ${{ matrix.os }}"
+            echo
+            echo "A GitHub-hosted runner is a fresh VM with no copy of this repo and no"
+            echo "Anki installed. This job built the fork from source on one, installed the"
+            echo "package it produced, and started the installed app."
+            echo
+            echo "## What this job checked"
+            echo
+            echo "| # | Check | Result |"
+            echo "| - | ----- | ------ |"
+            echo "| 1 | Checked out the fork **with submodules** (installer templates non-empty) | $(status '${{ steps.submodules.outcome }}') |"
+            echo "| 2 | Installed the pinned Rust 1.92.0 toolchain, uv, n2 (via tools/install-n2) and just | $(status '${{ steps.toolchain.outcome }}') |"
+            echo "| 3 | \`just check\` (format, clippy, mypy, ruff, eslint, svelte, tsc, Rust/Python/TS tests, minilints) exited 0 | $(status '${{ steps.check.outcome }}') |"
+            echo "| 4 | Built the installer via \`./tools/build-installer\` - the same entrypoint release.yml uses | $(status '${{ steps.build_installer.outcome }}') |"
+            echo "| 5 | Installed the built package (Linux: unpack + its own \`install.sh\` as root; macOS: mount DMG + copy to /Applications) | Linux: $(status '${{ steps.install_linux.outcome }}'), macOS: $(status '${{ steps.install_macos.outcome }}') |"
+            echo "| 6 | Ran the **installed** binary with \`--version\` and matched it against \`.version\` | $(status '${{ steps.version.outcome }}') |"
+            echo "| 7 | Started the **installed** app headlessly and waited for an open collection (\`/_anki/readyz\` = 200), then re-checked 15s later | $(status '${{ steps.headless.outcome }}') |"
+            echo "| 8 | Supplementary: screenshot under Xvfb (Linux only, non-blocking) | $(status '${{ steps.screenshot.outcome }}') |"
+            echo
+            echo "Step 6 is not a smoke test of a stub: printing the version still imports"
+            echo "PyQt6 and \`anki._backend\` (the compiled Rust extension), so the bundled"
+            echo "Python, the Qt libraries and the native module all have to load."
+            echo "Step 7 uses Qt's offscreen platform plugin - the same one this repo's own"
+            echo "Playwright harness uses - and \`/_anki/readyz\` returns 200 only after"
+            echo "\`aqt.mw.col\` is open, i.e. after the app really started."
+            echo
+            echo "Favicon served by the running app: \`$favicon\` bytes."
+            echo "Unique colours in the Xvfb screenshot: \`$colours\` (1 would mean a blank frame)."
+            echo
+            echo "## What this job did NOT check"
+            echo
+            echo "- **This is not a bare-metal bootstrap of Rust.** The runner image ships"
+            echo "  rustup and a stable rustc/cargo already; the job installs the *pinned*"
+            echo "  1.92.0 toolchain, uv, n2 and just on top. The probe table below shows"
+            echo "  exactly what was present before anything was installed."
+            echo "- **No human saw a window on real hardware.** Rendering was software-only"
+            echo "  (offscreen plugin / Xvfb); no GPU, no Wayland, no HiDPI, no window manager."
+            echo "- **No interaction.** Nothing was clicked; no card was reviewed through the GUI."
+            echo "- **Windows was not built or installed here at all**, and macOS only when the"
+            echo "  \`run-macos\` dispatch input is set."
+            echo "- **No AnkiWeb sync, no add-ons, no import of a real user collection.**"
+            echo "- The Linux install path requires root (\`install.sh\` writes to /usr/local);"
+            echo "  a non-root PREFIX install was not exercised."
+            echo "- macOS packages here are ad-hoc signed and not notarised, so this says"
+            echo "  nothing about Gatekeeper on a downloaded build."
+            echo
+            echo "## Runner state before anything was installed"
+            echo
+            echo '```'
+            cat out/speedrun-evidence/toolchain-before.txt 2>/dev/null || cat "$RUNNER_TEMP/toolchain-before.txt" 2>/dev/null || echo "(probe output unavailable)"
+            echo '```'
+            echo
+            echo "Overall job status: **${{ job.status }}**"
+          } >> "$GITHUB_STEP_SUMMARY"

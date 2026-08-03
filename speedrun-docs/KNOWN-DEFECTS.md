@@ -44,23 +44,62 @@ disposition: a fix whose side effect is worse than the fault is not a fix.
 
 ---
 
-## 2. No clean-machine install recording
+## 2. No clean-machine install recording — the gap is now a CI job, and that job has not been run yet
 
-**The brief asks for an install verified on a clean device. That recording does not
-exist and this submission does not claim it.**
+**The brief asks for an install verified on a clean device. No recording exists, and
+this submission does not claim one.** What it offers instead is a workflow —
+`.github/workflows/speedrun-clean-machine.yml` — and **that workflow has not been
+dispatched at the time of writing.**
 
-**Why.** The build toolchain was installed on the only available machine during
-Stage 0 — `just`, `rustup` with Rust 1.92.0, and `n2` were all absent and had to be
-added, along with initialising the installer submodules. **That machine is therefore
-no longer clean and cannot demonstrate the claim.** A second machine or a fresh VM is
-required, and producing the recording is a human step.
+**Why there is no recording, and why the reason matters.** The build toolchain was
+installed on the only available machine during Stage 0 — `just`, `rustup` with Rust
+1.92.0, and `n2` were all absent and had to be added; `tools/install-n2` is the
+bootstrap upstream documents in `docs/development.md`; and the uninitialised installer
+submodules broke `qt/tests/test_installer.py` with `Unable to clone application
+template` until `git submodule update --init` was run. **That machine is therefore no
+longer clean and cannot demonstrate the claim.** This is not an excuse for reaching for
+CI — it is the argument for it. The one machine that could have been filmed was spent
+proving that a fresh machine needs non-trivial setup.
+
+**Why a runner is better evidence than a video.** A GitHub-hosted runner **is** a clean
+machine: a fresh VM per job, provisioned from a published image and destroyed when the
+job ends. A recording shows one laptop, once, and asks the viewer to take on trust both
+that the laptop was clean and that nothing was cut. A job log is produced by a machine
+nobody here owns, from a workflow file that lives in this repo, and **anyone can re-run
+it and get their own log.** Reproducible beats witnessed.
+
+**What the workflow does.** It bootstraps the toolchain the way a new contributor
+would: install `just`, install the Rust toolchain pinned by `rust-toolchain.toml`
+(1.92.0), run `tools/install-n2`, initialise the submodules, and only then build and
+check. **That is exactly the sequence Stage 0 proved is non-trivial** — every step in
+it is a step that was missing on the machine that had to be set up by hand.
+
+**One limit on the word "clean", stated rather than buried.** The GitHub runner images
+already ship `rustup` and a stable `rustc`/`cargo`, so this is **not** a bare-metal
+bootstrap of Rust itself. What the job installs is what the image lacks and the build
+needs: the pinned 1.92.0 toolchain, `just`, `n2` and `uv`. The workflow's first step
+probes for all of them _before_ checkout and prints the result into the job summary,
+so the log discloses what was already present rather than asking anyone to trust this
+paragraph. Nothing is cached deliberately, so every run is a full cold build — which
+is why the job is `workflow_dispatch`-only, with no `push` trigger that would bill a
+private repo for a cold build nobody asked for.
+
+**Status, stated so it cannot be misread: the workflow is written, and no run of it
+exists.** It has not been dispatched, no log has been produced, and nothing in this repo
+should be read as a claim that it has passed.
+
+**What would close this defect is one link:** the URL of a completed
+`speedrun-clean-machine` run (`…/actions/runs/<id>`) showing the toolchain install steps
+followed by a green build on a runner that started with none of it. Two things stand
+between here and that link — the run has to be triggered, and the GitHub mirror is
+currently **private**, so the log has to be made reachable before a grader can open it.
+Until that URL exists this section describes a plan, not a proof.
 
 **What was verified instead, and it is not a substitute.** `just check` exits 0 from
 a clean working tree; 7 Rust tests and 4 pylib tests pass; the 50,000-card benchmark
 runs at median 99.9 ms / p95 102.7 ms / worst 103.6 ms against a 1000 ms budget.
 **None of that establishes the software installs on a machine that has never seen
-it**, which is the thing the requirement is actually about — and the Stage 0
-experience is direct evidence that a fresh machine needs non-trivial setup.
+it**, which is the thing the requirement is actually about.
 
 ---
 
