@@ -1,0 +1,113 @@
+{
+    "pmcid": "PMC7533148",
+    "retrieval_date_utc": "2026-08-03T03:18:46+00:00",
+    "retrieval_date": "2026-08-03",
+    "source_url": "https://pmc.ncbi.nlm.nih.gov/articles/PMC7533148/",
+    "tool": "speedrun-analysis/sources/vet_source.py",
+    "oa_service": {
+        "url": "https://www.ncbi.nlm.nih.gov/pmc/utils/oa/oa.fcgi?id=PMC7533148",
+        "fetched": true,
+        "http_status": 200,
+        "error": "",
+        "license_verbatim": "CC BY",
+        "citation_verbatim": "Pneumonia (Nathan). 2020 Oct 5; 12:11",
+        "retracted": "no",
+        "in_oa_subset": true,
+        "oa_package_href": "ftp://ftp.ncbi.nlm.nih.gov/pub/pmc/oa_package/b0/ee/PMC7533148.tar.gz",
+        "service_error": null
+    },
+    "efetch": {
+        "url": "https://eutils.ncbi.nlm.nih.gov/entrez/eutils/efetch.fcgi?db=pmc&id=7533148&retmode=xml",
+        "fetched": true,
+        "http_status": 200,
+        "bytes": 97076,
+        "error": ""
+    },
+    "metadata": {
+        "title": "Etiology of community-acquired pneumonia in adults: a systematic review",
+        "journal": "Pneumonia",
+        "journal_abbrev": "Pneumonia (Nathan)",
+        "publisher": "BMC",
+        "year": "2020",
+        "volume": "12",
+        "issue": null,
+        "elocation_or_pages": "11",
+        "doi": "10.1186/s41479-020-00074-3",
+        "pmid": "33024653",
+        "pmcid": "PMC7533148",
+        "article_types": [
+            "Review"
+        ],
+        "authors": [
+            "Shoar Saeed",
+            "Musher Daniel M."
+        ]
+    },
+    "gate_a": {
+        "gate": "a_licence",
+        "result": "PASS",
+        "requirement": "explicit machine-readable CC BY 4.0 (creativecommons.org/licenses/by/4.0) and nothing else",
+        "licence_field_verbatim": "Open AccessThis article is licensed under a Creative Commons Attribution 4.0 International License, which permits use, sharing, adaptation, distribution and reproduction in any medium or format, as long as you give appropriate credit to the original author(s) and the source, provide a link to the Creative Commons licence, and indicate if changes were made. The images or other third party material in this article are included in the article's Creative Commons licence, unless indicated otherwise in a credit line to the material. If material is not included in the article's Creative Commons licence and your intended use is not permitted by statutory regulation or exceeds the permitted use, you will need to obtain permission directly from the copyright holder. To view a copy of this licence, visit http://creativecommons.org/licenses/by/4.0/.",
+        "licence_uri_verbatim": "https://creativecommons.org/licenses/by/4.0/",
+        "licence_uri_source": "ali:license_ref",
+        "licence_uri_normalised": "creativecommons.org/licenses/by/4.0",
+        "licence_label": "CC BY 4.0",
+        "license_type_attr": "OpenAccess",
+        "copyright_statement_verbatim": "© The Author(s) 2020",
+        "raw_permissions_xml": "<permissions xmlns:ns0=\"http://www.niso.org/schemas/ali/1.0/\" xmlns:ns1=\"http://www.w3.org/1999/xlink\"><copyright-statement>© The Author(s) 2020</copyright-statement><license license-type=\"OpenAccess\"><ns0:license_ref specific-use=\"textmining\" content-type=\"ccbylicense\">https://creativecommons.org/licenses/by/4.0/</ns0:license_ref><license-p><bold>Open Access</bold>This article is licensed under a Creative Commons Attribution 4.0 International License, which permits use, sharing, adaptation, distribution and reproduction in any medium or format, as long as you give appropriate credit to the original author(s) and the source, provide a link to the Creative Commons licence, and indicate if changes were made. The images or other third party material in this article are included in the article's Creative Commons licence, unless indicated otherwise in a credit line to the material. If material is not included in the article's Creative Commons licence and your intended use is not permitted by statutory regulation or exceeds the permitted use, you will need to obtain permission directly from the copyright holder. To view a copy of this licence, visit <ext-link ext-link-type=\"uri\" ns1:href=\"http://creativecommons.org/licenses/by/4.0/\">http://creativecommons.org/licenses/by/4.0/</ext-link>.</license-p></license></permissions>",
+        "cc_uris_on_landing_page": [
+            "https://creativecommons.org/licenses/by/4.0"
+        ],
+        "cc_names_on_landing_page_verbatim": {
+            "by": "Creative Commons Attribution 4.0"
+        },
+        "landing_page_agrees_with_field": [
+            "URI https://creativecommons.org/licenses/by/4.0",
+            "prose 'Creative Commons Attribution 4.0'"
+        ],
+        "landing_page_conflicts_with_field": [],
+        "landing_page_confirms_cc_by_4": true,
+        "reasons": []
+    },
+    "gate_b": {
+        "gate": "b_ai_llm_terms",
+        "result": "PASS",
+        "requirement": "no AI / LLM / generative-AI / text-and-data-mining prohibition on the article's landing page",
+        "pages": [
+            {
+                "url": "https://pmc.ncbi.nlm.nih.gov/articles/PMC7533148/",
+                "fetched": true,
+                "http_status": 200,
+                "bytes": 195993,
+                "error": "",
+                "role": "pmc_landing",
+                "prohibitions": [],
+                "review_items": [],
+                "incidental_mentions": [],
+                "scan": "SCANNED"
+            },
+            {
+                "url": "https://link.springer.com/article/10.1186/s41479-020-00074-3?error=cookies_not_supported&code=acd78dc6-7aef-4ef6-a5c6-9aa8c02ccc0f",
+                "fetched": true,
+                "http_status": 200,
+                "bytes": 420484,
+                "error": "",
+                "role": "publisher_landing",
+                "prohibitions": [],
+                "review_items": [],
+                "incidental_mentions": [
+                    "machine learning"
+                ],
+                "scan": "SCANNED"
+            }
+        ],
+        "reasons": [],
+        "caveat": "PASS means no prohibition was found on the page(s) fetched. It does not prove none exists; linked PDFs, separate ToS pages and click-through agreements are not read by this tool."
+    },
+    "publisher_page_checked": true,
+    "overall": "PASS",
+    "attribution": "Shoar Saeed, Musher Daniel M.. Etiology of community-acquired pneumonia in adults: a systematic review. Pneumonia. 2020;12:11. doi:10.1186/s41479-020-00074-3. PMC7533148. Licensed CC BY 4.0.",
+    "text_file": "PMC7533148.txt",
+    "text_sha256": "abc13257d9d38d8057d032865381df0755ccadadb7d89d76830d2e4cf30738d9",
+    "text_chars": 29046
+}

@@ -1,0 +1,2014 @@
+[
+    {
+        "pmcid": "PMC7533148",
+        "retrieval_date_utc": "2026-08-03T03:23:05+00:00",
+        "retrieval_date": "2026-08-03",
+        "source_url": "https://pmc.ncbi.nlm.nih.gov/articles/PMC7533148/",
+        "tool": "speedrun-analysis/sources/vet_source.py",
+        "oa_service": {
+            "url": "https://www.ncbi.nlm.nih.gov/pmc/utils/oa/oa.fcgi?id=PMC7533148",
+            "fetched": true,
+            "http_status": 200,
+            "error": "",
+            "license_verbatim": "CC BY",
+            "citation_verbatim": "Pneumonia (Nathan). 2020 Oct 5; 12:11",
+            "retracted": "no",
+            "in_oa_subset": true,
+            "oa_package_href": "ftp://ftp.ncbi.nlm.nih.gov/pub/pmc/oa_package/b0/ee/PMC7533148.tar.gz",
+            "service_error": null
+        },
+        "efetch": {
+            "url": "https://eutils.ncbi.nlm.nih.gov/entrez/eutils/efetch.fcgi?db=pmc&id=7533148&retmode=xml",
+            "fetched": true,
+            "http_status": 200,
+            "bytes": 97076,
+            "error": ""
+        },
+        "metadata": {
+            "title": "Etiology of community-acquired pneumonia in adults: a systematic review",
+            "journal": "Pneumonia",
+            "journal_abbrev": "Pneumonia (Nathan)",
+            "publisher": "BMC",
+            "year": "2020",
+            "volume": "12",
+            "issue": null,
+            "elocation_or_pages": "11",
+            "doi": "10.1186/s41479-020-00074-3",
+            "pmid": "33024653",
+            "pmcid": "PMC7533148",
+            "article_types": [
+                "Review"
+            ],
+            "authors": [
+                "Shoar Saeed",
+                "Musher Daniel M."
+            ]
+        },
+        "gate_a": {
+            "gate": "a_licence",
+            "result": "PASS",
+            "requirement": "explicit machine-readable CC BY 4.0 (creativecommons.org/licenses/by/4.0) and nothing else",
+            "licence_field_verbatim": "Open AccessThis article is licensed under a Creative Commons Attribution 4.0 International License, which permits use, sharing, adaptation, distribution and reproduction in any medium or format, as long as you give appropriate credit to the original author(s) and the source, provide a link to the Creative Commons licence, and indicate if changes were made. The images or other third party material in this article are included in the article's Creative Commons licence, unless indicated otherwise in a credit line to the material. If material is not included in the article's Creative Commons licence and your intended use is not permitted by statutory regulation or exceeds the permitted use, you will need to obtain permission directly from the copyright holder. To view a copy of this licence, visit http://creativecommons.org/licenses/by/4.0/.",
+            "licence_uri_verbatim": "https://creativecommons.org/licenses/by/4.0/",
+            "licence_uri_source": "ali:license_ref",
+            "licence_uri_normalised": "creativecommons.org/licenses/by/4.0",
+            "licence_label": "CC BY 4.0",
+            "license_type_attr": "OpenAccess",
+            "copyright_statement_verbatim": "© The Author(s) 2020",
+            "raw_permissions_xml": "<permissions xmlns:ns0=\"http://www.niso.org/schemas/ali/1.0/\" xmlns:ns1=\"http://www.w3.org/1999/xlink\"><copyright-statement>© The Author(s) 2020</copyright-statement><license license-type=\"OpenAccess\"><ns0:license_ref specific-use=\"textmining\" content-type=\"ccbylicense\">https://creativecommons.org/licenses/by/4.0/</ns0:license_ref><license-p><bold>Open Access</bold>This article is licensed under a Creative Commons Attribution 4.0 International License, which permits use, sharing, adaptation, distribution and reproduction in any medium or format, as long as you give appropriate credit to the original author(s) and the source, provide a link to the Creative Commons licence, and indicate if changes were made. The images or other third party material in this article are included in the article's Creative Commons licence, unless indicated otherwise in a credit line to the material. If material is not included in the article's Creative Commons licence and your intended use is not permitted by statutory regulation or exceeds the permitted use, you will need to obtain permission directly from the copyright holder. To view a copy of this licence, visit <ext-link ext-link-type=\"uri\" ns1:href=\"http://creativecommons.org/licenses/by/4.0/\">http://creativecommons.org/licenses/by/4.0/</ext-link>.</license-p></license></permissions>",
+            "cc_uris_on_landing_page": [
+                "https://creativecommons.org/licenses/by/4.0"
+            ],
+            "cc_names_on_landing_page_verbatim": {
+                "by": "Creative Commons Attribution 4.0"
+            },
+            "landing_page_agrees_with_field": [
+                "URI https://creativecommons.org/licenses/by/4.0",
+                "prose 'Creative Commons Attribution 4.0'"
+            ],
+            "landing_page_conflicts_with_field": [],
+            "landing_page_confirms_cc_by_4": true,
+            "reasons": []
+        },
+        "gate_b": {
+            "gate": "b_ai_llm_terms",
+            "result": "PASS",
+            "requirement": "no AI / LLM / generative-AI / text-and-data-mining prohibition on the article's landing page",
+            "pages": [
+                {
+                    "url": "https://pmc.ncbi.nlm.nih.gov/articles/PMC7533148/",
+                    "fetched": true,
+                    "http_status": 200,
+                    "bytes": 195993,
+                    "error": "",
+                    "role": "pmc_landing",
+                    "prohibitions": [],
+                    "review_items": [],
+                    "incidental_mentions": [],
+                    "scan": "SCANNED"
+                },
+                {
+                    "url": "https://link.springer.com/article/10.1186/s41479-020-00074-3?error=cookies_not_supported&code=44b5bbe1-4aca-4126-bba8-32524ed063a3",
+                    "fetched": true,
+                    "http_status": 200,
+                    "bytes": 420484,
+                    "error": "",
+                    "role": "publisher_landing",
+                    "prohibitions": [],
+                    "review_items": [],
+                    "incidental_mentions": [
+                        "machine learning"
+                    ],
+                    "scan": "SCANNED"
+                }
+            ],
+            "reasons": [],
+            "caveat": "PASS means no prohibition was found on the page(s) fetched. It does not prove none exists; linked PDFs, separate ToS pages and click-through agreements are not read by this tool."
+        },
+        "publisher_page_checked": true,
+        "overall": "PASS",
+        "attribution": "Shoar Saeed, Musher Daniel M.. Etiology of community-acquired pneumonia in adults: a systematic review. Pneumonia. 2020;12:11. doi:10.1186/s41479-020-00074-3. PMC7533148. Licensed CC BY 4.0."
+    },
+    {
+        "pmcid": "PMC10950989",
+        "retrieval_date_utc": "2026-08-03T03:23:08+00:00",
+        "retrieval_date": "2026-08-03",
+        "source_url": "https://pmc.ncbi.nlm.nih.gov/articles/PMC10950989/",
+        "tool": "speedrun-analysis/sources/vet_source.py",
+        "oa_service": {
+            "url": "https://www.ncbi.nlm.nih.gov/pmc/utils/oa/oa.fcgi?id=PMC10950989",
+            "fetched": true,
+            "http_status": 200,
+            "error": "",
+            "license_verbatim": "CC BY",
+            "citation_verbatim": "Eur J Pediatr. 2024 Dec 19; 183(3):1129-1136",
+            "retracted": "no",
+            "in_oa_subset": true,
+            "oa_package_href": "ftp://ftp.ncbi.nlm.nih.gov/pub/pmc/oa_package/e0/4a/PMC10950989.tar.gz",
+            "service_error": null
+        },
+        "efetch": {
+            "url": "https://eutils.ncbi.nlm.nih.gov/entrez/eutils/efetch.fcgi?db=pmc&id=10950989&retmode=xml",
+            "fetched": true,
+            "http_status": 200,
+            "bytes": 67676,
+            "error": ""
+        },
+        "metadata": {
+            "title": "Childhood community-acquired pneumonia",
+            "journal": "European Journal of Pediatrics",
+            "journal_abbrev": "Eur J Pediatr",
+            "publisher": null,
+            "year": "2023",
+            "volume": "183",
+            "issue": "3",
+            "elocation_or_pages": "1129-1136",
+            "doi": "10.1007/s00431-023-05366-6",
+            "pmid": "38112800",
+            "pmcid": "PMC10950989",
+            "article_types": [
+                "Mini Review"
+            ],
+            "authors": [
+                "Meyer Sauteur Patrick M."
+            ]
+        },
+        "gate_a": {
+            "gate": "a_licence",
+            "result": "PASS",
+            "requirement": "explicit machine-readable CC BY 4.0 (creativecommons.org/licenses/by/4.0) and nothing else",
+            "licence_field_verbatim": "Open Access This article is licensed under a Creative Commons Attribution 4.0 International License, which permits use, sharing, adaptation, distribution and reproduction in any medium or format, as long as you give appropriate credit to the original author(s) and the source, provide a link to the Creative Commons licence, and indicate if changes were made. The images or other third party material in this article are included in the article's Creative Commons licence, unless indicated otherwise in a credit line to the material. If material is not included in the article's Creative Commons licence and your intended use is not permitted by statutory regulation or exceeds the permitted use, you will need to obtain permission directly from the copyright holder. To view a copy of this licence, visit http://creativecommons.org/licenses/by/4.0/.",
+            "licence_uri_verbatim": "https://creativecommons.org/licenses/by/4.0/",
+            "licence_uri_source": "ali:license_ref",
+            "licence_uri_normalised": "creativecommons.org/licenses/by/4.0",
+            "licence_label": "CC BY 4.0",
+            "license_type_attr": null,
+            "copyright_statement_verbatim": "© The Author(s) 2023",
+            "raw_permissions_xml": "<permissions xmlns:ns0=\"http://www.niso.org/schemas/ali/1.0/\" xmlns:ns1=\"http://www.w3.org/1999/xlink\"><copyright-statement>© The Author(s) 2023</copyright-statement><license><ns0:license_ref specific-use=\"textmining\" content-type=\"ccbylicense\">https://creativecommons.org/licenses/by/4.0/</ns0:license_ref><license-p><bold>Open Access</bold> This article is licensed under a Creative Commons Attribution 4.0 International License, which permits use, sharing, adaptation, distribution and reproduction in any medium or format, as long as you give appropriate credit to the original author(s) and the source, provide a link to the Creative Commons licence, and indicate if changes were made. The images or other third party material in this article are included in the article's Creative Commons licence, unless indicated otherwise in a credit line to the material. If material is not included in the article's Creative Commons licence and your intended use is not permitted by statutory regulation or exceeds the permitted use, you will need to obtain permission directly from the copyright holder. To view a copy of this licence, visit <ext-link ext-link-type=\"uri\" ns1:href=\"https://creativecommons.org/licenses/by/4.0/\">http://creativecommons.org/licenses/by/4.0/</ext-link>.</license-p></license></permissions>",
+            "cc_uris_on_landing_page": [
+                "https://creativecommons.org/licenses/by/4.0"
+            ],
+            "cc_names_on_landing_page_verbatim": {
+                "by": "Creative Commons Attribution 4.0"
+            },
+            "landing_page_agrees_with_field": [
+                "URI https://creativecommons.org/licenses/by/4.0",
+                "prose 'Creative Commons Attribution 4.0'"
+            ],
+            "landing_page_conflicts_with_field": [],
+            "landing_page_confirms_cc_by_4": true,
+            "reasons": []
+        },
+        "gate_b": {
+            "gate": "b_ai_llm_terms",
+            "result": "PASS",
+            "requirement": "no AI / LLM / generative-AI / text-and-data-mining prohibition on the article's landing page",
+            "pages": [
+                {
+                    "url": "https://pmc.ncbi.nlm.nih.gov/articles/PMC10950989/",
+                    "fetched": true,
+                    "http_status": 200,
+                    "bytes": 156387,
+                    "error": "",
+                    "role": "pmc_landing",
+                    "prohibitions": [],
+                    "review_items": [],
+                    "incidental_mentions": [],
+                    "scan": "SCANNED"
+                },
+                {
+                    "url": "https://link.springer.com/article/10.1007/s00431-023-05366-6?error=cookies_not_supported&code=cdfb8013-49e4-4fad-b7b8-c89a371669c5",
+                    "fetched": true,
+                    "http_status": 200,
+                    "bytes": 371151,
+                    "error": "",
+                    "role": "publisher_landing",
+                    "prohibitions": [],
+                    "review_items": [],
+                    "incidental_mentions": [
+                        "machine learning"
+                    ],
+                    "scan": "SCANNED"
+                }
+            ],
+            "reasons": [],
+            "caveat": "PASS means no prohibition was found on the page(s) fetched. It does not prove none exists; linked PDFs, separate ToS pages and click-through agreements are not read by this tool."
+        },
+        "publisher_page_checked": true,
+        "overall": "PASS",
+        "attribution": "Meyer Sauteur Patrick M.. Childhood community-acquired pneumonia. European Journal of Pediatrics. 2023;183(3):1129-1136. doi:10.1007/s00431-023-05366-6. PMC10950989. Licensed CC BY 4.0."
+    },
+    {
+        "pmcid": "PMC10477518",
+        "retrieval_date_utc": "2026-08-03T03:23:12+00:00",
+        "retrieval_date": "2026-08-03",
+        "source_url": "https://pmc.ncbi.nlm.nih.gov/articles/PMC10477518/",
+        "tool": "speedrun-analysis/sources/vet_source.py",
+        "oa_service": {
+            "url": "https://www.ncbi.nlm.nih.gov/pmc/utils/oa/oa.fcgi?id=PMC10477518",
+            "fetched": true,
+            "http_status": 200,
+            "error": "",
+            "license_verbatim": "CC BY",
+            "citation_verbatim": "MedComm (2020). 2023 Sep 4; 4(5):e353",
+            "retracted": "no",
+            "in_oa_subset": true,
+            "oa_package_href": "ftp://ftp.ncbi.nlm.nih.gov/pub/pmc/oa_package/f2/e7/PMC10477518.tar.gz",
+            "service_error": null
+        },
+        "efetch": {
+            "url": "https://eutils.ncbi.nlm.nih.gov/entrez/eutils/efetch.fcgi?db=pmc&id=10477518&retmode=xml",
+            "fetched": true,
+            "http_status": 200,
+            "bytes": 623935,
+            "error": ""
+        },
+        "metadata": {
+            "title": "Mycobacterium tuberculosis: Pathogenesis and therapeutic targets",
+            "journal": "MedComm",
+            "journal_abbrev": "MedComm (2020)",
+            "publisher": "Wiley",
+            "year": "2023",
+            "volume": "4",
+            "issue": "5",
+            "elocation_or_pages": "e353",
+            "doi": "10.1002/mco2.353",
+            "pmid": "37674971",
+            "pmcid": "PMC10477518",
+            "article_types": [
+                "Review",
+                "Reviews"
+            ],
+            "authors": [
+                "Yang Jiaxing",
+                "Zhang Laiying",
+                "Qiao Wenliang",
+                "Luo Youfu"
+            ]
+        },
+        "gate_a": {
+            "gate": "a_licence",
+            "result": "PASS",
+            "requirement": "explicit machine-readable CC BY 4.0 (creativecommons.org/licenses/by/4.0) and nothing else",
+            "licence_field_verbatim": "This is an open access article under the terms of the http://creativecommons.org/licenses/by/4.0/ License, which permits use, distribution and reproduction in any medium, provided the original work is properly cited.",
+            "licence_uri_verbatim": "https://creativecommons.org/licenses/by/4.0/",
+            "licence_uri_source": "ali:license_ref",
+            "licence_uri_normalised": "creativecommons.org/licenses/by/4.0",
+            "licence_label": "CC BY 4.0",
+            "license_type_attr": null,
+            "copyright_statement_verbatim": "© 2023 The Authors. MedComm published by Sichuan International Medical Exchange & Promotion Association (SCIMEA) and John Wiley & Sons Australia, Ltd.",
+            "raw_permissions_xml": "<permissions xmlns:ns0=\"http://www.niso.org/schemas/ali/1.0/\" xmlns:ns1=\"http://www.w3.org/1999/xlink\"><copyright-statement content-type=\"article-copyright\">© 2023 The Authors. <italic toggle=\"yes\">MedComm</italic> published by Sichuan International Medical Exchange &amp; Promotion Association (SCIMEA) and John Wiley &amp; Sons Australia, Ltd.</copyright-statement><license><ns0:license_ref specific-use=\"textmining\" content-type=\"ccbylicense\">https://creativecommons.org/licenses/by/4.0/</ns0:license_ref><license-p>This is an open access article under the terms of the <ext-link ext-link-type=\"uri\" ns1:href=\"https://creativecommons.org/licenses/by/4.0/\">http://creativecommons.org/licenses/by/4.0/</ext-link> License, which permits use, distribution and reproduction in any medium, provided the original work is properly cited.</license-p></license></permissions>",
+            "cc_uris_on_landing_page": [
+                "https://creativecommons.org/licenses/by/4.0"
+            ],
+            "cc_names_on_landing_page_verbatim": {},
+            "landing_page_agrees_with_field": [
+                "URI https://creativecommons.org/licenses/by/4.0"
+            ],
+            "landing_page_conflicts_with_field": [],
+            "landing_page_confirms_cc_by_4": true,
+            "reasons": []
+        },
+        "gate_b": {
+            "gate": "b_ai_llm_terms",
+            "result": "PASS",
+            "requirement": "no AI / LLM / generative-AI / text-and-data-mining prohibition on the article's landing page",
+            "pages": [
+                {
+                    "url": "https://pmc.ncbi.nlm.nih.gov/articles/PMC10477518/",
+                    "fetched": true,
+                    "http_status": 200,
+                    "bytes": 821888,
+                    "error": "",
+                    "role": "pmc_landing",
+                    "prohibitions": [],
+                    "review_items": [],
+                    "incidental_mentions": [],
+                    "scan": "SCANNED"
+                },
+                {
+                    "url": "https://doi.org/10.1002/mco2.353",
+                    "fetched": false,
+                    "http_status": 403,
+                    "bytes": 0,
+                    "error": "HTTPError 403",
+                    "role": "publisher_landing",
+                    "scan": "UNKNOWN - page could not be fetched"
+                }
+            ],
+            "reasons": [],
+            "caveat": "PASS means no prohibition was found on the page(s) fetched. It does not prove none exists; linked PDFs, separate ToS pages and click-through agreements are not read by this tool."
+        },
+        "publisher_page_checked": true,
+        "overall": "PASS",
+        "attribution": "Yang Jiaxing, Zhang Laiying, Qiao Wenliang, Luo Youfu. Mycobacterium tuberculosis: Pathogenesis and therapeutic targets. MedComm. 2023;4(5):e353. doi:10.1002/mco2.353. PMC10477518. Licensed CC BY 4.0."
+    },
+    {
+        "pmcid": "PMC8570039",
+        "retrieval_date_utc": "2026-08-03T03:23:15+00:00",
+        "retrieval_date": "2026-08-03",
+        "source_url": "https://pmc.ncbi.nlm.nih.gov/articles/PMC8570039/",
+        "tool": "speedrun-analysis/sources/vet_source.py",
+        "oa_service": {
+            "url": "https://www.ncbi.nlm.nih.gov/pmc/utils/oa/oa.fcgi?id=PMC8570039",
+            "fetched": true,
+            "http_status": 200,
+            "error": "",
+            "license_verbatim": "CC BY",
+            "citation_verbatim": "Front Microbiol. 2021 Oct 22; 12:745592",
+            "retracted": "no",
+            "in_oa_subset": true,
+            "oa_package_href": "ftp://ftp.ncbi.nlm.nih.gov/pub/pmc/oa_package/f2/8e/PMC8570039.tar.gz",
+            "service_error": null
+        },
+        "efetch": {
+            "url": "https://eutils.ncbi.nlm.nih.gov/entrez/eutils/efetch.fcgi?db=pmc&id=8570039&retmode=xml",
+            "fetched": true,
+            "http_status": 200,
+            "bytes": 328126,
+            "error": ""
+        },
+        "metadata": {
+            "title": "Differential Diagnosis of Latent Tuberculosis Infection and Active Tuberculosis: A Key to a Successful Tuberculosis Control Strategy",
+            "journal": "Frontiers in Microbiology",
+            "journal_abbrev": "Front Microbiol",
+            "publisher": "Frontiers Media SA",
+            "year": "2021",
+            "volume": "12",
+            "issue": null,
+            "elocation_or_pages": "745592",
+            "doi": "10.3389/fmicb.2021.745592",
+            "pmid": "34745048",
+            "pmcid": "PMC8570039",
+            "article_types": [
+                "Microbiology",
+                "Review"
+            ],
+            "authors": [
+                "Gong Wenping",
+                "Wu Xueqiong"
+            ]
+        },
+        "gate_a": {
+            "gate": "a_licence",
+            "result": "PASS",
+            "requirement": "explicit machine-readable CC BY 4.0 (creativecommons.org/licenses/by/4.0) and nothing else",
+            "licence_field_verbatim": "This is an open-access article distributed under the terms of the Creative Commons Attribution License (CC BY). The use, distribution or reproduction in other forums is permitted, provided the original author(s) and the copyright owner(s) are credited and that the original publication in this journal is cited, in accordance with accepted academic practice. No use, distribution or reproduction is permitted which does not comply with these terms.",
+            "licence_uri_verbatim": "https://creativecommons.org/licenses/by/4.0/",
+            "licence_uri_source": "ali:license_ref",
+            "licence_uri_normalised": "creativecommons.org/licenses/by/4.0",
+            "licence_label": "CC BY 4.0",
+            "license_type_attr": null,
+            "copyright_statement_verbatim": "Copyright © 2021 Gong and Wu.",
+            "raw_permissions_xml": "<permissions xmlns:ns0=\"http://www.niso.org/schemas/ali/1.0/\"><copyright-statement>Copyright © 2021 Gong and Wu.</copyright-statement><copyright-year>2021</copyright-year><copyright-holder>Gong and Wu</copyright-holder><license><ns0:license_ref specific-use=\"textmining\" content-type=\"ccbylicense\">https://creativecommons.org/licenses/by/4.0/</ns0:license_ref><license-p>This is an open-access article distributed under the terms of the Creative Commons Attribution License (CC BY). The use, distribution or reproduction in other forums is permitted, provided the original author(s) and the copyright owner(s) are credited and that the original publication in this journal is cited, in accordance with accepted academic practice. No use, distribution or reproduction is permitted which does not comply with these terms.</license-p></license></permissions>",
+            "cc_uris_on_landing_page": [
+                "https://creativecommons.org/licenses/by/4.0"
+            ],
+            "cc_names_on_landing_page_verbatim": {
+                "by": "Creative Commons Attribution"
+            },
+            "landing_page_agrees_with_field": [
+                "URI https://creativecommons.org/licenses/by/4.0",
+                "prose 'Creative Commons Attribution'"
+            ],
+            "landing_page_conflicts_with_field": [],
+            "landing_page_confirms_cc_by_4": true,
+            "reasons": []
+        },
+        "gate_b": {
+            "gate": "b_ai_llm_terms",
+            "result": "PASS",
+            "requirement": "no AI / LLM / generative-AI / text-and-data-mining prohibition on the article's landing page",
+            "pages": [
+                {
+                    "url": "https://pmc.ncbi.nlm.nih.gov/articles/PMC8570039/",
+                    "fetched": true,
+                    "http_status": 200,
+                    "bytes": 445484,
+                    "error": "",
+                    "role": "pmc_landing",
+                    "prohibitions": [],
+                    "review_items": [],
+                    "incidental_mentions": [
+                        "artificial intelligence"
+                    ],
+                    "scan": "SCANNED"
+                },
+                {
+                    "url": "https://www.frontiersin.org/journals/microbiology/articles/10.3389/fmicb.2021.745592/full",
+                    "fetched": true,
+                    "http_status": 200,
+                    "bytes": 2114774,
+                    "error": "",
+                    "role": "publisher_landing",
+                    "prohibitions": [],
+                    "review_items": [],
+                    "incidental_mentions": [
+                        "artificial intelligence"
+                    ],
+                    "scan": "SCANNED"
+                }
+            ],
+            "reasons": [],
+            "caveat": "PASS means no prohibition was found on the page(s) fetched. It does not prove none exists; linked PDFs, separate ToS pages and click-through agreements are not read by this tool."
+        },
+        "publisher_page_checked": true,
+        "overall": "PASS",
+        "attribution": "Gong Wenping, Wu Xueqiong. Differential Diagnosis of Latent Tuberculosis Infection and Active Tuberculosis: A Key to a Successful Tuberculosis Control Strategy. Frontiers in Microbiology. 2021;12:745592. doi:10.3389/fmicb.2021.745592. PMC8570039. Licensed CC BY 4.0."
+    },
+    {
+        "pmcid": "PMC11809256",
+        "retrieval_date_utc": "2026-08-03T03:23:18+00:00",
+        "retrieval_date": "2026-08-03",
+        "source_url": "https://pmc.ncbi.nlm.nih.gov/articles/PMC11809256/",
+        "tool": "speedrun-analysis/sources/vet_source.py",
+        "oa_service": {
+            "url": "https://www.ncbi.nlm.nih.gov/pmc/utils/oa/oa.fcgi?id=PMC11809256",
+            "fetched": true,
+            "http_status": 200,
+            "error": "",
+            "license_verbatim": "CC BY",
+            "citation_verbatim": "Qatar Med J. 2024 Dec 24; 2024(4):56",
+            "retracted": "no",
+            "in_oa_subset": true,
+            "oa_package_href": "ftp://ftp.ncbi.nlm.nih.gov/pub/pmc/oa_package/58/13/PMC11809256.tar.gz",
+            "service_error": null
+        },
+        "efetch": {
+            "url": "https://eutils.ncbi.nlm.nih.gov/entrez/eutils/efetch.fcgi?db=pmc&id=11809256&retmode=xml",
+            "fetched": true,
+            "http_status": 200,
+            "bytes": 149529,
+            "error": ""
+        },
+        "metadata": {
+            "title": "Respiratory syncytial virus: A review of current basic and clinical knowledge",
+            "journal": "Qatar Medical Journal",
+            "journal_abbrev": "Qatar Med J",
+            "publisher": "QScience",
+            "year": "2024",
+            "volume": "2024",
+            "issue": "4",
+            "elocation_or_pages": "56",
+            "doi": "10.5339/qmj.2024.56",
+            "pmid": "39931346",
+            "pmcid": "PMC11809256",
+            "article_types": [
+                "Review"
+            ],
+            "authors": [
+                "Al-leimon Obada",
+                "Shihadeh Hani",
+                "Yousef Ahmad Ayman",
+                "Khraim Anas",
+                "Siwwad Rizeq"
+            ]
+        },
+        "gate_a": {
+            "gate": "a_licence",
+            "result": "PASS",
+            "requirement": "explicit machine-readable CC BY 4.0 (creativecommons.org/licenses/by/4.0) and nothing else",
+            "licence_field_verbatim": "This is an open access article distributed under the terms of the Creative Commons Attribution license CC BY 4.0, which permits unrestricted use, distribution and reproduction in any medium, provided the original work is properly cited.",
+            "licence_uri_verbatim": "https://creativecommons.org/licenses/by/4.0/",
+            "licence_uri_source": "ali:license_ref",
+            "licence_uri_normalised": "creativecommons.org/licenses/by/4.0",
+            "licence_label": "CC BY 4.0",
+            "license_type_attr": null,
+            "copyright_statement_verbatim": "© 2024 Al-leimon, Shihadeh, Yousef, Khraim, Siwwad, licensee HBKU Press.",
+            "raw_permissions_xml": "<permissions xmlns:ns0=\"http://www.niso.org/schemas/ali/1.0/\" xmlns:ns1=\"http://www.w3.org/1999/xlink\"><copyright-statement>© 2024 Al-leimon, Shihadeh, Yousef, Khraim, Siwwad, licensee HBKU Press.</copyright-statement><copyright-year>2024</copyright-year><copyright-holder>HBKU Press.</copyright-holder><license><ns0:license_ref specific-use=\"textmining\" content-type=\"ccbylicense\">https://creativecommons.org/licenses/by/4.0/</ns0:license_ref><license-p>This is an open access article distributed under the terms of the Creative Commons Attribution license <ext-link ext-link-type=\"uri\" ns1:href=\"https://creativecommons.org/licenses/by/4.0/\">CC BY 4.0</ext-link>, which permits unrestricted use, distribution and reproduction in any medium, provided the original work is properly cited.</license-p></license></permissions>",
+            "cc_uris_on_landing_page": [
+                "https://creativecommons.org/licenses/by/4.0"
+            ],
+            "cc_names_on_landing_page_verbatim": {
+                "by": "Creative Commons Attribution"
+            },
+            "landing_page_agrees_with_field": [
+                "URI https://creativecommons.org/licenses/by/4.0",
+                "prose 'Creative Commons Attribution'"
+            ],
+            "landing_page_conflicts_with_field": [],
+            "landing_page_confirms_cc_by_4": true,
+            "reasons": []
+        },
+        "gate_b": {
+            "gate": "b_ai_llm_terms",
+            "result": "PASS",
+            "requirement": "no AI / LLM / generative-AI / text-and-data-mining prohibition on the article's landing page",
+            "pages": [
+                {
+                    "url": "https://pmc.ncbi.nlm.nih.gov/articles/PMC11809256/",
+                    "fetched": true,
+                    "http_status": 200,
+                    "bytes": 260858,
+                    "error": "",
+                    "role": "pmc_landing",
+                    "prohibitions": [],
+                    "review_items": [],
+                    "incidental_mentions": [],
+                    "scan": "SCANNED"
+                },
+                {
+                    "url": "https://www.qscience.com/view/journals/qmj/2024/4/article-56.xml",
+                    "fetched": true,
+                    "http_status": 200,
+                    "bytes": 1452,
+                    "error": "",
+                    "role": "publisher_landing",
+                    "prohibitions": [],
+                    "review_items": [],
+                    "incidental_mentions": [],
+                    "scan": "SCANNED"
+                }
+            ],
+            "reasons": [],
+            "caveat": "PASS means no prohibition was found on the page(s) fetched. It does not prove none exists; linked PDFs, separate ToS pages and click-through agreements are not read by this tool."
+        },
+        "publisher_page_checked": true,
+        "overall": "PASS",
+        "attribution": "Al-leimon Obada, Shihadeh Hani, Yousef Ahmad Ayman, Khraim Anas, Siwwad Rizeq. Respiratory syncytial virus: A review of current basic and clinical knowledge. Qatar Medical Journal. 2024;2024(4):56. doi:10.5339/qmj.2024.56. PMC11809256. Licensed CC BY 4.0."
+    },
+    {
+        "pmcid": "PMC8231868",
+        "retrieval_date_utc": "2026-08-03T03:23:21+00:00",
+        "retrieval_date": "2026-08-03",
+        "source_url": "https://pmc.ncbi.nlm.nih.gov/articles/PMC8231868/",
+        "tool": "speedrun-analysis/sources/vet_source.py",
+        "oa_service": {
+            "url": "https://www.ncbi.nlm.nih.gov/pmc/utils/oa/oa.fcgi?id=PMC8231868",
+            "fetched": true,
+            "http_status": 200,
+            "error": "",
+            "license_verbatim": "CC BY",
+            "citation_verbatim": "Microorganisms. 2021 Jun 13; 9(6):1293",
+            "retracted": "no",
+            "in_oa_subset": true,
+            "oa_package_href": "ftp://ftp.ncbi.nlm.nih.gov/pub/pmc/oa_package/1e/74/PMC8231868.tar.gz",
+            "service_error": null
+        },
+        "efetch": {
+            "url": "https://eutils.ncbi.nlm.nih.gov/entrez/eutils/efetch.fcgi?db=pmc&id=8231868&retmode=xml",
+            "fetched": true,
+            "http_status": 200,
+            "bytes": 215039,
+            "error": ""
+        },
+        "metadata": {
+            "title": "Bacterial and Viral Coinfections with the Human Respiratory Syncytial Virus",
+            "journal": "Microorganisms",
+            "journal_abbrev": "Microorganisms",
+            "publisher": "Multidisciplinary Digital Publishing Institute  (MDPI)",
+            "year": "2021",
+            "volume": "9",
+            "issue": "6",
+            "elocation_or_pages": "1293",
+            "doi": "10.3390/microorganisms9061293",
+            "pmid": "34199284",
+            "pmcid": "PMC8231868",
+            "article_types": [
+                "Review"
+            ],
+            "authors": [
+                "Pacheco Gaspar A.",
+                "Gálvez Nicolás M. S.",
+                "Soto Jorge A.",
+                "Andrade Catalina A.",
+                "Kalergis Alexis M."
+            ]
+        },
+        "gate_a": {
+            "gate": "a_licence",
+            "result": "PASS",
+            "requirement": "explicit machine-readable CC BY 4.0 (creativecommons.org/licenses/by/4.0) and nothing else",
+            "licence_field_verbatim": "Licensee MDPI, Basel, Switzerland. This article is an open access article distributed under the terms and conditions of the Creative Commons Attribution (CC BY) license (https://creativecommons.org/licenses/by/4.0/).",
+            "licence_uri_verbatim": "https://creativecommons.org/licenses/by/4.0/",
+            "licence_uri_source": "ali:license_ref",
+            "licence_uri_normalised": "creativecommons.org/licenses/by/4.0",
+            "licence_label": "CC BY 4.0",
+            "license_type_attr": null,
+            "copyright_statement_verbatim": "© 2021 by the authors.",
+            "raw_permissions_xml": "<permissions xmlns:ns0=\"http://www.niso.org/schemas/ali/1.0/\" xmlns:ns1=\"http://www.w3.org/1999/xlink\"><copyright-statement>© 2021 by the authors.</copyright-statement><copyright-year>2021</copyright-year><license><ns0:license_ref specific-use=\"textmining\" content-type=\"ccbylicense\">https://creativecommons.org/licenses/by/4.0/</ns0:license_ref><license-p>Licensee MDPI, Basel, Switzerland. This article is an open access article distributed under the terms and conditions of the Creative Commons Attribution (CC BY) license (<ext-link ext-link-type=\"uri\" ns1:href=\"https://creativecommons.org/licenses/by/4.0/\">https://creativecommons.org/licenses/by/4.0/</ext-link>).</license-p></license></permissions>",
+            "cc_uris_on_landing_page": [
+                "https://creativecommons.org/licenses/by/4.0"
+            ],
+            "cc_names_on_landing_page_verbatim": {
+                "by": "Creative Commons Attribution"
+            },
+            "landing_page_agrees_with_field": [
+                "URI https://creativecommons.org/licenses/by/4.0",
+                "prose 'Creative Commons Attribution'"
+            ],
+            "landing_page_conflicts_with_field": [],
+            "landing_page_confirms_cc_by_4": true,
+            "reasons": []
+        },
+        "gate_b": {
+            "gate": "b_ai_llm_terms",
+            "result": "PASS",
+            "requirement": "no AI / LLM / generative-AI / text-and-data-mining prohibition on the article's landing page",
+            "pages": [
+                {
+                    "url": "https://pmc.ncbi.nlm.nih.gov/articles/PMC8231868/",
+                    "fetched": true,
+                    "http_status": 200,
+                    "bytes": 324849,
+                    "error": "",
+                    "role": "pmc_landing",
+                    "prohibitions": [],
+                    "review_items": [],
+                    "incidental_mentions": [],
+                    "scan": "SCANNED"
+                },
+                {
+                    "url": "https://doi.org/10.3390/microorganisms9061293",
+                    "fetched": false,
+                    "http_status": 403,
+                    "bytes": 0,
+                    "error": "HTTPError 403",
+                    "role": "publisher_landing",
+                    "scan": "UNKNOWN - page could not be fetched"
+                }
+            ],
+            "reasons": [],
+            "caveat": "PASS means no prohibition was found on the page(s) fetched. It does not prove none exists; linked PDFs, separate ToS pages and click-through agreements are not read by this tool."
+        },
+        "publisher_page_checked": true,
+        "overall": "PASS",
+        "attribution": "Pacheco Gaspar A., Gálvez Nicolás M. S., Soto Jorge A., Andrade Catalina A., Kalergis Alexis M.. Bacterial and Viral Coinfections with the Human Respiratory Syncytial Virus. Microorganisms. 2021;9(6):1293. doi:10.3390/microorganisms9061293. PMC8231868. Licensed CC BY 4.0."
+    },
+    {
+        "pmcid": "PMC8067422",
+        "retrieval_date_utc": "2026-08-03T03:23:23+00:00",
+        "retrieval_date": "2026-08-03",
+        "source_url": "https://pmc.ncbi.nlm.nih.gov/articles/PMC8067422/",
+        "tool": "speedrun-analysis/sources/vet_source.py",
+        "oa_service": {
+            "url": "https://www.ncbi.nlm.nih.gov/pmc/utils/oa/oa.fcgi?id=PMC8067422",
+            "fetched": true,
+            "http_status": 200,
+            "error": "",
+            "license_verbatim": "CC BY",
+            "citation_verbatim": "Viruses. 2021 Apr 6; 13(4):624",
+            "retracted": "no",
+            "in_oa_subset": true,
+            "oa_package_href": "ftp://ftp.ncbi.nlm.nih.gov/pub/pmc/oa_package/45/24/PMC8067422.tar.gz",
+            "service_error": null
+        },
+        "efetch": {
+            "url": "https://eutils.ncbi.nlm.nih.gov/entrez/eutils/efetch.fcgi?db=pmc&id=8067422&retmode=xml",
+            "fetched": true,
+            "http_status": 200,
+            "bytes": 209038,
+            "error": ""
+        },
+        "metadata": {
+            "title": "Antivirals Targeting the Surface Glycoproteins of Influenza Virus: Mechanisms of Action and Resistance",
+            "journal": "Viruses",
+            "journal_abbrev": "Viruses",
+            "publisher": "Multidisciplinary Digital Publishing Institute  (MDPI)",
+            "year": "2021",
+            "volume": "13",
+            "issue": "4",
+            "elocation_or_pages": "624",
+            "doi": "10.3390/v13040624",
+            "pmid": "33917376",
+            "pmcid": "PMC8067422",
+            "article_types": [
+                "Review"
+            ],
+            "authors": [
+                "Bai Yaqin",
+                "Jones Jeremy C.",
+                "Wong Sook-San",
+                "Zanin Mark"
+            ]
+        },
+        "gate_a": {
+            "gate": "a_licence",
+            "result": "PASS",
+            "requirement": "explicit machine-readable CC BY 4.0 (creativecommons.org/licenses/by/4.0) and nothing else",
+            "licence_field_verbatim": "Licensee MDPI, Basel, Switzerland. This article is an open access article distributed under the terms and conditions of the Creative Commons Attribution (CC BY) license (https://creativecommons.org/licenses/by/4.0/).",
+            "licence_uri_verbatim": "https://creativecommons.org/licenses/by/4.0/",
+            "licence_uri_source": "ali:license_ref",
+            "licence_uri_normalised": "creativecommons.org/licenses/by/4.0",
+            "licence_label": "CC BY 4.0",
+            "license_type_attr": null,
+            "copyright_statement_verbatim": "© 2021 by the authors.",
+            "raw_permissions_xml": "<permissions xmlns:ns0=\"http://www.niso.org/schemas/ali/1.0/\" xmlns:ns1=\"http://www.w3.org/1999/xlink\"><copyright-statement>© 2021 by the authors.</copyright-statement><copyright-year>2021</copyright-year><license><ns0:license_ref specific-use=\"textmining\" content-type=\"ccbylicense\">https://creativecommons.org/licenses/by/4.0/</ns0:license_ref><license-p>Licensee MDPI, Basel, Switzerland. This article is an open access article distributed under the terms and conditions of the Creative Commons Attribution (CC BY) license (<ext-link ext-link-type=\"uri\" ns1:href=\"https://creativecommons.org/licenses/by/4.0/\">https://creativecommons.org/licenses/by/4.0/</ext-link>).</license-p></license></permissions>",
+            "cc_uris_on_landing_page": [
+                "https://creativecommons.org/licenses/by/4.0"
+            ],
+            "cc_names_on_landing_page_verbatim": {
+                "by": "Creative Commons Attribution"
+            },
+            "landing_page_agrees_with_field": [
+                "URI https://creativecommons.org/licenses/by/4.0",
+                "prose 'Creative Commons Attribution'"
+            ],
+            "landing_page_conflicts_with_field": [],
+            "landing_page_confirms_cc_by_4": true,
+            "reasons": []
+        },
+        "gate_b": {
+            "gate": "b_ai_llm_terms",
+            "result": "PASS",
+            "requirement": "no AI / LLM / generative-AI / text-and-data-mining prohibition on the article's landing page",
+            "pages": [
+                {
+                    "url": "https://pmc.ncbi.nlm.nih.gov/articles/PMC8067422/",
+                    "fetched": true,
+                    "http_status": 200,
+                    "bytes": 310602,
+                    "error": "",
+                    "role": "pmc_landing",
+                    "prohibitions": [],
+                    "review_items": [],
+                    "incidental_mentions": [],
+                    "scan": "SCANNED"
+                },
+                {
+                    "url": "https://doi.org/10.3390/v13040624",
+                    "fetched": false,
+                    "http_status": 403,
+                    "bytes": 0,
+                    "error": "HTTPError 403",
+                    "role": "publisher_landing",
+                    "scan": "UNKNOWN - page could not be fetched"
+                }
+            ],
+            "reasons": [],
+            "caveat": "PASS means no prohibition was found on the page(s) fetched. It does not prove none exists; linked PDFs, separate ToS pages and click-through agreements are not read by this tool."
+        },
+        "publisher_page_checked": true,
+        "overall": "PASS",
+        "attribution": "Bai Yaqin, Jones Jeremy C., Wong Sook-San, Zanin Mark. Antivirals Targeting the Surface Glycoproteins of Influenza Virus: Mechanisms of Action and Resistance. Viruses. 2021;13(4):624. doi:10.3390/v13040624. PMC8067422. Licensed CC BY 4.0."
+    },
+    {
+        "pmcid": "PMC9027852",
+        "retrieval_date_utc": "2026-08-03T03:23:25+00:00",
+        "retrieval_date": "2026-08-03",
+        "source_url": "https://pmc.ncbi.nlm.nih.gov/articles/PMC9027852/",
+        "tool": "speedrun-analysis/sources/vet_source.py",
+        "oa_service": {
+            "url": "https://www.ncbi.nlm.nih.gov/pmc/utils/oa/oa.fcgi?id=PMC9027852",
+            "fetched": true,
+            "http_status": 200,
+            "error": "",
+            "license_verbatim": "CC BY",
+            "citation_verbatim": "J Fungi (Basel). 2022 Apr 17; 8(4):413",
+            "retracted": "no",
+            "in_oa_subset": true,
+            "oa_package_href": "ftp://ftp.ncbi.nlm.nih.gov/pub/pmc/oa_package/54/99/PMC9027852.tar.gz",
+            "service_error": null
+        },
+        "efetch": {
+            "url": "https://eutils.ncbi.nlm.nih.gov/entrez/eutils/efetch.fcgi?db=pmc&id=9027852&retmode=xml",
+            "fetched": true,
+            "http_status": 200,
+            "bytes": 183792,
+            "error": ""
+        },
+        "metadata": {
+            "title": "Current Landscape of Coccidioidomycosis",
+            "journal": "Journal of Fungi",
+            "journal_abbrev": "J Fungi (Basel)",
+            "publisher": "Multidisciplinary Digital Publishing Institute  (MDPI)",
+            "year": "2022",
+            "volume": "8",
+            "issue": "4",
+            "elocation_or_pages": "413",
+            "doi": "10.3390/jof8040413",
+            "pmid": "35448644",
+            "pmcid": "PMC9027852",
+            "article_types": [
+                "Review"
+            ],
+            "authors": [
+                "Boro Ryan",
+                "Iyer Prema C.",
+                "Walczak Maciej A."
+            ]
+        },
+        "gate_a": {
+            "gate": "a_licence",
+            "result": "PASS",
+            "requirement": "explicit machine-readable CC BY 4.0 (creativecommons.org/licenses/by/4.0) and nothing else",
+            "licence_field_verbatim": "Licensee MDPI, Basel, Switzerland. This article is an open access article distributed under the terms and conditions of the Creative Commons Attribution (CC BY) license (https://creativecommons.org/licenses/by/4.0/).",
+            "licence_uri_verbatim": "https://creativecommons.org/licenses/by/4.0/",
+            "licence_uri_source": "ali:license_ref",
+            "licence_uri_normalised": "creativecommons.org/licenses/by/4.0",
+            "licence_label": "CC BY 4.0",
+            "license_type_attr": null,
+            "copyright_statement_verbatim": "© 2022 by the authors.",
+            "raw_permissions_xml": "<permissions xmlns:ns0=\"http://www.niso.org/schemas/ali/1.0/\" xmlns:ns1=\"http://www.w3.org/1999/xlink\"><copyright-statement>© 2022 by the authors.</copyright-statement><copyright-year>2022</copyright-year><license><ns0:license_ref specific-use=\"textmining\" content-type=\"ccbylicense\">https://creativecommons.org/licenses/by/4.0/</ns0:license_ref><license-p>Licensee MDPI, Basel, Switzerland. This article is an open access article distributed under the terms and conditions of the Creative Commons Attribution (CC BY) license (<ext-link ext-link-type=\"uri\" ns1:href=\"https://creativecommons.org/licenses/by/4.0/\">https://creativecommons.org/licenses/by/4.0/</ext-link>).</license-p></license></permissions>",
+            "cc_uris_on_landing_page": [
+                "https://creativecommons.org/licenses/by/4.0"
+            ],
+            "cc_names_on_landing_page_verbatim": {
+                "by": "Creative Commons Attribution"
+            },
+            "landing_page_agrees_with_field": [
+                "URI https://creativecommons.org/licenses/by/4.0",
+                "prose 'Creative Commons Attribution'"
+            ],
+            "landing_page_conflicts_with_field": [],
+            "landing_page_confirms_cc_by_4": true,
+            "reasons": []
+        },
+        "gate_b": {
+            "gate": "b_ai_llm_terms",
+            "result": "PASS",
+            "requirement": "no AI / LLM / generative-AI / text-and-data-mining prohibition on the article's landing page",
+            "pages": [
+                {
+                    "url": "https://pmc.ncbi.nlm.nih.gov/articles/PMC9027852/",
+                    "fetched": true,
+                    "http_status": 200,
+                    "bytes": 293022,
+                    "error": "",
+                    "role": "pmc_landing",
+                    "prohibitions": [],
+                    "review_items": [],
+                    "incidental_mentions": [],
+                    "scan": "SCANNED"
+                },
+                {
+                    "url": "https://doi.org/10.3390/jof8040413",
+                    "fetched": false,
+                    "http_status": 403,
+                    "bytes": 0,
+                    "error": "HTTPError 403",
+                    "role": "publisher_landing",
+                    "scan": "UNKNOWN - page could not be fetched"
+                }
+            ],
+            "reasons": [],
+            "caveat": "PASS means no prohibition was found on the page(s) fetched. It does not prove none exists; linked PDFs, separate ToS pages and click-through agreements are not read by this tool."
+        },
+        "publisher_page_checked": true,
+        "overall": "PASS",
+        "attribution": "Boro Ryan, Iyer Prema C., Walczak Maciej A.. Current Landscape of Coccidioidomycosis. Journal of Fungi. 2022;8(4):413. doi:10.3390/jof8040413. PMC9027852. Licensed CC BY 4.0."
+    },
+    {
+        "pmcid": "PMC8604168",
+        "retrieval_date_utc": "2026-08-03T03:23:28+00:00",
+        "retrieval_date": "2026-08-03",
+        "source_url": "https://pmc.ncbi.nlm.nih.gov/articles/PMC8604168/",
+        "tool": "speedrun-analysis/sources/vet_source.py",
+        "oa_service": {
+            "url": "https://www.ncbi.nlm.nih.gov/pmc/utils/oa/oa.fcgi?id=PMC8604168",
+            "fetched": true,
+            "http_status": 200,
+            "error": "",
+            "license_verbatim": "CC BY",
+            "citation_verbatim": "J Med Microbiol. 2021 Oct 20; 70(10):001442",
+            "retracted": "no",
+            "in_oa_subset": true,
+            "oa_package_href": "ftp://ftp.ncbi.nlm.nih.gov/pub/pmc/oa_package/78/fc/PMC8604168.tar.gz",
+            "service_error": null
+        },
+        "efetch": {
+            "url": "https://eutils.ncbi.nlm.nih.gov/entrez/eutils/efetch.fcgi?db=pmc&id=8604168&retmode=xml",
+            "fetched": true,
+            "http_status": 200,
+            "bytes": 55368,
+            "error": ""
+        },
+        "metadata": {
+            "title": "JMM Profile: Bordetella pertussis and whooping cough (pertussis): still a significant cause of infant morbidity and mortality, but vaccine-preventable",
+            "journal": "Journal of Medical Microbiology",
+            "journal_abbrev": "J Med Microbiol",
+            "publisher": "Microbiology Society",
+            "year": "2021",
+            "volume": "70",
+            "issue": "10",
+            "elocation_or_pages": "001442",
+            "doi": "10.1099/jmm.0.001442",
+            "pmid": "34668853",
+            "pmcid": "PMC8604168",
+            "article_types": [
+                "JMM Profiles"
+            ],
+            "authors": [
+                "Fry Norman K.",
+                "Campbell Helen",
+                "Amirthalingam Gayatri"
+            ]
+        },
+        "gate_a": {
+            "gate": "a_licence",
+            "result": "PASS",
+            "requirement": "explicit machine-readable CC BY 4.0 (creativecommons.org/licenses/by/4.0) and nothing else",
+            "licence_field_verbatim": "This is an open-access article distributed under the terms of the Creative Commons Attribution License. This article was made open access via a Publish and Read agreement between the Microbiology Society and the corresponding author’s institution.",
+            "licence_uri_verbatim": "https://creativecommons.org/licenses/by/4.0/",
+            "licence_uri_source": "ali:license_ref",
+            "licence_uri_normalised": "creativecommons.org/licenses/by/4.0",
+            "licence_label": "CC BY 4.0",
+            "license_type_attr": null,
+            "copyright_statement_verbatim": "© 2021 The Authors",
+            "raw_permissions_xml": "<permissions xmlns:ns0=\"http://www.niso.org/schemas/ali/1.0/\"><copyright-statement>© 2021 The Authors</copyright-statement><copyright-year>2021</copyright-year><license><ns0:license_ref specific-use=\"textmining\" content-type=\"ccbylicense\">https://creativecommons.org/licenses/by/4.0/</ns0:license_ref><license-p>This is an open-access article distributed under the terms of the Creative Commons Attribution License. This article was made open access via a Publish and Read agreement between the Microbiology Society and the corresponding author’s institution.</license-p></license></permissions>",
+            "cc_uris_on_landing_page": [],
+            "cc_names_on_landing_page_verbatim": {
+                "by": "Creative Commons Attribution"
+            },
+            "landing_page_agrees_with_field": [
+                "prose 'Creative Commons Attribution'"
+            ],
+            "landing_page_conflicts_with_field": [],
+            "landing_page_confirms_cc_by_4": false,
+            "reasons": []
+        },
+        "gate_b": {
+            "gate": "b_ai_llm_terms",
+            "result": "PASS",
+            "requirement": "no AI / LLM / generative-AI / text-and-data-mining prohibition on the article's landing page",
+            "pages": [
+                {
+                    "url": "https://pmc.ncbi.nlm.nih.gov/articles/PMC8604168/",
+                    "fetched": true,
+                    "http_status": 200,
+                    "bytes": 146334,
+                    "error": "",
+                    "role": "pmc_landing",
+                    "prohibitions": [],
+                    "review_items": [],
+                    "incidental_mentions": [],
+                    "scan": "SCANNED"
+                },
+                {
+                    "url": "https://doi.org/10.1099/jmm.0.001442",
+                    "fetched": false,
+                    "http_status": 403,
+                    "bytes": 0,
+                    "error": "HTTPError 403",
+                    "role": "publisher_landing",
+                    "scan": "UNKNOWN - page could not be fetched"
+                }
+            ],
+            "reasons": [],
+            "caveat": "PASS means no prohibition was found on the page(s) fetched. It does not prove none exists; linked PDFs, separate ToS pages and click-through agreements are not read by this tool."
+        },
+        "publisher_page_checked": true,
+        "overall": "PASS",
+        "attribution": "Fry Norman K., Campbell Helen, Amirthalingam Gayatri. JMM Profile: Bordetella pertussis and whooping cough (pertussis): still a significant cause of infant morbidity and mortality, but vaccine-preventable. Journal of Medical Microbiology. 2021;70(10):001442. doi:10.1099/jmm.0.001442. PMC8604168. Licensed CC BY 4.0."
+    },
+    {
+        "pmcid": "PMC10728601",
+        "retrieval_date_utc": "2026-08-03T03:23:31+00:00",
+        "retrieval_date": "2026-08-03",
+        "source_url": "https://pmc.ncbi.nlm.nih.gov/articles/PMC10728601/",
+        "tool": "speedrun-analysis/sources/vet_source.py",
+        "oa_service": {
+            "url": "https://www.ncbi.nlm.nih.gov/pmc/utils/oa/oa.fcgi?id=PMC10728601",
+            "fetched": true,
+            "http_status": 200,
+            "error": "",
+            "license_verbatim": "CC BY",
+            "citation_verbatim": "Front Allergy. 2023 Dec 5; 4:1237068",
+            "retracted": "no",
+            "in_oa_subset": true,
+            "oa_package_href": "ftp://ftp.ncbi.nlm.nih.gov/pub/pmc/oa_package/71/4b/PMC10728601.tar.gz",
+            "service_error": null
+        },
+        "efetch": {
+            "url": "https://eutils.ncbi.nlm.nih.gov/entrez/eutils/efetch.fcgi?db=pmc&id=10728601&retmode=xml",
+            "fetched": true,
+            "http_status": 200,
+            "bytes": 152818,
+            "error": ""
+        },
+        "metadata": {
+            "title": "Viruses in chronic rhinosinusitis: a systematic review",
+            "journal": "Frontiers in Allergy",
+            "journal_abbrev": "Front Allergy",
+            "publisher": "Frontiers Media SA",
+            "year": "2023",
+            "volume": "4",
+            "issue": null,
+            "elocation_or_pages": "1237068",
+            "doi": "10.3389/falgy.2023.1237068",
+            "pmid": "38116043",
+            "pmcid": "PMC10728601",
+            "article_types": [
+                "Allergy",
+                "Systematic Review"
+            ],
+            "authors": [
+                "Kumar Nitish",
+                "Brar Tripti",
+                "Kita Hirohito",
+                "Marks Lisa A.",
+                "Miglani Amar",
+                "Marino Michael J.",
+                "Lal Devyani"
+            ]
+        },
+        "gate_a": {
+            "gate": "a_licence",
+            "result": "PASS",
+            "requirement": "explicit machine-readable CC BY 4.0 (creativecommons.org/licenses/by/4.0) and nothing else",
+            "licence_field_verbatim": "This is an open-access article distributed under the terms of the Creative Commons Attribution License (CC BY). The use, distribution or reproduction in other forums is permitted, provided the original author(s) and the copyright owner(s) are credited and that the original publication in this journal is cited, in accordance with accepted academic practice. No use, distribution or reproduction is permitted which does not comply with these terms.",
+            "licence_uri_verbatim": "https://creativecommons.org/licenses/by/4.0/",
+            "licence_uri_source": "ali:license_ref",
+            "licence_uri_normalised": "creativecommons.org/licenses/by/4.0",
+            "licence_label": "CC BY 4.0",
+            "license_type_attr": null,
+            "copyright_statement_verbatim": "© 2023 Kumar, Brar, Kita, Marks, Miglani, Marino and Lal.",
+            "raw_permissions_xml": "<permissions xmlns:ns0=\"http://www.niso.org/schemas/ali/1.0/\" xmlns:ns1=\"http://www.w3.org/1999/xlink\"><copyright-statement>© 2023 Kumar, Brar, Kita, Marks, Miglani, Marino and Lal.</copyright-statement><copyright-year>2023</copyright-year><copyright-holder>Kumar, Brar, Kita, Marks, Miglani, Marino and Lal</copyright-holder><license><ns0:license_ref specific-use=\"textmining\" content-type=\"ccbylicense\">https://creativecommons.org/licenses/by/4.0/</ns0:license_ref><license-p>This is an open-access article distributed under the terms of the <ext-link ext-link-type=\"uri\" ns1:href=\"https://creativecommons.org/licenses/by/4.0/\">Creative Commons Attribution License (CC BY)</ext-link>. The use, distribution or reproduction in other forums is permitted, provided the original author(s) and the copyright owner(s) are credited and that the original publication in this journal is cited, in accordance with accepted academic practice. No use, distribution or reproduction is permitted which does not comply with these terms.</license-p></license></permissions>",
+            "cc_uris_on_landing_page": [
+                "https://creativecommons.org/licenses/by/4.0"
+            ],
+            "cc_names_on_landing_page_verbatim": {
+                "by": "Creative Commons Attribution"
+            },
+            "landing_page_agrees_with_field": [
+                "URI https://creativecommons.org/licenses/by/4.0",
+                "prose 'Creative Commons Attribution'"
+            ],
+            "landing_page_conflicts_with_field": [],
+            "landing_page_confirms_cc_by_4": true,
+            "reasons": []
+        },
+        "gate_b": {
+            "gate": "b_ai_llm_terms",
+            "result": "PASS",
+            "requirement": "no AI / LLM / generative-AI / text-and-data-mining prohibition on the article's landing page",
+            "pages": [
+                {
+                    "url": "https://pmc.ncbi.nlm.nih.gov/articles/PMC10728601/",
+                    "fetched": true,
+                    "http_status": 200,
+                    "bytes": 257070,
+                    "error": "",
+                    "role": "pmc_landing",
+                    "prohibitions": [],
+                    "review_items": [],
+                    "incidental_mentions": [
+                        "scraping"
+                    ],
+                    "scan": "SCANNED"
+                },
+                {
+                    "url": "https://www.frontiersin.org/journals/allergy/articles/10.3389/falgy.2023.1237068/full",
+                    "fetched": true,
+                    "http_status": 200,
+                    "bytes": 1074214,
+                    "error": "",
+                    "role": "publisher_landing",
+                    "prohibitions": [],
+                    "review_items": [],
+                    "incidental_mentions": [
+                        "scraping"
+                    ],
+                    "scan": "SCANNED"
+                }
+            ],
+            "reasons": [],
+            "caveat": "PASS means no prohibition was found on the page(s) fetched. It does not prove none exists; linked PDFs, separate ToS pages and click-through agreements are not read by this tool."
+        },
+        "publisher_page_checked": true,
+        "overall": "PASS",
+        "attribution": "Kumar Nitish, Brar Tripti, Kita Hirohito, Marks Lisa A., Miglani Amar, Marino Michael J., et al.. Viruses in chronic rhinosinusitis: a systematic review. Frontiers in Allergy. 2023;4:1237068. doi:10.3389/falgy.2023.1237068. PMC10728601. Licensed CC BY 4.0."
+    },
+    {
+        "pmcid": "PMC7281116",
+        "retrieval_date_utc": "2026-08-03T03:23:34+00:00",
+        "retrieval_date": "2026-08-03",
+        "source_url": "https://pmc.ncbi.nlm.nih.gov/articles/PMC7281116/",
+        "tool": "speedrun-analysis/sources/vet_source.py",
+        "oa_service": {
+            "url": "https://www.ncbi.nlm.nih.gov/pmc/utils/oa/oa.fcgi?id=PMC7281116",
+            "fetched": true,
+            "http_status": 200,
+            "error": "",
+            "license_verbatim": "CC BY",
+            "citation_verbatim": "Pathogens. 2020 May 18; 9(5):385",
+            "retracted": "no",
+            "in_oa_subset": true,
+            "oa_package_href": "ftp://ftp.ncbi.nlm.nih.gov/pub/pmc/oa_package/76/71/PMC7281116.tar.gz",
+            "service_error": null
+        },
+        "efetch": {
+            "url": "https://eutils.ncbi.nlm.nih.gov/entrez/eutils/efetch.fcgi?db=pmc&id=7281116&retmode=xml",
+            "fetched": true,
+            "http_status": 200,
+            "bytes": 45923,
+            "error": ""
+        },
+        "metadata": {
+            "title": "Mycobacterium tuberculosis Pathogenesis, Infection Prevention and Treatment",
+            "journal": "Pathogens",
+            "journal_abbrev": "Pathogens",
+            "publisher": "Multidisciplinary Digital Publishing Institute  (MDPI)",
+            "year": "2020",
+            "volume": "9",
+            "issue": "5",
+            "elocation_or_pages": "385",
+            "doi": "10.3390/pathogens9050385",
+            "pmid": "32443469",
+            "pmcid": "PMC7281116",
+            "article_types": [
+                "Editorial"
+            ],
+            "authors": [
+                "Miggiano Riccardo",
+                "Rizzi Menico",
+                "Ferraris Davide M."
+            ]
+        },
+        "gate_a": {
+            "gate": "a_licence",
+            "result": "PASS",
+            "requirement": "explicit machine-readable CC BY 4.0 (creativecommons.org/licenses/by/4.0) and nothing else",
+            "licence_field_verbatim": "Licensee MDPI, Basel, Switzerland. This article is an open access article distributed under the terms and conditions of the Creative Commons Attribution (CC BY) license (http://creativecommons.org/licenses/by/4.0/).",
+            "licence_uri_verbatim": "https://creativecommons.org/licenses/by/4.0/",
+            "licence_uri_source": "ali:license_ref",
+            "licence_uri_normalised": "creativecommons.org/licenses/by/4.0",
+            "licence_label": "CC BY 4.0",
+            "license_type_attr": "open-access",
+            "copyright_statement_verbatim": "© 2020 by the authors.",
+            "raw_permissions_xml": "<permissions xmlns:ns0=\"http://www.niso.org/schemas/ali/1.0/\" xmlns:ns1=\"http://www.w3.org/1999/xlink\"><copyright-statement>© 2020 by the authors.</copyright-statement><copyright-year>2020</copyright-year><license license-type=\"open-access\"><ns0:license_ref specific-use=\"textmining\" content-type=\"ccbylicense\">https://creativecommons.org/licenses/by/4.0/</ns0:license_ref><license-p>Licensee MDPI, Basel, Switzerland. This article is an open access article distributed under the terms and conditions of the Creative Commons Attribution (CC BY) license (<ext-link ext-link-type=\"uri\" ns1:href=\"http://creativecommons.org/licenses/by/4.0/\">http://creativecommons.org/licenses/by/4.0/</ext-link>).</license-p></license></permissions>",
+            "cc_uris_on_landing_page": [
+                "https://creativecommons.org/licenses/by/4.0"
+            ],
+            "cc_names_on_landing_page_verbatim": {
+                "by": "Creative Commons Attribution"
+            },
+            "landing_page_agrees_with_field": [
+                "URI https://creativecommons.org/licenses/by/4.0",
+                "prose 'Creative Commons Attribution'"
+            ],
+            "landing_page_conflicts_with_field": [],
+            "landing_page_confirms_cc_by_4": true,
+            "reasons": []
+        },
+        "gate_b": {
+            "gate": "b_ai_llm_terms",
+            "result": "PASS",
+            "requirement": "no AI / LLM / generative-AI / text-and-data-mining prohibition on the article's landing page",
+            "pages": [
+                {
+                    "url": "https://pmc.ncbi.nlm.nih.gov/articles/PMC7281116/",
+                    "fetched": true,
+                    "http_status": 200,
+                    "bytes": 134115,
+                    "error": "",
+                    "role": "pmc_landing",
+                    "prohibitions": [],
+                    "review_items": [],
+                    "incidental_mentions": [],
+                    "scan": "SCANNED"
+                },
+                {
+                    "url": "https://doi.org/10.3390/pathogens9050385",
+                    "fetched": false,
+                    "http_status": 403,
+                    "bytes": 0,
+                    "error": "HTTPError 403",
+                    "role": "publisher_landing",
+                    "scan": "UNKNOWN - page could not be fetched"
+                }
+            ],
+            "reasons": [],
+            "caveat": "PASS means no prohibition was found on the page(s) fetched. It does not prove none exists; linked PDFs, separate ToS pages and click-through agreements are not read by this tool."
+        },
+        "publisher_page_checked": true,
+        "overall": "PASS",
+        "attribution": "Miggiano Riccardo, Rizzi Menico, Ferraris Davide M.. Mycobacterium tuberculosis Pathogenesis, Infection Prevention and Treatment. Pathogens. 2020;9(5):385. doi:10.3390/pathogens9050385. PMC7281116. Licensed CC BY 4.0."
+    },
+    {
+        "pmcid": "PMC9444058",
+        "retrieval_date_utc": "2026-08-03T03:23:37+00:00",
+        "retrieval_date": "2026-08-03",
+        "source_url": "https://pmc.ncbi.nlm.nih.gov/articles/PMC9444058/",
+        "tool": "speedrun-analysis/sources/vet_source.py",
+        "oa_service": {
+            "url": "https://www.ncbi.nlm.nih.gov/pmc/utils/oa/oa.fcgi?id=PMC9444058",
+            "fetched": true,
+            "http_status": 200,
+            "error": "",
+            "license_verbatim": "CC BY",
+            "citation_verbatim": "Front Microbiol. 2022 Aug 22; 13:960319",
+            "retracted": "no",
+            "in_oa_subset": true,
+            "oa_package_href": "ftp://ftp.ncbi.nlm.nih.gov/pub/pmc/oa_package/8f/a2/PMC9444058.tar.gz",
+            "service_error": null
+        },
+        "efetch": {
+            "url": "https://eutils.ncbi.nlm.nih.gov/entrez/eutils/efetch.fcgi?db=pmc&id=9444058&retmode=xml",
+            "fetched": true,
+            "http_status": 200,
+            "bytes": 42132,
+            "error": ""
+        },
+        "metadata": {
+            "title": "Antimicrobial therapy in complicated rhinosinusitis",
+            "journal": "Frontiers in Microbiology",
+            "journal_abbrev": "Front Microbiol",
+            "publisher": "Frontiers Media SA",
+            "year": "2022",
+            "volume": "13",
+            "issue": null,
+            "elocation_or_pages": "960319",
+            "doi": "10.3389/fmicb.2022.960319",
+            "pmid": "36071977",
+            "pmcid": "PMC9444058",
+            "article_types": [
+                "Microbiology",
+                "Original Research"
+            ],
+            "authors": [
+                "Beatrice Simion-Antonie Catrinel",
+                "Luiza Bejenaru Paula",
+                "Bogdan Popescu",
+                "Simona Berteșteanu Gloria",
+                "Mihnea Condeescu-Cojocărița",
+                "Ionela Cîrstea Anca",
+                "Elena Diaconu Teodora",
+                "Petra Taher Bianca",
+                "Simona-Andreea Rujan",
+                "Doinița Oașă Irina",
+                "Gabriel Berteșteanu Șerban Vifor",
+                "Raluca Grigore"
+            ]
+        },
+        "gate_a": {
+            "gate": "a_licence",
+            "result": "PASS",
+            "requirement": "explicit machine-readable CC BY 4.0 (creativecommons.org/licenses/by/4.0) and nothing else",
+            "licence_field_verbatim": "This is an open-access article distributed under the terms of the Creative Commons Attribution License (CC BY). The use, distribution or reproduction in other forums is permitted, provided the original author(s) and the copyright owner(s) are credited and that the original publication in this journal is cited, in accordance with accepted academic practice. No use, distribution or reproduction is permitted which does not comply with these terms.",
+            "licence_uri_verbatim": "https://creativecommons.org/licenses/by/4.0/",
+            "licence_uri_source": "ali:license_ref",
+            "licence_uri_normalised": "creativecommons.org/licenses/by/4.0",
+            "licence_label": "CC BY 4.0",
+            "license_type_attr": null,
+            "copyright_statement_verbatim": "Copyright © 2022 Beatrice, Luiza, Bogdan, Simona, Mihnea, Ionela, Elena, Petra, Simona-Andreea, Doinița, Gabriel and Raluca.",
+            "raw_permissions_xml": "<permissions xmlns:ns0=\"http://www.niso.org/schemas/ali/1.0/\"><copyright-statement>Copyright © 2022 Beatrice, Luiza, Bogdan, Simona, Mihnea, Ionela, Elena, Petra, Simona-Andreea, Doinița, Gabriel and Raluca.</copyright-statement><copyright-year>2022</copyright-year><copyright-holder>Beatrice, Luiza, Bogdan, Simona, Mihnea, Ionela, Elena, Petra, Simona-Andreea, Doinița, Gabriel and Raluca</copyright-holder><license><ns0:license_ref specific-use=\"textmining\" content-type=\"ccbylicense\">https://creativecommons.org/licenses/by/4.0/</ns0:license_ref><license-p>This is an open-access article distributed under the terms of the Creative Commons Attribution License (CC BY). The use, distribution or reproduction in other forums is permitted, provided the original author(s) and the copyright owner(s) are credited and that the original publication in this journal is cited, in accordance with accepted academic practice. No use, distribution or reproduction is permitted which does not comply with these terms.</license-p></license></permissions>",
+            "cc_uris_on_landing_page": [
+                "https://creativecommons.org/licenses/by/4.0"
+            ],
+            "cc_names_on_landing_page_verbatim": {
+                "by": "Creative Commons Attribution"
+            },
+            "landing_page_agrees_with_field": [
+                "URI https://creativecommons.org/licenses/by/4.0",
+                "prose 'Creative Commons Attribution'"
+            ],
+            "landing_page_conflicts_with_field": [],
+            "landing_page_confirms_cc_by_4": true,
+            "reasons": []
+        },
+        "gate_b": {
+            "gate": "b_ai_llm_terms",
+            "result": "PASS",
+            "requirement": "no AI / LLM / generative-AI / text-and-data-mining prohibition on the article's landing page",
+            "pages": [
+                {
+                    "url": "https://pmc.ncbi.nlm.nih.gov/articles/PMC9444058/",
+                    "fetched": true,
+                    "http_status": 200,
+                    "bytes": 136867,
+                    "error": "",
+                    "role": "pmc_landing",
+                    "prohibitions": [],
+                    "review_items": [],
+                    "incidental_mentions": [],
+                    "scan": "SCANNED"
+                },
+                {
+                    "url": "https://www.frontiersin.org/journals/microbiology/articles/10.3389/fmicb.2022.960319/full",
+                    "fetched": true,
+                    "http_status": 200,
+                    "bytes": 457911,
+                    "error": "",
+                    "role": "publisher_landing",
+                    "prohibitions": [],
+                    "review_items": [],
+                    "incidental_mentions": [],
+                    "scan": "SCANNED"
+                }
+            ],
+            "reasons": [],
+            "caveat": "PASS means no prohibition was found on the page(s) fetched. It does not prove none exists; linked PDFs, separate ToS pages and click-through agreements are not read by this tool."
+        },
+        "publisher_page_checked": true,
+        "overall": "PASS",
+        "attribution": "Beatrice Simion-Antonie Catrinel, Luiza Bejenaru Paula, Bogdan Popescu, Simona Berteșteanu Gloria, Mihnea Condeescu-Cojocărița, Ionela Cîrstea Anca, et al.. Antimicrobial therapy in complicated rhinosinusitis. Frontiers in Microbiology. 2022;13:960319. doi:10.3389/fmicb.2022.960319. PMC9444058. Licensed CC BY 4.0."
+    },
+    {
+        "pmcid": "PMC12148406",
+        "retrieval_date_utc": "2026-08-03T03:23:40+00:00",
+        "retrieval_date": "2026-08-03",
+        "source_url": "https://pmc.ncbi.nlm.nih.gov/articles/PMC12148406/",
+        "tool": "speedrun-analysis/sources/vet_source.py",
+        "oa_service": {
+            "url": "https://www.ncbi.nlm.nih.gov/pmc/utils/oa/oa.fcgi?id=PMC12148406",
+            "fetched": true,
+            "http_status": 200,
+            "error": "",
+            "license_verbatim": "CC BY",
+            "citation_verbatim": "Braz J Otorhinolaryngol. 2025 May 20; 91(5):101595",
+            "retracted": "no",
+            "in_oa_subset": true,
+            "oa_package_href": "ftp://ftp.ncbi.nlm.nih.gov/pub/pmc/oa_package/5b/2b/PMC12148406.tar.gz",
+            "service_error": null
+        },
+        "efetch": {
+            "url": "https://eutils.ncbi.nlm.nih.gov/entrez/eutils/efetch.fcgi?db=pmc&id=12148406&retmode=xml",
+            "fetched": true,
+            "http_status": 200,
+            "bytes": 1013247,
+            "error": ""
+        },
+        "metadata": {
+            "title": "Rhinosinusitis: Evidence and experience – 2024",
+            "journal": "Brazilian Journal of Otorhinolaryngology",
+            "journal_abbrev": "Braz J Otorhinolaryngol",
+            "publisher": "Elsevier",
+            "year": "2025",
+            "volume": "91",
+            "issue": "5",
+            "elocation_or_pages": "101595",
+            "doi": "10.1016/j.bjorl.2025.101595",
+            "pmid": "40398368",
+            "pmcid": "PMC12148406",
+            "article_types": [
+                "Original Article"
+            ],
+            "authors": [
+                "Romano Fabrizio Ricci",
+                "Anselmo-Lima Wilma Terezinha",
+                "Kosugi Eduardo Macoto",
+                "Sakano Eulalia",
+                "Valera Fabiana Cardoso Pereira",
+                "Lessa Marcus",
+                "Roithmann Renato",
+                "Pignatari Shirley",
+                "Felippu Alexandre Wady Debes",
+                "Meotti Camila Degen",
+                "Barreto Carolina Cincurá",
+                "Solé Dirceu",
+                "Goudouris Ekaterini Simões",
+                "Kuschnir Fábio Chigres",
+                "Pinna Fabio de Rezende",
+                "Serpa Faradiba Sarquis",
+                "Matsumoto Gabriela Ricci Lima Luz",
+                "Freire Gustavo Subtil Magalhães",
+                "Mello João Ferreira",
+                "Boechat José Laerte",
+                "Balsalobre Filho Leonardo Lopes",
+                "Miyake Marcel Menon",
+                "Nakanishi Marcio",
+                "Fornazieri Marco Aurélio",
+                "Toro Mariana Dalbo Contrera",
+                "Tepedino Miguel Soares",
+                "Rubini Norma de Paula Motta",
+                "Mion Olavo de Godoy",
+                "Dolci Ricardo Landini Lutaif",
+                "Voegels Richard Louis",
+                "Guimarães Roberto Eustáquio",
+                "Dortas Sérgio Duarte",
+                "Bezerra Thiago Freire Pinto",
+                "Dinarte Vanessa Ramos Pires",
+                "Tamashiro Edwin",
+                "Piltcher Otávio Bejzman"
+            ]
+        },
+        "gate_a": {
+            "gate": "a_licence",
+            "result": "PASS",
+            "requirement": "explicit machine-readable CC BY 4.0 (creativecommons.org/licenses/by/4.0) and nothing else",
+            "licence_field_verbatim": "This is an open access article under the CC BY license (http://creativecommons.org/licenses/by/4.0/).",
+            "licence_uri_verbatim": "https://creativecommons.org/licenses/by/4.0/",
+            "licence_uri_source": "ali:license_ref",
+            "licence_uri_normalised": "creativecommons.org/licenses/by/4.0",
+            "licence_label": "CC BY 4.0",
+            "license_type_attr": null,
+            "copyright_statement_verbatim": "© 2025 Published by Elsevier España, S.L.U. on behalf of Associação Brasileira de Otorrinolaringologia e Cirurgia Cérvico-Facial.",
+            "raw_permissions_xml": "<permissions xmlns:ns0=\"http://www.niso.org/schemas/ali/1.0/\"><copyright-statement>© 2025 Published by Elsevier España, S.L.U. on behalf of Associação Brasileira de Otorrinolaringologia e Cirurgia Cérvico-Facial.</copyright-statement><copyright-year>2025</copyright-year><copyright-holder /><license><ns0:license_ref specific-use=\"textmining\" content-type=\"ccbylicense\">https://creativecommons.org/licenses/by/4.0/</ns0:license_ref><license-p>This is an open access article under the CC BY license (http://creativecommons.org/licenses/by/4.0/).</license-p></license></permissions>",
+            "cc_uris_on_landing_page": [
+                "https://creativecommons.org/licenses/by/4.0"
+            ],
+            "cc_names_on_landing_page_verbatim": {
+                "by": "CC BY"
+            },
+            "landing_page_agrees_with_field": [
+                "URI https://creativecommons.org/licenses/by/4.0",
+                "prose 'CC BY'"
+            ],
+            "landing_page_conflicts_with_field": [],
+            "landing_page_confirms_cc_by_4": true,
+            "reasons": []
+        },
+        "gate_b": {
+            "gate": "b_ai_llm_terms",
+            "result": "PASS",
+            "requirement": "no AI / LLM / generative-AI / text-and-data-mining prohibition on the article's landing page",
+            "pages": [
+                {
+                    "url": "https://pmc.ncbi.nlm.nih.gov/articles/PMC12148406/",
+                    "fetched": true,
+                    "http_status": 200,
+                    "bytes": 1286646,
+                    "error": "",
+                    "role": "pmc_landing",
+                    "prohibitions": [],
+                    "review_items": [],
+                    "incidental_mentions": [],
+                    "scan": "SCANNED"
+                },
+                {
+                    "url": "https://linkinghub.elsevier.com/retrieve/pii/S1808869425000382",
+                    "fetched": true,
+                    "http_status": 200,
+                    "bytes": 2689,
+                    "error": "",
+                    "role": "publisher_landing",
+                    "prohibitions": [],
+                    "review_items": [],
+                    "incidental_mentions": [],
+                    "scan": "SCANNED"
+                }
+            ],
+            "reasons": [],
+            "caveat": "PASS means no prohibition was found on the page(s) fetched. It does not prove none exists; linked PDFs, separate ToS pages and click-through agreements are not read by this tool."
+        },
+        "publisher_page_checked": true,
+        "overall": "PASS",
+        "attribution": "Romano Fabrizio Ricci, Anselmo-Lima Wilma Terezinha, Kosugi Eduardo Macoto, Sakano Eulalia, Valera Fabiana Cardoso Pereira, Lessa Marcus, et al.. Rhinosinusitis: Evidence and experience – 2024. Brazilian Journal of Otorhinolaryngology. 2025;91(5):101595. doi:10.1016/j.bjorl.2025.101595. PMC12148406. Licensed CC BY 4.0."
+    },
+    {
+        "pmcid": "PMC11601064",
+        "retrieval_date_utc": "2026-08-03T03:23:43+00:00",
+        "retrieval_date": "2026-08-03",
+        "source_url": "https://pmc.ncbi.nlm.nih.gov/articles/PMC11601064/",
+        "tool": "speedrun-analysis/sources/vet_source.py",
+        "oa_service": {
+            "url": "https://www.ncbi.nlm.nih.gov/pmc/utils/oa/oa.fcgi?id=PMC11601064",
+            "fetched": true,
+            "http_status": 200,
+            "error": "",
+            "license_verbatim": "CC BY",
+            "citation_verbatim": "J Bras Pneumol.; 50(5):e20240353",
+            "retracted": "no",
+            "in_oa_subset": true,
+            "oa_package_href": "ftp://ftp.ncbi.nlm.nih.gov/pub/pmc/oa_package/da/09/PMC11601064.tar.gz",
+            "service_error": null
+        },
+        "efetch": {
+            "url": "https://eutils.ncbi.nlm.nih.gov/entrez/eutils/efetch.fcgi?db=pmc&id=11601064&retmode=xml",
+            "fetched": true,
+            "http_status": 200,
+            "bytes": 24824,
+            "error": ""
+        },
+        "metadata": {
+            "title": "Croup review: comparative analysis of acute and recurrent croup",
+            "journal": "Jornal Brasileiro de Pneumologia",
+            "journal_abbrev": "J Bras Pneumol",
+            "publisher": "Sociedade Brasileira de Pneumologia e Tisiologia (Brazilian Thoracic Society)",
+            "year": "2024",
+            "volume": "50",
+            "issue": "5",
+            "elocation_or_pages": "e20240353",
+            "doi": "10.36416/1806-3756/e20240353",
+            "pmid": "39661847",
+            "pmcid": "PMC11601064",
+            "article_types": [
+                "Continuing Education: Pediatric Pulmonology"
+            ],
+            "authors": [
+                "de Azevedo Sofia Prates da Cunha",
+                "de Barros Laura Gomes Boabaid",
+                "Krey Júlia Giffoni",
+                "Pinto Leonardo Araújo",
+                "Amantéa Sérgio Luís"
+            ]
+        },
+        "gate_a": {
+            "gate": "a_licence",
+            "result": "FAIL",
+            "requirement": "explicit machine-readable CC BY 4.0 (creativecommons.org/licenses/by/4.0) and nothing else",
+            "licence_field_verbatim": "This is an open-access article distributed under the terms of the Creative Commons Attribution License",
+            "licence_uri_verbatim": "https://creativecommons.org/licenses/by/4.0/",
+            "licence_uri_source": "ali:license_ref",
+            "licence_uri_normalised": "creativecommons.org/licenses/by/4.0",
+            "licence_label": "CC BY 4.0",
+            "license_type_attr": null,
+            "copyright_statement_verbatim": "© 2024 Sociedade Brasileira de Pneumologia e Tisiologia",
+            "raw_permissions_xml": "<permissions xmlns:ns0=\"http://www.niso.org/schemas/ali/1.0/\"><copyright-statement>© 2024 Sociedade Brasileira de Pneumologia e Tisiologia</copyright-statement><copyright-year>2024</copyright-year><copyright-holder>Sociedade Brasileira de Pneumologia e Tisiologia</copyright-holder><license><ns0:license_ref specific-use=\"textmining\" content-type=\"ccbylicense\">https://creativecommons.org/licenses/by/4.0/</ns0:license_ref><license-p>This is an open-access article distributed under the terms of the Creative Commons Attribution License</license-p></license></permissions>",
+            "cc_uris_on_landing_page": [
+                "https://creativecommons.org/licenses/by-nc/4.0"
+            ],
+            "cc_names_on_landing_page_verbatim": {
+                "by": "Creative Commons Attribution"
+            },
+            "landing_page_agrees_with_field": [
+                "prose 'Creative Commons Attribution'"
+            ],
+            "landing_page_conflicts_with_field": [
+                "URI https://creativecommons.org/licenses/by-nc/4.0"
+            ],
+            "landing_page_confirms_cc_by_4": false,
+            "reasons": [
+                "STALE-FOOTER / CONFLICT CHECK: the machine-readable field says CC BY but the landing page also states URI https://creativecommons.org/licenses/by-nc/4.0. A page can advertise one licence while the work carries another - that is exactly the OpenStax footer trap. Resolve by hand before using this article."
+            ]
+        },
+        "gate_b": {
+            "gate": "b_ai_llm_terms",
+            "result": "PASS",
+            "requirement": "no AI / LLM / generative-AI / text-and-data-mining prohibition on the article's landing page",
+            "pages": [
+                {
+                    "url": "https://pmc.ncbi.nlm.nih.gov/articles/PMC11601064/",
+                    "fetched": true,
+                    "http_status": 200,
+                    "bytes": 114161,
+                    "error": "",
+                    "role": "pmc_landing",
+                    "prohibitions": [],
+                    "review_items": [],
+                    "incidental_mentions": [],
+                    "scan": "SCANNED"
+                },
+                {
+                    "url": "https://www.jornaldepneumologia.com.br/details/4026/en-US",
+                    "fetched": true,
+                    "http_status": 200,
+                    "bytes": 45919,
+                    "error": "",
+                    "role": "publisher_landing",
+                    "prohibitions": [],
+                    "review_items": [],
+                    "incidental_mentions": [],
+                    "scan": "SCANNED"
+                }
+            ],
+            "reasons": [],
+            "caveat": "PASS means no prohibition was found on the page(s) fetched. It does not prove none exists; linked PDFs, separate ToS pages and click-through agreements are not read by this tool."
+        },
+        "publisher_page_checked": true,
+        "overall": "FAIL",
+        "attribution": "de Azevedo Sofia Prates da Cunha, de Barros Laura Gomes Boabaid, Krey Júlia Giffoni, Pinto Leonardo Araújo, Amantéa Sérgio Luís. Croup review: comparative analysis of acute and recurrent croup. Jornal Brasileiro de Pneumologia. 2024;50(5):e20240353. doi:10.36416/1806-3756/e20240353. PMC11601064. Licensed CC BY 4.0."
+    },
+    {
+        "pmcid": "PMC10652663",
+        "retrieval_date_utc": "2026-08-03T03:23:46+00:00",
+        "retrieval_date": "2026-08-03",
+        "source_url": "https://pmc.ncbi.nlm.nih.gov/articles/PMC10652663/",
+        "tool": "speedrun-analysis/sources/vet_source.py",
+        "oa_service": {
+            "url": "https://www.ncbi.nlm.nih.gov/pmc/utils/oa/oa.fcgi?id=PMC10652663",
+            "fetched": true,
+            "http_status": 200,
+            "error": "",
+            "license_verbatim": "CC BY",
+            "citation_verbatim": "Cureus.; 15(10):e47192",
+            "retracted": "no",
+            "in_oa_subset": true,
+            "oa_package_href": "ftp://ftp.ncbi.nlm.nih.gov/pub/pmc/oa_package/3a/b8/PMC10652663.tar.gz",
+            "service_error": null
+        },
+        "efetch": {
+            "url": "https://eutils.ncbi.nlm.nih.gov/entrez/eutils/efetch.fcgi?db=pmc&id=10652663&retmode=xml",
+            "fetched": true,
+            "http_status": 200,
+            "bytes": 73741,
+            "error": ""
+        },
+        "metadata": {
+            "title": "Tonsillitis and Sinusitis: A Narrative Review of Pathogenesis, Diagnosis, and Management",
+            "journal": "Cureus",
+            "journal_abbrev": "Cureus",
+            "publisher": "Cureus Inc.",
+            "year": "2023",
+            "volume": "15",
+            "issue": "10",
+            "elocation_or_pages": "e47192",
+            "doi": "10.7759/cureus.47192",
+            "pmid": "38021555",
+            "pmcid": "PMC10652663",
+            "article_types": [
+                "Pediatrics",
+                "Otolaryngology"
+            ],
+            "authors": [
+                "Singh Harshit",
+                "Bhatt Asmi",
+                "Kumar Mayank",
+                "Deshmukh Prasad"
+            ]
+        },
+        "gate_a": {
+            "gate": "a_licence",
+            "result": "FAIL",
+            "requirement": "explicit machine-readable CC BY 4.0 (creativecommons.org/licenses/by/4.0) and nothing else",
+            "licence_field_verbatim": "This is an open access article distributed under the terms of the Creative Commons Attribution License, which permits unrestricted use, distribution, and reproduction in any medium, provided the original author and source are credited.",
+            "licence_uri_verbatim": "https://creativecommons.org/licenses/by/3.0/",
+            "licence_uri_source": "ali:license_ref",
+            "licence_uri_normalised": "creativecommons.org/licenses/by/3.0",
+            "licence_label": "CC BY 3.0",
+            "license_type_attr": null,
+            "copyright_statement_verbatim": "Copyright © 2023, Singh et al.",
+            "raw_permissions_xml": "<permissions xmlns:ns0=\"http://www.niso.org/schemas/ali/1.0/\"><copyright-statement>Copyright © 2023, Singh et al.</copyright-statement><copyright-year>2023</copyright-year><copyright-holder>Singh et al.</copyright-holder><license><ns0:license_ref specific-use=\"textmining\" content-type=\"ccbylicense\">https://creativecommons.org/licenses/by/3.0/</ns0:license_ref><license-p>This is an open access article distributed under the terms of the Creative Commons Attribution License, which permits unrestricted use, distribution, and reproduction in any medium, provided the original author and source are credited.</license-p></license></permissions>",
+            "cc_uris_on_landing_page": [],
+            "cc_names_on_landing_page_verbatim": {
+                "by": "Creative Commons Attribution"
+            },
+            "landing_page_agrees_with_field": [
+                "prose 'Creative Commons Attribution'"
+            ],
+            "landing_page_conflicts_with_field": [],
+            "landing_page_confirms_cc_by_4": false,
+            "reasons": [
+                "licence is CC BY 3.0, not CC BY 4.0."
+            ]
+        },
+        "gate_b": {
+            "gate": "b_ai_llm_terms",
+            "result": "PASS",
+            "requirement": "no AI / LLM / generative-AI / text-and-data-mining prohibition on the article's landing page",
+            "pages": [
+                {
+                    "url": "https://pmc.ncbi.nlm.nih.gov/articles/PMC10652663/",
+                    "fetched": true,
+                    "http_status": 200,
+                    "bytes": 167534,
+                    "error": "",
+                    "role": "pmc_landing",
+                    "prohibitions": [],
+                    "review_items": [],
+                    "incidental_mentions": [],
+                    "scan": "SCANNED"
+                },
+                {
+                    "url": "https://doi.org/10.7759/cureus.47192",
+                    "fetched": false,
+                    "http_status": 403,
+                    "bytes": 0,
+                    "error": "HTTPError 403",
+                    "role": "publisher_landing",
+                    "scan": "UNKNOWN - page could not be fetched"
+                }
+            ],
+            "reasons": [],
+            "caveat": "PASS means no prohibition was found on the page(s) fetched. It does not prove none exists; linked PDFs, separate ToS pages and click-through agreements are not read by this tool."
+        },
+        "publisher_page_checked": true,
+        "overall": "FAIL",
+        "attribution": "Singh Harshit, Bhatt Asmi, Kumar Mayank, Deshmukh Prasad. Tonsillitis and Sinusitis: A Narrative Review of Pathogenesis, Diagnosis, and Management. Cureus. 2023;15(10):e47192. doi:10.7759/cureus.47192. PMC10652663. Licensed CC BY 3.0."
+    },
+    {
+        "pmcid": "PMC10982721",
+        "retrieval_date_utc": "2026-08-03T03:23:48+00:00",
+        "retrieval_date": "2026-08-03",
+        "source_url": "https://pmc.ncbi.nlm.nih.gov/articles/PMC10982721/",
+        "tool": "speedrun-analysis/sources/vet_source.py",
+        "oa_service": {
+            "url": "https://www.ncbi.nlm.nih.gov/pmc/utils/oa/oa.fcgi?id=PMC10982721",
+            "fetched": true,
+            "http_status": 200,
+            "error": "",
+            "license_verbatim": "CC BY-NC",
+            "citation_verbatim": "BMJ Open. 2024 Mar 29; 14(3):e082257",
+            "retracted": "no",
+            "in_oa_subset": true,
+            "oa_package_href": "ftp://ftp.ncbi.nlm.nih.gov/pub/pmc/oa_package/ec/93/PMC10982721.tar.gz",
+            "service_error": null
+        },
+        "efetch": {
+            "url": "https://eutils.ncbi.nlm.nih.gov/entrez/eutils/efetch.fcgi?db=pmc&id=10982721&retmode=xml",
+            "fetched": true,
+            "http_status": 200,
+            "bytes": 58266,
+            "error": ""
+        },
+        "metadata": {
+            "title": "Role of vitamin C in treatment of community-acquired pneumonia in adult patients requiring hospitalisation: a systematic review protocol",
+            "journal": "BMJ Open",
+            "journal_abbrev": "BMJ Open",
+            "publisher": "BMJ Publishing Group",
+            "year": "2024",
+            "volume": "14",
+            "issue": "3",
+            "elocation_or_pages": "e082257",
+            "doi": "10.1136/bmjopen-2023-082257",
+            "pmid": "38553059",
+            "pmcid": "PMC10982721",
+            "article_types": [
+                "Infectious Diseases",
+                "1506",
+                "1706"
+            ],
+            "authors": [
+                "Sharma Yogesh",
+                "Sumanadasa Subodha",
+                "Shahi Rashmi",
+                "Thompson Campbell"
+            ]
+        },
+        "gate_a": {
+            "gate": "a_licence",
+            "result": "FAIL",
+            "requirement": "explicit machine-readable CC BY 4.0 (creativecommons.org/licenses/by/4.0) and nothing else",
+            "licence_field_verbatim": "This is an open access article distributed in accordance with the Creative Commons Attribution Non Commercial (CC BY-NC 4.0) license, which permits others to distribute, remix, adapt, build upon this work non-commercially, and license their derivative works on different terms, provided the original work is properly cited, appropriate credit is given, any changes made indicated, and the use is non-commercial. See: http://creativecommons.org/licenses/by-nc/4.0/.",
+            "licence_uri_verbatim": "https://creativecommons.org/licenses/by-nc/4.0/",
+            "licence_uri_source": "ali:license_ref",
+            "licence_uri_normalised": "creativecommons.org/licenses/by-nc/4.0",
+            "licence_label": "CC BY-NC 4.0",
+            "license_type_attr": null,
+            "copyright_statement_verbatim": "© Author(s) (or their employer(s)) 2024. Re-use permitted under CC BY-NC. No commercial re-use. See rights and permissions. Published by BMJ.",
+            "raw_permissions_xml": "<permissions xmlns:ns0=\"http://www.niso.org/schemas/ali/1.0/\" xmlns:ns1=\"http://www.w3.org/1999/xlink\"><copyright-statement>© Author(s) (or their employer(s)) 2024. Re-use permitted under CC BY-NC. No commercial re-use. See rights and permissions. Published by BMJ.</copyright-statement><copyright-year>2024</copyright-year><ns0:free_to_read /><license><ns0:license_ref specific-use=\"textmining\" content-type=\"ccbynclicense\" start_date=\"2024-03-29\">https://creativecommons.org/licenses/by-nc/4.0/</ns0:license_ref><license-p>This is an open access article distributed in accordance with the Creative Commons Attribution Non Commercial (CC BY-NC 4.0) license, which permits others to distribute, remix, adapt, build upon this work non-commercially, and license their derivative works on different terms, provided the original work is properly cited, appropriate credit is given, any changes made indicated, and the use is non-commercial. See: <ext-link ext-link-type=\"uri\" ns1:href=\"https://creativecommons.org/licenses/by-nc/4.0/\">http://creativecommons.org/licenses/by-nc/4.0/</ext-link>.</license-p></license></permissions>",
+            "cc_uris_on_landing_page": [
+                "https://creativecommons.org/licenses/by-nc/4.0"
+            ],
+            "cc_names_on_landing_page_verbatim": {
+                "by-nc": "CC BY-NC"
+            },
+            "landing_page_agrees_with_field": [
+                "URI https://creativecommons.org/licenses/by-nc/4.0",
+                "prose 'CC BY-NC'"
+            ],
+            "landing_page_conflicts_with_field": [],
+            "landing_page_confirms_cc_by_4": false,
+            "reasons": [
+                "licence is CC BY-NC 4.0, not CC BY 4.0. NonCommercial conflicts with AGPL-3.0-or-later."
+            ]
+        },
+        "gate_b": {
+            "gate": "b_ai_llm_terms",
+            "result": "PASS",
+            "requirement": "no AI / LLM / generative-AI / text-and-data-mining prohibition on the article's landing page",
+            "pages": [
+                {
+                    "url": "https://pmc.ncbi.nlm.nih.gov/articles/PMC10982721/",
+                    "fetched": true,
+                    "http_status": 200,
+                    "bytes": 150970,
+                    "error": "",
+                    "role": "pmc_landing",
+                    "prohibitions": [],
+                    "review_items": [],
+                    "incidental_mentions": [],
+                    "scan": "SCANNED"
+                },
+                {
+                    "url": "https://doi.org/10.1136/bmjopen-2023-082257",
+                    "fetched": false,
+                    "http_status": 403,
+                    "bytes": 0,
+                    "error": "HTTPError 403",
+                    "role": "publisher_landing",
+                    "scan": "UNKNOWN - page could not be fetched"
+                }
+            ],
+            "reasons": [],
+            "caveat": "PASS means no prohibition was found on the page(s) fetched. It does not prove none exists; linked PDFs, separate ToS pages and click-through agreements are not read by this tool."
+        },
+        "publisher_page_checked": true,
+        "overall": "FAIL",
+        "attribution": "Sharma Yogesh, Sumanadasa Subodha, Shahi Rashmi, Thompson Campbell. Role of vitamin C in treatment of community-acquired pneumonia in adult patients requiring hospitalisation: a systematic review protocol. BMJ Open. 2024;14(3):e082257. doi:10.1136/bmjopen-2023-082257. PMC10982721. Licensed CC BY-NC 4.0."
+    },
+    {
+        "pmcid": "PMC7290537",
+        "retrieval_date_utc": "2026-08-03T03:23:51+00:00",
+        "retrieval_date": "2026-08-03",
+        "source_url": "https://pmc.ncbi.nlm.nih.gov/articles/PMC7290537/",
+        "tool": "speedrun-analysis/sources/vet_source.py",
+        "oa_service": {
+            "url": "https://www.ncbi.nlm.nih.gov/pmc/utils/oa/oa.fcgi?id=PMC7290537",
+            "fetched": true,
+            "http_status": 200,
+            "error": "",
+            "license_verbatim": "CC BY-NC-ND",
+            "citation_verbatim": "Ann Transl Med. 2020 May; 8(9):609",
+            "retracted": "no",
+            "in_oa_subset": true,
+            "oa_package_href": "ftp://ftp.ncbi.nlm.nih.gov/pub/pmc/oa_package/64/b9/PMC7290537.tar.gz",
+            "service_error": null
+        },
+        "efetch": {
+            "url": "https://eutils.ncbi.nlm.nih.gov/entrez/eutils/efetch.fcgi?db=pmc&id=7290537&retmode=xml",
+            "fetched": true,
+            "http_status": 200,
+            "bytes": 84639,
+            "error": ""
+        },
+        "metadata": {
+            "title": "Diagnostic markers for community-acquired pneumonia",
+            "journal": "Annals of Translational Medicine",
+            "journal_abbrev": "Ann Transl Med",
+            "publisher": "AME Publications",
+            "year": "2020",
+            "volume": "8",
+            "issue": "9",
+            "elocation_or_pages": "609",
+            "doi": "10.21037/atm.2020.02.182",
+            "pmid": "32566635",
+            "pmcid": "PMC7290537",
+            "article_types": [
+                "Review Article on Advances in Laboratory Tests for Infectious Diseases"
+            ],
+            "authors": [
+                "Ito Akihiro",
+                "Ishida Tadashi"
+            ]
+        },
+        "gate_a": {
+            "gate": "a_licence",
+            "result": "FAIL",
+            "requirement": "explicit machine-readable CC BY 4.0 (creativecommons.org/licenses/by/4.0) and nothing else",
+            "licence_field_verbatim": "Open Access Statement: This is an Open Access article distributed in accordance with the Creative Commons Attribution-NonCommercial-NoDerivs 4.0 International License (CC BY-NC-ND 4.0), which permits the non-commercial replication and distribution of the article with the strict proviso that no changes or edits are made and the original work is properly cited (including links to both the formal publication through the relevant DOI and the license). See: https://creativecommons.org/licenses/by-nc-nd/4.0.",
+            "licence_uri_verbatim": "https://creativecommons.org/licenses/by-nc-nd/4.0/",
+            "licence_uri_source": "ali:license_ref",
+            "licence_uri_normalised": "creativecommons.org/licenses/by-nc-nd/4.0",
+            "licence_label": "CC BY-NC-ND 4.0",
+            "license_type_attr": null,
+            "copyright_statement_verbatim": "2020 Annals of Translational Medicine. All rights reserved.",
+            "raw_permissions_xml": "<permissions xmlns:ns0=\"http://www.niso.org/schemas/ali/1.0/\" xmlns:ns1=\"http://www.w3.org/1999/xlink\"><copyright-statement>2020 Annals of Translational Medicine. All rights reserved.</copyright-statement><copyright-year>2020</copyright-year><copyright-holder>Annals of Translational Medicine.</copyright-holder><license><ns0:license_ref specific-use=\"textmining\" content-type=\"ccbyncndlicense\">https://creativecommons.org/licenses/by-nc-nd/4.0/</ns0:license_ref><license-p><italic toggle=\"yes\">Open Access Statement:</italic> This is an Open Access article distributed in accordance with the Creative Commons Attribution-NonCommercial-NoDerivs 4.0 International License (CC BY-NC-ND 4.0), which permits the non-commercial replication and distribution of the article with the strict proviso that no changes or edits are made and the original work is properly cited (including links to both the formal publication through the relevant DOI and the license). See: <ext-link ext-link-type=\"uri\" ns1:href=\"https://creativecommons.org/licenses/by-nc-nd/4.0/\">https://creativecommons.org/licenses/by-nc-nd/4.0</ext-link>.</license-p></license></permissions>",
+            "cc_uris_on_landing_page": [
+                "https://creativecommons.org/licenses/by-nc-nd/4.0"
+            ],
+            "cc_names_on_landing_page_verbatim": {
+                "by-nc-nd": "Creative Commons Attribution-NonCommercial-NoDerivs 4.0"
+            },
+            "landing_page_agrees_with_field": [
+                "URI https://creativecommons.org/licenses/by-nc-nd/4.0",
+                "prose 'Creative Commons Attribution-NonCommercial-NoDerivs 4.0'"
+            ],
+            "landing_page_conflicts_with_field": [],
+            "landing_page_confirms_cc_by_4": false,
+            "reasons": [
+                "licence is CC BY-NC-ND 4.0, not CC BY 4.0. NonCommercial conflicts with AGPL-3.0-or-later. NoDerivatives forbids the transformation we need."
+            ]
+        },
+        "gate_b": {
+            "gate": "b_ai_llm_terms",
+            "result": "PASS",
+            "requirement": "no AI / LLM / generative-AI / text-and-data-mining prohibition on the article's landing page",
+            "pages": [
+                {
+                    "url": "https://pmc.ncbi.nlm.nih.gov/articles/PMC7290537/",
+                    "fetched": true,
+                    "http_status": 200,
+                    "bytes": 191258,
+                    "error": "",
+                    "role": "pmc_landing",
+                    "prohibitions": [],
+                    "review_items": [],
+                    "incidental_mentions": [],
+                    "scan": "SCANNED"
+                },
+                {
+                    "url": "https://atm.amegroups.org/article/view/37320/html",
+                    "fetched": true,
+                    "http_status": 200,
+                    "bytes": 91019,
+                    "error": "",
+                    "role": "publisher_landing",
+                    "prohibitions": [],
+                    "review_items": [],
+                    "incidental_mentions": [
+                        "rtificial intelligencej"
+                    ],
+                    "scan": "SCANNED"
+                }
+            ],
+            "reasons": [],
+            "caveat": "PASS means no prohibition was found on the page(s) fetched. It does not prove none exists; linked PDFs, separate ToS pages and click-through agreements are not read by this tool."
+        },
+        "publisher_page_checked": true,
+        "overall": "FAIL",
+        "attribution": "Ito Akihiro, Ishida Tadashi. Diagnostic markers for community-acquired pneumonia. Annals of Translational Medicine. 2020;8(9):609. doi:10.21037/atm.2020.02.182. PMC7290537. Licensed CC BY-NC-ND 4.0."
+    },
+    {
+        "pmcid": "PMC7094947",
+        "retrieval_date_utc": "2026-08-03T03:23:55+00:00",
+        "retrieval_date": "2026-08-03",
+        "source_url": "https://pmc.ncbi.nlm.nih.gov/articles/PMC7094947/",
+        "tool": "speedrun-analysis/sources/vet_source.py",
+        "oa_service": {
+            "url": "https://www.ncbi.nlm.nih.gov/pmc/utils/oa/oa.fcgi?id=PMC7094947",
+            "fetched": true,
+            "http_status": 200,
+            "error": "",
+            "license_verbatim": "none",
+            "citation_verbatim": "Intensive Care Med. 2019 Jan 31; 45(2):159-171",
+            "retracted": "no",
+            "in_oa_subset": true,
+            "oa_package_href": "ftp://ftp.ncbi.nlm.nih.gov/pub/pmc/oa_package/52/ed/PMC7094947.tar.gz",
+            "service_error": null
+        },
+        "efetch": {
+            "url": "https://eutils.ncbi.nlm.nih.gov/entrez/eutils/efetch.fcgi?db=pmc&id=7094947&retmode=xml",
+            "fetched": true,
+            "http_status": 200,
+            "bytes": 204178,
+            "error": ""
+        },
+        "metadata": {
+            "title": "Challenges in severe community-acquired pneumonia: a point-of-view review",
+            "journal": "Intensive Care Medicine",
+            "journal_abbrev": "Intensive Care Med",
+            "publisher": null,
+            "year": "2019",
+            "volume": "45",
+            "issue": "2",
+            "elocation_or_pages": "159-171",
+            "doi": "10.1007/s00134-019-05519-y",
+            "pmid": "30706119",
+            "pmcid": "PMC7094947",
+            "article_types": [
+                "Review"
+            ],
+            "authors": [
+                "Torres Antoni",
+                "Chalmers James D.",
+                "Dela Cruz Charles S.",
+                "Dominedò Cristina",
+                "Kollef Marin",
+                "Martin-Loeches Ignacio",
+                "Niederman Michael",
+                "Wunderink Richard G."
+            ]
+        },
+        "gate_a": {
+            "gate": "a_licence",
+            "result": "FAIL",
+            "requirement": "explicit machine-readable CC BY 4.0 (creativecommons.org/licenses/by/4.0) and nothing else",
+            "licence_field_verbatim": "This article is made available via the PMC Open Access Subset for unrestricted research re-use and secondary analysis in any form or by any means with acknowledgement of the original source. These permissions are granted for the duration of the World Health Organization (WHO) declaration of COVID-19 as a global pandemic.",
+            "licence_uri_verbatim": null,
+            "licence_uri_source": null,
+            "licence_uri_normalised": null,
+            "licence_label": null,
+            "license_type_attr": null,
+            "copyright_statement_verbatim": "© Springer-Verlag GmbH Germany, part of Springer Nature 2019",
+            "raw_permissions_xml": "<permissions><copyright-statement>© Springer-Verlag GmbH Germany, part of Springer Nature 2019</copyright-statement><license><license-p>This article is made available via the PMC Open Access Subset for unrestricted research re-use and secondary analysis in any form or by any means with acknowledgement of the original source. These permissions are granted for the duration of the World Health Organization (WHO) declaration of COVID-19 as a global pandemic.</license-p></license></permissions>",
+            "cc_uris_on_landing_page": [],
+            "cc_names_on_landing_page_verbatim": {},
+            "landing_page_agrees_with_field": [],
+            "landing_page_conflicts_with_field": [],
+            "landing_page_confirms_cc_by_4": false,
+            "reasons": [
+                "the <license> element carries no machine-readable URI (no ali:license_ref and no xlink:href); prose alone is not enough"
+            ]
+        },
+        "gate_b": {
+            "gate": "b_ai_llm_terms",
+            "result": "PASS",
+            "requirement": "no AI / LLM / generative-AI / text-and-data-mining prohibition on the article's landing page",
+            "pages": [
+                {
+                    "url": "https://pmc.ncbi.nlm.nih.gov/articles/PMC7094947/",
+                    "fetched": true,
+                    "http_status": 200,
+                    "bytes": 275693,
+                    "error": "",
+                    "role": "pmc_landing",
+                    "prohibitions": [],
+                    "review_items": [],
+                    "incidental_mentions": [],
+                    "scan": "SCANNED"
+                },
+                {
+                    "url": "https://link.springer.com/article/10.1007/s00134-019-05519-y?error=cookies_not_supported&code=060dc48e-ad96-413c-96a4-94be51f81e8d",
+                    "fetched": true,
+                    "http_status": 200,
+                    "bytes": 526752,
+                    "error": "",
+                    "role": "publisher_landing",
+                    "prohibitions": [],
+                    "review_items": [],
+                    "incidental_mentions": [
+                        "machine learning"
+                    ],
+                    "scan": "SCANNED"
+                }
+            ],
+            "reasons": [],
+            "caveat": "PASS means no prohibition was found on the page(s) fetched. It does not prove none exists; linked PDFs, separate ToS pages and click-through agreements are not read by this tool."
+        },
+        "publisher_page_checked": true,
+        "overall": "FAIL",
+        "attribution": "Torres Antoni, Chalmers James D., Dela Cruz Charles S., Dominedò Cristina, Kollef Marin, Martin-Loeches Ignacio, et al.. Challenges in severe community-acquired pneumonia: a point-of-view review. Intensive Care Medicine. 2019;45(2):159-171. doi:10.1007/s00134-019-05519-y. PMC7094947. Licensed UNKNOWN."
+    }
+]

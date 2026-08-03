@@ -1,0 +1,106 @@
+{
+    "pmcid": "PMC8604168",
+    "retrieval_date_utc": "2026-08-03T03:21:23+00:00",
+    "retrieval_date": "2026-08-03",
+    "source_url": "https://pmc.ncbi.nlm.nih.gov/articles/PMC8604168/",
+    "tool": "speedrun-analysis/sources/vet_source.py",
+    "oa_service": {
+        "url": "https://www.ncbi.nlm.nih.gov/pmc/utils/oa/oa.fcgi?id=PMC8604168",
+        "fetched": true,
+        "http_status": 200,
+        "error": "",
+        "license_verbatim": "CC BY",
+        "citation_verbatim": "J Med Microbiol. 2021 Oct 20; 70(10):001442",
+        "retracted": "no",
+        "in_oa_subset": true,
+        "oa_package_href": "ftp://ftp.ncbi.nlm.nih.gov/pub/pmc/oa_package/78/fc/PMC8604168.tar.gz",
+        "service_error": null
+    },
+    "efetch": {
+        "url": "https://eutils.ncbi.nlm.nih.gov/entrez/eutils/efetch.fcgi?db=pmc&id=8604168&retmode=xml",
+        "fetched": true,
+        "http_status": 200,
+        "bytes": 55368,
+        "error": ""
+    },
+    "metadata": {
+        "title": "JMM Profile: Bordetella pertussis and whooping cough (pertussis): still a significant cause of infant morbidity and mortality, but vaccine-preventable",
+        "journal": "Journal of Medical Microbiology",
+        "journal_abbrev": "J Med Microbiol",
+        "publisher": "Microbiology Society",
+        "year": "2021",
+        "volume": "70",
+        "issue": "10",
+        "elocation_or_pages": "001442",
+        "doi": "10.1099/jmm.0.001442",
+        "pmid": "34668853",
+        "pmcid": "PMC8604168",
+        "article_types": [
+            "JMM Profiles"
+        ],
+        "authors": [
+            "Fry Norman K.",
+            "Campbell Helen",
+            "Amirthalingam Gayatri"
+        ]
+    },
+    "gate_a": {
+        "gate": "a_licence",
+        "result": "PASS",
+        "requirement": "explicit machine-readable CC BY 4.0 (creativecommons.org/licenses/by/4.0) and nothing else",
+        "licence_field_verbatim": "This is an open-access article distributed under the terms of the Creative Commons Attribution License. This article was made open access via a Publish and Read agreement between the Microbiology Society and the corresponding author’s institution.",
+        "licence_uri_verbatim": "https://creativecommons.org/licenses/by/4.0/",
+        "licence_uri_source": "ali:license_ref",
+        "licence_uri_normalised": "creativecommons.org/licenses/by/4.0",
+        "licence_label": "CC BY 4.0",
+        "license_type_attr": null,
+        "copyright_statement_verbatim": "© 2021 The Authors",
+        "raw_permissions_xml": "<permissions xmlns:ns0=\"http://www.niso.org/schemas/ali/1.0/\"><copyright-statement>© 2021 The Authors</copyright-statement><copyright-year>2021</copyright-year><license><ns0:license_ref specific-use=\"textmining\" content-type=\"ccbylicense\">https://creativecommons.org/licenses/by/4.0/</ns0:license_ref><license-p>This is an open-access article distributed under the terms of the Creative Commons Attribution License. This article was made open access via a Publish and Read agreement between the Microbiology Society and the corresponding author’s institution.</license-p></license></permissions>",
+        "cc_uris_on_landing_page": [],
+        "cc_names_on_landing_page_verbatim": {
+            "by": "Creative Commons Attribution"
+        },
+        "landing_page_agrees_with_field": [
+            "prose 'Creative Commons Attribution'"
+        ],
+        "landing_page_conflicts_with_field": [],
+        "landing_page_confirms_cc_by_4": false,
+        "reasons": []
+    },
+    "gate_b": {
+        "gate": "b_ai_llm_terms",
+        "result": "PASS",
+        "requirement": "no AI / LLM / generative-AI / text-and-data-mining prohibition on the article's landing page",
+        "pages": [
+            {
+                "url": "https://pmc.ncbi.nlm.nih.gov/articles/PMC8604168/",
+                "fetched": true,
+                "http_status": 200,
+                "bytes": 146334,
+                "error": "",
+                "role": "pmc_landing",
+                "prohibitions": [],
+                "review_items": [],
+                "incidental_mentions": [],
+                "scan": "SCANNED"
+            },
+            {
+                "url": "https://doi.org/10.1099/jmm.0.001442",
+                "fetched": false,
+                "http_status": 403,
+                "bytes": 0,
+                "error": "HTTPError 403",
+                "role": "publisher_landing",
+                "scan": "UNKNOWN - page could not be fetched"
+            }
+        ],
+        "reasons": [],
+        "caveat": "PASS means no prohibition was found on the page(s) fetched. It does not prove none exists; linked PDFs, separate ToS pages and click-through agreements are not read by this tool."
+    },
+    "publisher_page_checked": true,
+    "overall": "PASS",
+    "attribution": "Fry Norman K., Campbell Helen, Amirthalingam Gayatri. JMM Profile: Bordetella pertussis and whooping cough (pertussis): still a significant cause of infant morbidity and mortality, but vaccine-preventable. Journal of Medical Microbiology. 2021;70(10):001442. doi:10.1099/jmm.0.001442. PMC8604168. Licensed CC BY 4.0.",
+    "text_file": "PMC8604168.txt",
+    "text_sha256": "7a0dc4916812b1a300482946b93dcfa20e31b0076f036fc545cbebbbbf05dbf0",
+    "text_chars": 14606
+}

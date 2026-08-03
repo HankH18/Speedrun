@@ -1,0 +1,108 @@
+{
+    "pmcid": "PMC10477518",
+    "retrieval_date_utc": "2026-08-03T03:18:53+00:00",
+    "retrieval_date": "2026-08-03",
+    "source_url": "https://pmc.ncbi.nlm.nih.gov/articles/PMC10477518/",
+    "tool": "speedrun-analysis/sources/vet_source.py",
+    "oa_service": {
+        "url": "https://www.ncbi.nlm.nih.gov/pmc/utils/oa/oa.fcgi?id=PMC10477518",
+        "fetched": true,
+        "http_status": 200,
+        "error": "",
+        "license_verbatim": "CC BY",
+        "citation_verbatim": "MedComm (2020). 2023 Sep 4; 4(5):e353",
+        "retracted": "no",
+        "in_oa_subset": true,
+        "oa_package_href": "ftp://ftp.ncbi.nlm.nih.gov/pub/pmc/oa_package/f2/e7/PMC10477518.tar.gz",
+        "service_error": null
+    },
+    "efetch": {
+        "url": "https://eutils.ncbi.nlm.nih.gov/entrez/eutils/efetch.fcgi?db=pmc&id=10477518&retmode=xml",
+        "fetched": true,
+        "http_status": 200,
+        "bytes": 623935,
+        "error": ""
+    },
+    "metadata": {
+        "title": "Mycobacterium tuberculosis: Pathogenesis and therapeutic targets",
+        "journal": "MedComm",
+        "journal_abbrev": "MedComm (2020)",
+        "publisher": "Wiley",
+        "year": "2023",
+        "volume": "4",
+        "issue": "5",
+        "elocation_or_pages": "e353",
+        "doi": "10.1002/mco2.353",
+        "pmid": "37674971",
+        "pmcid": "PMC10477518",
+        "article_types": [
+            "Review",
+            "Reviews"
+        ],
+        "authors": [
+            "Yang Jiaxing",
+            "Zhang Laiying",
+            "Qiao Wenliang",
+            "Luo Youfu"
+        ]
+    },
+    "gate_a": {
+        "gate": "a_licence",
+        "result": "PASS",
+        "requirement": "explicit machine-readable CC BY 4.0 (creativecommons.org/licenses/by/4.0) and nothing else",
+        "licence_field_verbatim": "This is an open access article under the terms of the http://creativecommons.org/licenses/by/4.0/ License, which permits use, distribution and reproduction in any medium, provided the original work is properly cited.",
+        "licence_uri_verbatim": "https://creativecommons.org/licenses/by/4.0/",
+        "licence_uri_source": "ali:license_ref",
+        "licence_uri_normalised": "creativecommons.org/licenses/by/4.0",
+        "licence_label": "CC BY 4.0",
+        "license_type_attr": null,
+        "copyright_statement_verbatim": "© 2023 The Authors. MedComm published by Sichuan International Medical Exchange & Promotion Association (SCIMEA) and John Wiley & Sons Australia, Ltd.",
+        "raw_permissions_xml": "<permissions xmlns:ns0=\"http://www.niso.org/schemas/ali/1.0/\" xmlns:ns1=\"http://www.w3.org/1999/xlink\"><copyright-statement content-type=\"article-copyright\">© 2023 The Authors. <italic toggle=\"yes\">MedComm</italic> published by Sichuan International Medical Exchange &amp; Promotion Association (SCIMEA) and John Wiley &amp; Sons Australia, Ltd.</copyright-statement><license><ns0:license_ref specific-use=\"textmining\" content-type=\"ccbylicense\">https://creativecommons.org/licenses/by/4.0/</ns0:license_ref><license-p>This is an open access article under the terms of the <ext-link ext-link-type=\"uri\" ns1:href=\"https://creativecommons.org/licenses/by/4.0/\">http://creativecommons.org/licenses/by/4.0/</ext-link> License, which permits use, distribution and reproduction in any medium, provided the original work is properly cited.</license-p></license></permissions>",
+        "cc_uris_on_landing_page": [
+            "https://creativecommons.org/licenses/by/4.0"
+        ],
+        "cc_names_on_landing_page_verbatim": {},
+        "landing_page_agrees_with_field": [
+            "URI https://creativecommons.org/licenses/by/4.0"
+        ],
+        "landing_page_conflicts_with_field": [],
+        "landing_page_confirms_cc_by_4": true,
+        "reasons": []
+    },
+    "gate_b": {
+        "gate": "b_ai_llm_terms",
+        "result": "PASS",
+        "requirement": "no AI / LLM / generative-AI / text-and-data-mining prohibition on the article's landing page",
+        "pages": [
+            {
+                "url": "https://pmc.ncbi.nlm.nih.gov/articles/PMC10477518/",
+                "fetched": true,
+                "http_status": 200,
+                "bytes": 821888,
+                "error": "",
+                "role": "pmc_landing",
+                "prohibitions": [],
+                "review_items": [],
+                "incidental_mentions": [],
+                "scan": "SCANNED"
+            },
+            {
+                "url": "https://doi.org/10.1002/mco2.353",
+                "fetched": false,
+                "http_status": 403,
+                "bytes": 0,
+                "error": "HTTPError 403",
+                "role": "publisher_landing",
+                "scan": "UNKNOWN - page could not be fetched"
+            }
+        ],
+        "reasons": [],
+        "caveat": "PASS means no prohibition was found on the page(s) fetched. It does not prove none exists; linked PDFs, separate ToS pages and click-through agreements are not read by this tool."
+    },
+    "publisher_page_checked": true,
+    "overall": "PASS",
+    "attribution": "Yang Jiaxing, Zhang Laiying, Qiao Wenliang, Luo Youfu. Mycobacterium tuberculosis: Pathogenesis and therapeutic targets. MedComm. 2023;4(5):e353. doi:10.1002/mco2.353. PMC10477518. Licensed CC BY 4.0.",
+    "text_file": "PMC10477518.txt",
+    "text_sha256": "1654ea6b3355a3fd9e65ee7564c84bd456094d6a91e30fe3019d08be37e09e44",
+    "text_chars": 95236
+}

@@ -1,0 +1,114 @@
+{
+    "pmcid": "PMC11809256",
+    "retrieval_date_utc": "2026-08-03T03:18:59+00:00",
+    "retrieval_date": "2026-08-03",
+    "source_url": "https://pmc.ncbi.nlm.nih.gov/articles/PMC11809256/",
+    "tool": "speedrun-analysis/sources/vet_source.py",
+    "oa_service": {
+        "url": "https://www.ncbi.nlm.nih.gov/pmc/utils/oa/oa.fcgi?id=PMC11809256",
+        "fetched": true,
+        "http_status": 200,
+        "error": "",
+        "license_verbatim": "CC BY",
+        "citation_verbatim": "Qatar Med J. 2024 Dec 24; 2024(4):56",
+        "retracted": "no",
+        "in_oa_subset": true,
+        "oa_package_href": "ftp://ftp.ncbi.nlm.nih.gov/pub/pmc/oa_package/58/13/PMC11809256.tar.gz",
+        "service_error": null
+    },
+    "efetch": {
+        "url": "https://eutils.ncbi.nlm.nih.gov/entrez/eutils/efetch.fcgi?db=pmc&id=11809256&retmode=xml",
+        "fetched": true,
+        "http_status": 200,
+        "bytes": 149529,
+        "error": ""
+    },
+    "metadata": {
+        "title": "Respiratory syncytial virus: A review of current basic and clinical knowledge",
+        "journal": "Qatar Medical Journal",
+        "journal_abbrev": "Qatar Med J",
+        "publisher": "QScience",
+        "year": "2024",
+        "volume": "2024",
+        "issue": "4",
+        "elocation_or_pages": "56",
+        "doi": "10.5339/qmj.2024.56",
+        "pmid": "39931346",
+        "pmcid": "PMC11809256",
+        "article_types": [
+            "Review"
+        ],
+        "authors": [
+            "Al-leimon Obada",
+            "Shihadeh Hani",
+            "Yousef Ahmad Ayman",
+            "Khraim Anas",
+            "Siwwad Rizeq"
+        ]
+    },
+    "gate_a": {
+        "gate": "a_licence",
+        "result": "PASS",
+        "requirement": "explicit machine-readable CC BY 4.0 (creativecommons.org/licenses/by/4.0) and nothing else",
+        "licence_field_verbatim": "This is an open access article distributed under the terms of the Creative Commons Attribution license CC BY 4.0, which permits unrestricted use, distribution and reproduction in any medium, provided the original work is properly cited.",
+        "licence_uri_verbatim": "https://creativecommons.org/licenses/by/4.0/",
+        "licence_uri_source": "ali:license_ref",
+        "licence_uri_normalised": "creativecommons.org/licenses/by/4.0",
+        "licence_label": "CC BY 4.0",
+        "license_type_attr": null,
+        "copyright_statement_verbatim": "© 2024 Al-leimon, Shihadeh, Yousef, Khraim, Siwwad, licensee HBKU Press.",
+        "raw_permissions_xml": "<permissions xmlns:ns0=\"http://www.niso.org/schemas/ali/1.0/\" xmlns:ns1=\"http://www.w3.org/1999/xlink\"><copyright-statement>© 2024 Al-leimon, Shihadeh, Yousef, Khraim, Siwwad, licensee HBKU Press.</copyright-statement><copyright-year>2024</copyright-year><copyright-holder>HBKU Press.</copyright-holder><license><ns0:license_ref specific-use=\"textmining\" content-type=\"ccbylicense\">https://creativecommons.org/licenses/by/4.0/</ns0:license_ref><license-p>This is an open access article distributed under the terms of the Creative Commons Attribution license <ext-link ext-link-type=\"uri\" ns1:href=\"https://creativecommons.org/licenses/by/4.0/\">CC BY 4.0</ext-link>, which permits unrestricted use, distribution and reproduction in any medium, provided the original work is properly cited.</license-p></license></permissions>",
+        "cc_uris_on_landing_page": [
+            "https://creativecommons.org/licenses/by/4.0"
+        ],
+        "cc_names_on_landing_page_verbatim": {
+            "by": "Creative Commons Attribution"
+        },
+        "landing_page_agrees_with_field": [
+            "URI https://creativecommons.org/licenses/by/4.0",
+            "prose 'Creative Commons Attribution'"
+        ],
+        "landing_page_conflicts_with_field": [],
+        "landing_page_confirms_cc_by_4": true,
+        "reasons": []
+    },
+    "gate_b": {
+        "gate": "b_ai_llm_terms",
+        "result": "PASS",
+        "requirement": "no AI / LLM / generative-AI / text-and-data-mining prohibition on the article's landing page",
+        "pages": [
+            {
+                "url": "https://pmc.ncbi.nlm.nih.gov/articles/PMC11809256/",
+                "fetched": true,
+                "http_status": 200,
+                "bytes": 260858,
+                "error": "",
+                "role": "pmc_landing",
+                "prohibitions": [],
+                "review_items": [],
+                "incidental_mentions": [],
+                "scan": "SCANNED"
+            },
+            {
+                "url": "https://www.qscience.com/view/journals/qmj/2024/4/article-56.xml",
+                "fetched": true,
+                "http_status": 200,
+                "bytes": 1452,
+                "error": "",
+                "role": "publisher_landing",
+                "prohibitions": [],
+                "review_items": [],
+                "incidental_mentions": [],
+                "scan": "SCANNED"
+            }
+        ],
+        "reasons": [],
+        "caveat": "PASS means no prohibition was found on the page(s) fetched. It does not prove none exists; linked PDFs, separate ToS pages and click-through agreements are not read by this tool."
+    },
+    "publisher_page_checked": true,
+    "overall": "PASS",
+    "attribution": "Al-leimon Obada, Shihadeh Hani, Yousef Ahmad Ayman, Khraim Anas, Siwwad Rizeq. Respiratory syncytial virus: A review of current basic and clinical knowledge. Qatar Medical Journal. 2024;2024(4):56. doi:10.5339/qmj.2024.56. PMC11809256. Licensed CC BY 4.0.",
+    "text_file": "PMC11809256.txt",
+    "text_sha256": "e5c42024560a133d7b6f9e9f64585483a210367bcbf30e248e6c1392a3ec1ff3",
+    "text_chars": 32013
+}

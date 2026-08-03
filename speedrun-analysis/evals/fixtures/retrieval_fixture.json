@@ -1,0 +1,270 @@
+{
+    "_warning_1": "SYNTHETIC HARNESS FIXTURE. Every passage below was written by the project author to exercise speedrun-analysis/evals/retrieval_compare.py. It is NOT extracted from any source document, textbook, question bank, or exam. No passage should be cited as evidence about anything.",
+    "_warning_2": "Precision@k measured on this fixture describes THE FIXTURE, not the product. It is harness validation: it shows the three arms are wired up, scored identically, and that the comparison can be lost. The BUILD-DOC 7.3 result requires a real source corpus and a real held-out query set, neither of which exists yet.",
+    "_warning_3": "The relevance labels were written by the same person who wrote the passages, at the same time. That is the weakest possible labelling protocol and it is stated rather than hidden.",
+    "labelling_rule": "A passage is relevant to a query if it states the specific mechanism, quantity, or relationship the query asks about. Topical adjacency is not relevance: a passage about the kidney is not relevant to a query about renin unless it says what releases renin and why.",
+    "corpus": [
+        {
+            "passage_id": "p01",
+            "topic": "cardiovascular",
+            "text": "The pulmonary artery leaves the right ventricle and carries blood with a low oxygen content towards the lungs. It is the one artery in the systemic circulation whose contents are venous in character, which is why the naming convention is by direction of flow rather than by oxygen content."
+        },
+        {
+            "passage_id": "p02",
+            "topic": "respiratory",
+            "text": "Gas exchange takes place across the alveolar membrane, where the alveolus and the pulmonary capillary are separated by a very short diffusion distance. Oxygen moves from alveolar gas into capillary blood and carbon dioxide moves in the opposite direction, each down its own partial pressure gradient."
+        },
+        {
+            "passage_id": "p03",
+            "topic": "respiratory",
+            "text": "During quiet inspiration the diaphragm contracts and descends, thoracic volume rises, and intrapleural pressure becomes more negative. Alveolar pressure falls below atmospheric pressure and air flows inward until the two equalise. Expiration at rest is passive and driven by elastic recoil."
+        },
+        {
+            "passage_id": "p04",
+            "topic": "renal",
+            "text": "The loop of Henle establishes a medullary concentration gradient by countercurrent multiplication. The thick ascending limb actively transports solute out but is impermeable to water, while the descending limb is permeable to water, and the opposing flow in the two limbs multiplies a small transverse difference into a large axial one."
+        },
+        {
+            "passage_id": "p05",
+            "topic": "renal",
+            "text": "Juxtaglomerular cells release renin in response to reduced perfusion pressure, reduced sodium chloride delivery sensed at the macula densa, and sympathetic stimulation. Renin cleaves angiotensinogen, beginning the cascade that raises arterial pressure and promotes sodium retention."
+        },
+        {
+            "passage_id": "p06",
+            "topic": "renal",
+            "text": "Antidiuretic hormone increases water permeability of the collecting duct by inserting aquaporin channels into the apical membrane. Its release is driven by rising plasma osmolality sensed by hypothalamic osmoreceptors, and by large falls in blood volume."
+        },
+        {
+            "passage_id": "p07",
+            "topic": "cardiovascular",
+            "text": "Arterial baroreceptors in the carotid sinus and aortic arch fire less when arterial pressure falls. The reduced afferent traffic withdraws vagal tone and increases sympathetic outflow, so heart rate, contractility, and vascular resistance all rise until pressure is restored."
+        },
+        {
+            "passage_id": "p08",
+            "topic": "cardiovascular",
+            "text": "Stroke volume is set by three factors: preload, the degree of ventricular filling before contraction; afterload, the pressure the ventricle must overcome to eject; and contractility, the intrinsic force of contraction at a given fibre length. Raising preload raises stroke volume along the Frank-Starling relationship."
+        },
+        {
+            "passage_id": "p09",
+            "topic": "pharmacology",
+            "text": "First-pass metabolism is the fraction of an orally administered drug removed by the liver and gut wall before it reaches the systemic circulation. A drug with extensive first-pass extraction has low oral bioavailability, and the same drug given intravenously bypasses that loss entirely."
+        },
+        {
+            "passage_id": "p10",
+            "topic": "pharmacology",
+            "text": "Volume of distribution relates the total amount of drug in the body to the measured plasma concentration. A large value indicates extensive distribution into tissue rather than a literal anatomical volume, and it is the quantity that determines a loading dose."
+        },
+        {
+            "passage_id": "p11",
+            "topic": "pharmacology",
+            "text": "A competitive inhibitor binds the same site as the substrate and its effect is overcome by raising substrate concentration, so the apparent affinity falls while the maximal rate is unchanged. Adding more substrate restores the original maximum."
+        },
+        {
+            "passage_id": "p12",
+            "topic": "pharmacology",
+            "text": "A non-competitive inhibitor binds at a site other than the substrate site and is not overcome by raising substrate concentration. The maximal rate falls because a fraction of enzyme is effectively removed, while the apparent affinity of the remaining enzyme is unchanged."
+        },
+        {
+            "passage_id": "p13",
+            "topic": "neuro",
+            "text": "Myelin raises conduction velocity by forcing the action potential to regenerate only at the nodes of Ranvier, so the depolarisation jumps between nodes instead of propagating continuously. Loss of myelin slows conduction and can block it entirely."
+        },
+        {
+            "passage_id": "p14",
+            "topic": "neuro",
+            "text": "The resting membrane potential sits close to the equilibrium potential for potassium because the resting membrane is far more permeable to potassium than to sodium. Raising extracellular potassium moves that equilibrium potential towards zero and depolarises the cell."
+        },
+        {
+            "passage_id": "p15",
+            "topic": "endocrine",
+            "text": "Insulin increases glucose uptake in muscle and adipose tissue by promoting translocation of the GLUT4 transporter to the cell surface. Tissues whose uptake is insulin-independent, including brain and red cells, are unaffected by this mechanism."
+        },
+        {
+            "passage_id": "p16",
+            "topic": "endocrine",
+            "text": "Thyroid hormone feeds back negatively on the hypothalamus and the anterior pituitary, suppressing thyrotropin-releasing hormone and thyroid-stimulating hormone. A primary failure of the gland therefore raises the stimulating hormone, while a pituitary failure lowers it."
+        },
+        {
+            "passage_id": "p17",
+            "topic": "respiratory",
+            "text": "The oxygen-haemoglobin dissociation curve shifts to the right when carbon dioxide, hydrogen ion concentration, temperature, or 2,3-bisphosphoglycerate rise. A right shift lowers affinity and unloads more oxygen at any given partial pressure, which is what exercising tissue requires."
+        },
+        {
+            "passage_id": "p18",
+            "topic": "respiratory",
+            "text": "A left shift of the oxygen-haemoglobin dissociation curve raises affinity and impairs unloading at the tissue. Fetal haemoglobin, carbon monoxide binding, alkalosis, and hypothermia all shift the curve leftward."
+        },
+        {
+            "passage_id": "p19",
+            "topic": "cardiovascular",
+            "text": "Cardiac output is the product of heart rate and stroke volume. Because the two are not independent, a very high heart rate shortens filling time enough that stroke volume falls and output plateaus or declines."
+        },
+        {
+            "passage_id": "p20",
+            "topic": "renal",
+            "text": "The glomerular filtration barrier has three layers and is selective by both size and charge. Loss of the negative charge on the barrier allows albumin to pass despite no change in pore size, which is why proteinuria can appear with normal-looking architecture."
+        },
+        {
+            "passage_id": "p21",
+            "topic": "renal",
+            "text": "Angiotensin II raises arterial pressure by direct vasoconstriction and by driving aldosterone release from the adrenal cortex, which increases sodium reabsorption in the distal nephron. This passage describes what happens after the cascade has already been started."
+        },
+        {
+            "passage_id": "p22",
+            "topic": "cardiovascular",
+            "text": "The pulmonary veins return blood with a high oxygen content from the lungs to the left atrium. They are the veins whose contents are arterial in character, the mirror image of the naming problem on the other side of the pulmonary circulation."
+        },
+        {
+            "passage_id": "p23",
+            "topic": "respiratory",
+            "text": "Anatomical dead space is the volume of the conducting airways, which is ventilated but takes no part in gas exchange. Alveolar ventilation is the portion of minute ventilation that actually reaches exchanging alveoli, and it is what determines arterial carbon dioxide."
+        },
+        {
+            "passage_id": "p24",
+            "topic": "cardiovascular",
+            "text": "The Frank-Starling relationship describes how a longer initial sarcomere length produces a more forceful contraction. It is a property of the muscle itself and is preserved in the denervated heart, which is why a transplanted heart still responds to filling."
+        },
+        {
+            "passage_id": "p25",
+            "topic": "pharmacology",
+            "text": "Clearance is the volume of plasma cleared of drug per unit time, and together with volume of distribution it fixes the elimination half-life. Clearance, not volume of distribution, is the quantity that determines the maintenance dose."
+        },
+        {
+            "passage_id": "p26",
+            "topic": "neuro",
+            "text": "Conduction velocity also rises with axon diameter, because a wider axon has lower internal resistance to longitudinal current flow. The largest unmyelinated fibres can therefore conduct faster than the smallest myelinated ones."
+        },
+        {
+            "passage_id": "p27",
+            "topic": "renal",
+            "text": "Potassium is secreted into the filtrate by principal cells of the collecting duct, and the rate depends on aldosterone, on distal flow, and on the potassium concentration inside the cell. This is a transport process, not a membrane potential."
+        },
+        {
+            "passage_id": "p28",
+            "topic": "endocrine",
+            "text": "Glucose transporters differ by tissue: GLUT1 is widely distributed and constitutive, GLUT2 sits in the liver and the pancreatic beta cell as a high-capacity low-affinity route, and GLUT3 serves neurons. Their distribution explains which tissues take up glucose independently of hormone."
+        }
+    ],
+    "queries": [
+        {
+            "query_id": "q01",
+            "text": "which vessel leaves the right ventricle carrying deoxygenated blood",
+            "relevant_passage_ids": ["p01"]
+        },
+        {
+            "query_id": "q02",
+            "text": "where does gas exchange take place in the lung",
+            "relevant_passage_ids": ["p02"]
+        },
+        {
+            "query_id": "q03",
+            "text": "what makes thoracic volume rise during inspiration",
+            "relevant_passage_ids": ["p03"]
+        },
+        {
+            "query_id": "q04",
+            "text": "how does the loop of Henle build a medullary gradient",
+            "relevant_passage_ids": ["p04"]
+        },
+        {
+            "query_id": "q05",
+            "text": "what does the kidney release when perfusion pressure drops",
+            "relevant_passage_ids": ["p05"]
+        },
+        {
+            "query_id": "q06",
+            "text": "hormone that increases water reabsorption in the collecting duct",
+            "relevant_passage_ids": ["p06"]
+        },
+        {
+            "query_id": "q07",
+            "text": "baroreceptor response to a fall in arterial pressure",
+            "relevant_passage_ids": ["p07"]
+        },
+        {
+            "query_id": "q08",
+            "text": "what determines stroke volume",
+            "relevant_passage_ids": ["p08"]
+        },
+        {
+            "query_id": "q09",
+            "text": "why does oral bioavailability differ from an intravenous dose",
+            "relevant_passage_ids": ["p09"]
+        },
+        {
+            "query_id": "q10",
+            "text": "which quantity determines a loading dose",
+            "relevant_passage_ids": ["p10"]
+        },
+        {
+            "query_id": "q11",
+            "text": "competitive versus non-competitive enzyme inhibition",
+            "relevant_passage_ids": ["p11", "p12"]
+        },
+        {
+            "query_id": "q12",
+            "text": "how myelin changes conduction velocity",
+            "relevant_passage_ids": ["p13"]
+        },
+        {
+            "query_id": "q13",
+            "text": "why the resting membrane potential tracks potassium",
+            "relevant_passage_ids": ["p14"]
+        },
+        {
+            "query_id": "q14",
+            "text": "how insulin increases glucose uptake in muscle",
+            "relevant_passage_ids": ["p15"]
+        },
+        {
+            "query_id": "q15",
+            "text": "negative feedback in the thyroid axis",
+            "relevant_passage_ids": ["p16"]
+        },
+        {
+            "query_id": "q16",
+            "text": "what shifts the oxygen haemoglobin dissociation curve",
+            "relevant_passage_ids": ["p17", "p18"]
+        },
+        {
+            "query_id": "q17",
+            "text": "relationship between cardiac output heart rate and stroke volume",
+            "relevant_passage_ids": ["p19", "p08"]
+        },
+        {
+            "query_id": "q18",
+            "text": "why albumin appears in the urine when charge selectivity is lost",
+            "relevant_passage_ids": ["p20"]
+        },
+        {
+            "query_id": "q19",
+            "text": "why do the kidneys hold on to salt when circulating volume falls",
+            "relevant_passage_ids": ["p05", "p21"]
+        },
+        {
+            "query_id": "q20",
+            "text": "what makes haemoglobin give up more oxygen in exercising muscle",
+            "relevant_passage_ids": ["p17"]
+        },
+        {
+            "query_id": "q21",
+            "text": "which quantity fixes the maintenance dose",
+            "relevant_passage_ids": ["p25"]
+        },
+        {
+            "query_id": "q22",
+            "text": "which part of the airway is ventilated but never exchanges gas",
+            "relevant_passage_ids": ["p23"]
+        },
+        {
+            "query_id": "q23",
+            "text": "why a transplanted heart still responds to increased filling",
+            "relevant_passage_ids": ["p24"]
+        },
+        {
+            "query_id": "q24",
+            "text": "which tissues take up sugar without needing a hormone",
+            "relevant_passage_ids": ["p28", "p15"]
+        }
+    ]
+}
