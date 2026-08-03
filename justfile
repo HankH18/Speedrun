@@ -71,6 +71,10 @@ test-e2e ui='': _install-playwright-browsers
     {{ ninja }} pyenv ts:generated pylib qt
     {{ playwright_env }} {{ yarn }} test:e2e {{ ui }}
 
+# Run the speedrun performance benchmarks on a 50k-card deck, reporting median, p95 and worst case against each budget. Release profile; ignored by `just check`.
+bench:
+    cargo test -p anki --lib --release speedrun::bench -- --ignored --nocapture
+
 [private]
 _test:
     {{ ninja }} check:rust_test check:pytest check:vitest

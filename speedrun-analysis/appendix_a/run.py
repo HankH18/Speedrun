@@ -18,11 +18,30 @@ named at every use.
 from __future__ import annotations
 
 import sys
+import types
 from pathlib import Path
 
-sys.path.insert(0, str(Path(__file__).resolve().parent))
+# Report only ever from the model on disk, never from cached bytecode -- a .pyc
+# is invalidated on (source mtime seconds, source size), so a same-length edit
+# inside one mtime second is masked. `sys.dont_write_bytecode` stops Python
+# WRITING a .pyc but not READING one another tool already wrote, so the report
+# compiles the source text itself. See the fuller note in test_model.py.
+sys.dont_write_bytecode = True
 
-import model as m  # noqa: E402
+MODEL_PATH = Path(__file__).resolve().parent / "model.py"
+
+
+def load_model_from_source() -> types.ModuleType:
+    """Load model.py by compiling its SOURCE TEXT. Never reads a .pyc."""
+    source = MODEL_PATH.read_text(encoding="utf-8")
+    module = types.ModuleType("model")
+    module.__file__ = str(MODEL_PATH)
+    exec(compile(source, str(MODEL_PATH), "exec"), module.__dict__)
+    sys.modules["model"] = module
+    return module
+
+
+m = load_model_from_source()
 
 
 WIDTH = 78

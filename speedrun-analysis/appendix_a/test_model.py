@@ -22,13 +22,39 @@ same protocol used for the FSRS precedent error.
 
 from __future__ import annotations
 
+import ast
 import sys
 import traceback
+import types
 from pathlib import Path
 
-sys.path.insert(0, str(Path(__file__).resolve().parent))
+# Never let cached bytecode into the trust path. Python invalidates a source
+# .pyc on (source mtime seconds, source size), so an edit that changes neither
+# -- "P_LINEAR = 1.0" to "P_LINEAR = 2.0" is the same byte length -- is served
+# from the stale cache within the same mtime second, and the tamper-check then
+# passes on a tampered model. Observed in practice; it is not hypothetical.
+#
+# `sys.dont_write_bytecode` alone does NOT close this: it stops Python WRITING a
+# .pyc, not READING one that some other tool (pytest, an IDE, a plain `import
+# model`) already left in __pycache__. It is kept only so this file litters
+# nothing. The actual fix is `load_model_from_source` below, which compiles the
+# source text itself and never consults the cache at all.
+sys.dont_write_bytecode = True
 
-import model as m  # noqa: E402
+MODEL_PATH = Path(__file__).resolve().parent / "model.py"
+
+
+def load_model_from_source() -> types.ModuleType:
+    """Load model.py by compiling its SOURCE TEXT. Never reads a .pyc."""
+    source = MODEL_PATH.read_text(encoding="utf-8")
+    module = types.ModuleType("model")
+    module.__file__ = str(MODEL_PATH)
+    exec(compile(source, str(MODEL_PATH), "exec"), module.__dict__)
+    sys.modules["model"] = module
+    return module
+
+
+m = load_model_from_source()
 
 
 # ---------------------------------------------------------------------------
@@ -299,6 +325,59 @@ def test_frozen_constants() -> None:
     eq(m.CEILING_D, m.DELTA_D, "ceiling is Delta_d itself", 6)
 
 
+def test_frozen_constants_match_the_source_text_on_disk() -> None:
+    """Assert the frozen constants against the BYTES OF model.py, not against an
+    imported module -- so no import mechanism, cache or loader sits between the
+    pre-registration and the check.
+
+    This is the belt to `load_model_from_source`'s braces. A stale .pyc that
+    validates on (mtime, size) can satisfy every other test in this file while
+    the source on disk says something else; parsing the source text cannot be
+    fooled that way. It also proves the loaded module and the file agree.
+    """
+    tree = ast.parse(MODEL_PATH.read_text(encoding="utf-8"))
+    literals: dict[str, object] = {}
+    for node in tree.body:
+        if isinstance(node, ast.Assign) and len(node.targets) == 1:
+            target = node.targets[0]
+            if isinstance(target, ast.Name):
+                try:
+                    literals[target.id] = ast.literal_eval(node.value)
+                except (ValueError, SyntaxError, TypeError):
+                    continue  # e.g. CEILING_D = DELTA_D, a name not a literal
+
+    expected = {
+        "DELTA_D": 0.30, "SLOPE": 0.0058, "C_CENTRAL": 2.0, "ALPHA_PRIMARY": 0.5,
+        "DELTA_A_CENTRAL": 4.0, "CALIBRATION_DEFICIT": 0.25, "P_LINEAR": 1.0,
+        "A0": 85.0, "FLOOR": 60.0, "SIGMA": 13.0, "ALPHA_GRID_STEP": 0.01,
+        "C_SWEEP": (1.0, 1.5, 2.0, 2.5, 3.0), "DELTA_A_SWEEP": (2.0, 4.0, 8.0),
+    }
+    for name, want in expected.items():
+        assert name in literals, f"{name} is not a module-level literal in model.py"
+        got = literals[name]
+        assert got == want, (
+            f"{name}: pre-registered {want!r}, model.py SOURCE TEXT says {got!r}"
+        )
+        assert getattr(m, name) == got, (
+            f"{name}: loaded module has {getattr(m, name)!r} but the source text on "
+            f"disk says {got!r} -- the model was NOT loaded from source"
+        )
+
+
+def test_alpha_star_ties_resolve_to_the_lower_alpha() -> None:
+    """`alpha_star` documents that ties resolve to the LOWER alpha. Assert it on a
+    genuine tie, so the strict `>` in the grid search cannot silently become `>=`.
+
+    At c = 1.0 congruency is free (deficit = 0, so Delta_a = 0 and no penalty);
+    with Delta_d = 0 there is no gain either, so net is exactly 0.0 at every
+    alpha on the grid and the whole range is one tie.
+    """
+    assert m.net_d(0.01, 1.0, delta_d=0.0) == 0.0 == m.net_d(1.0, 1.0, delta_d=0.0), (
+        "precondition: c = 1, Delta_d = 0 must be a flat tie across the grid"
+    )
+    eq(m.alpha_star(c=1.0, delta_d=0.0), 0.01, "tie must resolve to the lower alpha", 6)
+
+
 def test_superseded_ungated_formulation() -> None:
     """The pre-Revision-3 additive model, retained for provenance. It is what
     produced the unwanted corner and motivated gating; it is NOT under test."""
@@ -313,8 +392,7 @@ def test_superseded_ungated_formulation() -> None:
         eq(m.net_d_ungated(alpha), net, f"ungated net at alpha = {alpha} (d)", 3)
     # Gating multiplies the primary's congruency gain by 0.84 and leaves the
     # penalty untouched, moving the primary from +0.077 d to +0.061 d.
-    eq(m.net_d_ungated(0.5) - m.retention_penalty_d(0.5, 2.0) * 0, 0.0768,
-       "ungated primary (d)", 4)
+    eq(m.net_d_ungated(0.5), 0.0768, "ungated primary (d)", 4)
     eq(m.retention_gate(0.5, 2.0), 0.84, "gate applied to the primary", 4)
 
 

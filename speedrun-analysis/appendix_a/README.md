@@ -46,10 +46,10 @@ protocol used for the FSRS precedent error.
 
 ## Units — d and pp are not interchangeable
 
-| Unit   | Meaning                                                                     |
-| ------ | --------------------------------------------------------------------------- |
-| **d**  | Effect size. **The pre-registered results live here.**                       |
-| **pp** | Percentage points of held-out novel-item accuracy. **A conversion only.**    |
+| Unit   | Meaning                                                                   |
+| ------ | ------------------------------------------------------------------------- |
+| **d**  | Effect size. **The pre-registered results live here.**                    |
+| **pp** | Percentage points of held-out novel-item accuracy. **A conversion only.** |
 
 Converting d to pp requires σ, the between-learner SD, and **σ = 13 pp is
 assumed, not literature-derived**. It scales the predicted effect and the ceiling
@@ -64,13 +64,13 @@ asserts this by moving σ and checking the boundary does not budge.
 
 ## What it computes
 
-| Result                | Value                                                        |
-| --------------------- | ------------------------------------------------------------ |
+| Result                | Value                                                            |
+| --------------------- | ---------------------------------------------------------------- |
 | **Primary**           | **+0.0608 d** (+0.79 pp at σ = 13 pp), at fixed α = 0.5, c = 2.0 |
-| **Null case (Δ_d=0)** | **−0.0232 d** (−0.30 pp at σ = 13 pp) — the penalty alone     |
-| **Ceiling tripwire**  | **0.30 d** (3.9 pp at σ = 13 pp) — Δ_d itself                 |
-| **Boundary at c=2.0** | **Δ_d\* = 0.083 d** — 28% of the published effect             |
-| **α\* (secondary)**   | **1.00** — the corner, for every c in [1.5, 3.0]              |
+| **Null case (Δ_d=0)** | **−0.0232 d** (−0.30 pp at σ = 13 pp) — the penalty alone        |
+| **Ceiling tripwire**  | **0.30 d** (3.9 pp at σ = 13 pp) — Δ_d itself                    |
+| **Boundary at c=2.0** | **Δ_d\* = 0.083 d** — 28% of the published effect                |
+| **α\* (secondary)**   | **1.00** — the corner, for every c in [1.5, 3.0]                 |
 
 The primary is a **fixed-allocation comparison, not an optimization.** It answers
 "does spending half the budget on congruent practice beat spending none?" It does
@@ -108,7 +108,7 @@ Delta_a = 4.0 * (deficit / 0.25) ** p     # p = 1, pre-registered
 
 That line is **linear in α by construction** — verified symbolically, second
 derivative identically zero. It is calibrated at α = 0.5 and extrapolated to
-α = 1.0, which is *exactly where the corner optimum sits*. The prediction is
+α = 1.0, which is _exactly where the corner optimum sits_. The prediction is
 therefore made at the point furthest from its own calibration.
 
 The FSRS-based simulation does not assert that shape — it **produces** it, from
@@ -138,10 +138,10 @@ Stated here in advance so it cannot be chosen afterwards:
   nothing the linear approximation missed. A null finding about one's own added
   machinery is still a finding.
 - **The primary is a second live question.** It is insulated from the penalty's
-  *shape* (p cannot move it — every shape agrees at the calibration point by
-  construction) but **not at all from its *level***:
+  _shape_ (p cannot move it — every shape agrees at the calibration point by
+  construction) but **not at all from its _level_**:
 
-  > net(α = 0.5) = 0.100 − 0.0098 × Δ_a   (in d, at c = 2.0)
+  > net(α = 0.5) = 0.100 − 0.0098 × Δ_a (in d, at c = 2.0)
 
   Δ_a = 4 pp is a calibration, not a derivation. In simulation **FSRS determines
   the actual accuracy loss from 25% fewer reviews** — an output of the scheduling
@@ -184,12 +184,12 @@ the model.**
 Repeated here rather than left in BRAINLIFT.md, because burying them would be the
 same failure this project keeps recording.
 
-- This tests whether the mechanism **could** work *given* the published effect
+- This tests whether the mechanism **could** work _given_ the published effect
   sizes hold in this population. It is not evidence that it works in humans, and
   it cannot become such evidence by being run more times or more carefully.
 - A model cannot discover an effect it was not given. Δ_d = 0.30 is an **input**.
-  The only honest outputs are conditional and directional: *if* Δ_d is at least
-  X, *then* the allocation pays. **That conditional is the deliverable.**
+  The only honest outputs are conditional and directional: _if_ Δ_d is at least
+  X, _then_ the allocation pays. **That conditional is the deliverable.**
 - The published effect sizes come from a meta-analysis of laboratory studies, not
   from medical students preparing for Step 1. Whether they transfer to this
   population is the assumption the sweep exists to expose, and it is not tested
@@ -201,9 +201,9 @@ same failure this project keeps recording.
 
 ## Files
 
-| File             | Purpose                                                                  |
-| ---------------- | ------------------------------------------------------------------------ |
-| `model.py`       | The analytic model. Every constant carries its provenance in a docstring. |
-| `run.py`         | The single entry point. Prints the full report.                          |
-| `test_model.py`  | The tamper-check. Asserts every pre-registered number.                    |
-| `README.md`      | This file.                                                               |
+| File            | Purpose                                                                   |
+| --------------- | ------------------------------------------------------------------------- |
+| `model.py`      | The analytic model. Every constant carries its provenance in a docstring. |
+| `run.py`        | The single entry point. Prints the full report.                           |
+| `test_model.py` | The tamper-check. Asserts every pre-registered number.                    |
+| `README.md`     | This file.                                                                |

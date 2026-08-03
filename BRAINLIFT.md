@@ -655,7 +655,7 @@ Derivation, every assumption named so the sweep can attack it:
 14. **Retention penalty:** 0.0058 × 4 = **−0.0232 _d_**.
 15. **Net:** 0.0840 − 0.0232 = **+0.0608 _d_** → at σ = 13, **+0.79 pp**.
 
-**σ changes the percentage-point figures and nothing else.** At σ = 10 the prediction is +0.77 pp; at σ = 16, +1.23 pp. The _d_ result is unchanged by construction, and — more importantly — **the Δ_d_\* crossing point is entirely σ-free**, because gain and penalty both scale by σ and it cancels. The headline deliverable therefore does not depend on the one number in this table with no grounding at all.
+**σ changes the percentage-point figures and nothing else.** At σ = 10 the prediction is +0.61 pp; at σ = 16, +0.97 pp. _(Revision 5: these were +0.77 and +1.23, computed from the pre-gating primary of 0.077 d and never updated when Revision 3 lowered it to 0.061 d. Caught by the Appendix A harness reproducing the numbers independently — which is what that harness is for.)_ The _d_ result is unchanged by construction, and — more importantly — **the Δ_d_\* crossing point is entirely σ-free**, because gain and penalty both scale by σ and it cancels. The headline deliverable therefore does not depend on the one number in this table with no grounding at all.
 
 **Both falsifiers, restated in _d_:**
 
@@ -736,7 +736,7 @@ Pre-registered α\* map, by cost multiplier and retention-penalty scale (floor 6
 | **1.0 (current, linear)** | 8.0 pp        | **1.00**          | 0.158 _d_  |
 | 1.5                       | 11.3 pp       | 1.00              | 0.099 _d_  |
 | **1.55**                  | **11.7 pp**   | **corner breaks** | —          |
-| 1.75                      | 13.5 pp       | 0.78              | 0.075 _d_  |
+| 1.75                      | 13.5 pp       | 0.78              | 0.074 _d_  |
 | 2.0                       | 16.0 pp       | 0.65              | 0.066 _d_  |
 | 3.0                       | 32.0 pp       | 0.49              | 0.061 _d_  |
 

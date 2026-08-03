@@ -3,10 +3,12 @@
 
 //! Per-topic mastery aggregation.
 //!
-//! Read-only. Two single-pass queries — one over `cards` joined to `notes` for
-//! tags, one over `revlog` in card order — then all aggregation happens in
+//! Read-only. Two single-pass data queries — one over `cards` joined to `notes`
+//! for tags, one over `revlog` in card order — then all aggregation happens in
 //! Rust. Neither is per-card, so this is O(cards + revlog) rather than N+1.
 //! The 50,000-card dashboard target is the reason for that shape.
+//! (`timing_today` reads config besides those two; the claim is about the two
+//! table scans, not a count of every statement issued.)
 
 use std::collections::HashMap;
 
@@ -27,11 +29,17 @@ use crate::tags::split_tags;
 /// carry several; it counts once under each.
 pub const TOPIC_TAG_PREFIX: &str = "speedrun::topic::";
 
-/// A card is mature at an interval of 21 days or more. Upstream has no shared
-/// constant for this — the literal 21 is repeated at
-/// `stats/graphs/card_counts.rs`, `stats/graphs/today.rs` and
-/// `stats/graphs/buttons.rs`. We match the card-level definition used by
-/// `card_counts.rs`: a review card whose interval is at least 21 days.
+/// A card is mature at an interval of 21 days or more. Upstream has no *shared*
+/// constant for this: `rg '\b21\b' rslib/src/stats/graphs/` returns five hits —
+/// `card_counts.rs` (`card.interval < 21`), `today.rs`
+/// (`review.last_interval >= 21`), `buttons.rs` and `reviews.rs`
+/// (`review.last_interval < 21`), plus a function-local
+/// `const MATURE_IVL: i32 = 21` in `retention.rs` that is private to the
+/// closure it sits in. Four of the five are a property of a *review* (the
+/// interval at the time it was answered); only `card_counts.rs` is a property
+/// of the card now. `mature_count` is a property of the collection now, so we
+/// match `card_counts.rs`: a review card whose current interval is at least 21
+/// days.
 const MATURE_INTERVAL_DAYS: u32 = 21;
 
 /// One card's contribution, read in a single pass.
@@ -115,7 +123,13 @@ fn row_to_card_row(row: &Row) -> std::result::Result<CardRow, rusqlite::Error> {
 impl Collection {
     /// Aggregate per-topic mastery over cards tagged `speedrun::topic::*`.
     ///
-    /// Read-only: no writes, no `OpChanges`, no undo entry.
+    /// Issues no writes of its own, no `OpChanges` and no undo entry: every
+    /// statement below is a `SELECT`. The one caveat, stated rather than
+    /// glossed: `timing_today()` on the first line will, on a collection that
+    /// has never had them, lazily persist the `rollover` and `localOffset`
+    /// config keys. That is Anki's own one-time scheduler backfill, it happens
+    /// outside any transaction so it takes no undo entry, and it is pinned by
+    /// `topic_mastery_itself_triggers_the_backfill_on_a_cold_collection`.
     pub fn topic_mastery(&mut self, req: TopicMasteryRequest) -> Result<TopicMasteryResponse> {
         // `params.rs` measures delta_t in whole days against the collection's
         // day boundary, so we need the same reference point.
@@ -147,9 +161,12 @@ impl Collection {
             .query_and_then([format!("%{TOPIC_TAG_PREFIX}%")], row_to_card_row)?
             .collect::<std::result::Result<_, _>>()?;
 
-        // Pass 2: revlog for those cards, in card order, so each card's history
-        // can be walked once. Anki's own filter and item-construction rule are
-        // applied below rather than re-derived.
+        // Pass 2: the whole revlog once, in card order, so each card's history
+        // can be walked in sequence. It is not restricted to the tagged cards —
+        // `get_all_revlog_entries_in_card_order` has no predicate — but the
+        // per-card totals are only ever read back for cards that survived pass
+        // 1. Anki's own filter and item-construction rule are applied below
+        // rather than re-derived.
         let mut per_card_counts: HashMap<CardId, (u32, u32)> = HashMap::new();
         if !cards.is_empty() {
             let entries: Vec<RevlogEntry> = self.storage.get_all_revlog_entries_in_card_order()?;
@@ -422,5 +439,267 @@ mod test {
         // 3 distinct cards, but 4 topic memberships.
         let memberships: u32 = all.topics.iter().map(|t| t.card_count).sum();
         assert_eq!(memberships, 4);
+    }
+
+    /// Everything an observer could see the query change. All five come from
+    /// upstream, none are invented here:
+    ///   `get_all_cards`   storage/card/mod.rs   (`#[cfg(test)]`)
+    ///   `get_all_notes`   storage/note/mod.rs   (`#[cfg(test)]`)
+    ///   `get_all_revlog_entries_in_card_order`  storage/revlog/mod.rs
+    ///   `collection_change`  the mtime the undo tests assert on
+    ///   `changes_since_open` collection/mod.rs, documented there as the way
+    ///                        to "detect if the collection was modified or not"
+    #[derive(Debug, PartialEq)]
+    struct Snapshot {
+        cards: Vec<Card>,
+        notes: Vec<Note>,
+        revlog: Vec<RevlogEntry>,
+        collection_mtime: TimestampMillis,
+        rows_written_since_open: u64,
+    }
+
+    fn snapshot(col: &mut Collection) -> Snapshot {
+        Snapshot {
+            cards: col.storage.get_all_cards(),
+            notes: col.storage.get_all_notes(),
+            revlog: col.storage.get_all_revlog_entries_in_card_order().unwrap(),
+            collection_mtime: col
+                .storage
+                .get_collection_timestamps()
+                .unwrap()
+                .collection_change,
+            rows_written_since_open: col.changes_since_open().unwrap(),
+        }
+    }
+
+    fn card_count(col: &Collection) -> u32 {
+        col.storage.db_scalar("select count() from cards").unwrap()
+    }
+
+    fn note_count(col: &Collection) -> u32 {
+        col.storage.db_scalar("select count() from notes").unwrap()
+    }
+
+    fn config_keys(col: &Collection) -> String {
+        col.storage
+            .db_scalar("select group_concat(key) from (select key from config order by key)")
+            .unwrap()
+    }
+
+    fn has_config_key(col: &Collection, key: &str) -> bool {
+        config_keys(col).split(',').any(|k| k == key)
+    }
+
+    /// The only rows written anywhere near this query are Anki's own, and they
+    /// are written by the scheduler before we ever touch the database.
+    ///
+    /// `topic_mastery` calls `timing_today()` for the day boundary. On a
+    /// collection that has never had them, that lazily persists two config
+    /// keys — `rollover` (`timing_for_timestamp`: "an older Anki version
+    /// failed to set this; correct the issue") and `localOffset`
+    /// (`local_utc_offset_for_user`). Both happen outside any transaction, so
+    /// neither takes an undo entry, and both are one-time. Pinning that here
+    /// means the two tests below can assert *zero* writes and mean it.
+    #[test]
+    fn the_only_writes_are_ankis_one_time_scheduler_backfill() -> Result<()> {
+        let mut col = fixture();
+        assert!(!has_config_key(&col, "rollover"));
+        assert!(!has_config_key(&col, "localOffset"));
+
+        let start = col.changes_since_open()?;
+        let undo_before = col.undo_status();
+        col.timing_today()?;
+        let warm = col.changes_since_open()?;
+
+        assert_eq!(warm - start, 2, "exactly two rows, both in config");
+        assert!(has_config_key(&col, "rollover"));
+        assert!(has_config_key(&col, "localOffset"));
+        // Written outside a transaction, so the undo stack never saw them.
+        let undo_after = col.undo_status();
+        assert_eq!(undo_after.undo, undo_before.undo);
+        assert_eq!(undo_after.last_step, undo_before.last_step);
+
+        // With the backfill done, the aggregation itself writes nothing at
+        // all — not once, and not a hundred times.
+        for _ in 0..100 {
+            let _ = col.topic_mastery(TopicMasteryRequest::default())?;
+        }
+        assert_eq!(
+            col.changes_since_open()?,
+            warm,
+            "topic_mastery wrote rows of its own"
+        );
+
+        Ok(())
+    }
+
+    /// The test above calls `timing_today()` explicitly, so on its own it does
+    /// not pin *who* triggers the backfill — it would still pass if
+    /// `topic_mastery` had never called `timing_today` at all. This one closes
+    /// that gap: on a cold collection, the very first `topic_mastery` call is
+    /// itself what persists the two config keys. That is why the module says
+    /// "issues no writes of its own" rather than the stronger "writes nothing".
+    #[test]
+    fn topic_mastery_itself_triggers_the_backfill_on_a_cold_collection() -> Result<()> {
+        let mut col = fixture();
+        assert!(!has_config_key(&col, "rollover"));
+        assert!(!has_config_key(&col, "localOffset"));
+
+        let start = col.changes_since_open()?;
+        let undo_before = col.undo_status();
+        let _ = col.topic_mastery(TopicMasteryRequest::default())?;
+
+        assert_eq!(
+            col.changes_since_open()? - start,
+            2,
+            "the first query is what writes the scheduler backfill, not the caller"
+        );
+        assert!(has_config_key(&col, "rollover"));
+        assert!(has_config_key(&col, "localOffset"));
+        // Still no undo entry: those two rows go in outside any transaction.
+        assert_eq!(col.undo_status().undo, undo_before.undo);
+        assert_eq!(col.undo_status().last_step, undo_before.last_step);
+
+        Ok(())
+    }
+
+    /// (d) BUILD-DOC §3.3 — undo proof.
+    ///
+    /// `topic_mastery` is read-only: it opens no transaction, takes no undo
+    /// entry, and so cannot disturb the undo stack. Prove it by running the
+    /// query *between* a real undoable operation and its undo, and asserting
+    /// the undo stack is identical either side of the query and that the undo
+    /// then reverts the operation — not the query.
+    ///
+    /// Read the limit of this honestly: no test that asserts "calling X changed
+    /// nothing" can be made to fail by deleting the call to X. Deleting the
+    /// query below (and the assertions that consume its result) leaves this
+    /// test green. What gives it teeth is mutation, and that was checked
+    /// rather than assumed — with `topic_mastery` sabotaged to run
+    /// `self.transact(Op::UpdateCard, |_| Ok(()))`, an empty transaction that
+    /// commits no rows at all, this test fails on "undo counter did not
+    /// advance". `repeated_queries_leave_the_collection_identical` and
+    /// `the_only_writes_are_ankis_one_time_scheduler_backfill` both stay green
+    /// under that same sabotage, because `changes_since_open()` never moves and
+    /// the snapshot is byte-identical. `undo_status()` is the only observable
+    /// that sees it, and it is read by exactly two tests here.
+    #[test]
+    fn query_between_operation_and_undo_is_inert() -> Result<()> {
+        let mut col = fixture();
+        // Do Anki's one-time scheduler backfill up front so it is not
+        // attributed to the query — see
+        // `the_only_writes_are_ankis_one_time_scheduler_backfill`, which is
+        // what proves those two writes are the scheduler's and not ours.
+        col.timing_today()?;
+
+        // A real undoable operation: add_note goes through
+        // `transact(Op::AddNote, ..)`, which pushes an undo step.
+        let nt = col.get_notetype_by_name("Basic")?.unwrap();
+        let mut note = nt.new_note();
+        note.set_field(0, "undo probe")?;
+        note.set_field(1, "back")?;
+        note.tags = vec!["speedrun::topic::cardio".to_string()];
+        col.add_note(&mut note, DeckId(1))?;
+        assert_eq!(card_count(&col), 4);
+        assert_eq!(note_count(&col), 4);
+
+        // Undo state BEFORE the query.
+        let before = col.undo_status();
+        assert_eq!(
+            before.undo,
+            Some(Op::AddNote),
+            "the op we are about to undo"
+        );
+        assert_eq!(before.redo, None);
+        let step_before = before.last_step;
+        let state_before = snapshot(&mut col);
+
+        // ---- the query, run in the middle of the undoable operation ----
+        let resp = col.topic_mastery(TopicMasteryRequest::default())?;
+        // It really did read the collection, including the not-yet-undone note.
+        assert_eq!(topic(&resp, "speedrun::topic::cardio").card_count, 3);
+
+        // Undo state AFTER the query: unchanged in all three components. If the
+        // query had opened a transaction, `last_step` would have advanced and
+        // `undo` would name the query's op instead of AddNote.
+        let after = col.undo_status();
+        assert_eq!(after.undo, Some(Op::AddNote), "query pushed no undo step");
+        assert_eq!(after.redo, None, "query did not clear the redo queue");
+        assert_eq!(after.last_step, step_before, "undo counter did not advance");
+        // And the collection itself is untouched — same rows, same mtime, and
+        // SQLite wrote no rows at all while the query ran.
+        assert_eq!(
+            snapshot(&mut col),
+            state_before,
+            "query modified collection"
+        );
+
+        // The undo still succeeds, and undoes the *right* operation.
+        let out = col.undo()?;
+        assert_eq!(out.output.undone_op, Op::AddNote);
+        assert_eq!(card_count(&col), 3, "the added card is gone");
+        assert_eq!(note_count(&col), 3, "the added note is gone");
+
+        // And the query run above really was reading the live collection, not a
+        // snapshot taken before the operation: the same request now answers 2,
+        // and the undo is what moved it.
+        let after_undo = col.topic_mastery(TopicMasteryRequest::default())?;
+        assert_eq!(topic(&after_undo, "speedrun::topic::cardio").card_count, 2);
+        assert_ne!(
+            resp, after_undo,
+            "the mid-operation query must have observed the pre-undo collection"
+        );
+
+        // Redo restores it, so that really was an undo of a real op and the
+        // undo/redo pair still works after the query.
+        col.redo()?;
+        assert_eq!(card_count(&col), 4);
+        assert_eq!(note_count(&col), 4);
+        assert_eq!(col.undo_status().undo, Some(Op::AddNote));
+
+        Ok(())
+    }
+
+    /// (e) BUILD-DOC §3.3 — no-corruption proof.
+    ///
+    /// 100 consecutive queries: identical responses every time, an identical
+    /// collection at the end, and SQLite's own integrity check still clean.
+    #[test]
+    fn repeated_queries_leave_the_collection_identical() -> Result<()> {
+        let mut col = fixture();
+
+        // Pin `as_of` so retrievability is not a function of the wall clock;
+        // otherwise a second boundary crossed mid-loop would change the answer
+        // for reasons that have nothing to do with the collection.
+        let req = TopicMasteryRequest {
+            topic_tags: vec![],
+            as_of_unix_secs: TimestampSecs::now().0,
+        };
+
+        // Same one-time scheduler backfill as above, done before the baseline.
+        col.timing_today()?;
+        let first = col.topic_mastery(req.clone())?;
+        assert!(!first.topics.is_empty(), "fixture must produce topics");
+        let state_before = snapshot(&mut col);
+
+        for i in 0..100 {
+            let resp = col.topic_mastery(req.clone())?;
+            assert_eq!(resp, first, "response differed on iteration {i}");
+        }
+
+        assert_eq!(
+            snapshot(&mut col),
+            state_before,
+            "100 queries modified the collection"
+        );
+        assert!(
+            !col.storage.quick_check_corrupt(),
+            "sqlite quick_check reported corruption"
+        );
+        // The undo stack is still whatever the fixture left it as — the queries
+        // added nothing to it.
+        assert!(col.can_redo().is_none());
+
+        Ok(())
     }
 }
