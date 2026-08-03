@@ -111,6 +111,13 @@ class Outline:
     topics: Tuple[Topic, ...]
 
 
+CAVEAT_LINE = (
+    "  NOTE: weighted percentages are a GROUP-LEVEL UPPER BOUND, not exam coverage.\n"
+    "        Every published weight sits at an axis root, so the subtree figure asks\n"
+    "        only whether ANY card lands anywhere inside a group. Lead with the topic\n"
+    "        counts above, never with these percentages."
+)
+
 def _sha256_file(path: Path) -> str:
     digest = hashlib.sha256()
     with path.open("rb") as handle:
@@ -646,7 +653,12 @@ def render_report(report: dict, topics: Sequence[Topic], max_list: int) -> str:
     add("")
 
     add(THIN)
-    add("WEIGHTED COVERAGE  (headline; per axis; NEVER summed across axes)")
+    add("WEIGHTED COVERAGE  -- GROUP-LEVEL UPPER BOUND, NOT EXAM COVERAGE")
+    add(CAVEAT_LINE)
+    add("  Lead with the topic counts above. Every published weight sits at an axis")
+    add("  root, so a subtree figure asks only whether ANY card lands anywhere inside")
+    add("  a group -- it is not a percentage of the exam covered.")
+    add("  (per axis; NEVER summed across axes)")
     add(THIN)
     add("  Method: covered share = Sum(covered weight) / Sum(all published weight).")
     add("  Each weight is a published RANGE, so the share is a range: the low end")

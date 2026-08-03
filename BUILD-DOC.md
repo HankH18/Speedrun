@@ -405,6 +405,14 @@ Not feature parity. The brief asks for the phone app **building and running on t
 
 ---
 
+## 15c. Clean-machine install recording — not produced
+
+**The brief asks for an install verified on a clean device. That recording does not exist, and this submission does not claim it.** The build toolchain was installed on the only available machine during Stage 0 — `just`, `rustup` with Rust 1.92.0 and `n2` were all absent — so that machine is no longer clean and cannot demonstrate the claim. A second machine or a fresh VM is required, and the recording is a human step.
+
+**What was verified instead, which is not a substitute:** `just check` exits 0 from a clean working tree, 7 Rust and 4 pylib tests pass, and the 50,000-card benchmark runs at median 99.9 ms / p95 102.7 ms / worst 103.6 ms. **None of that establishes that the software installs on a machine that has never seen it** — and Stage 0 is direct evidence that a fresh machine needs non-trivial setup. Recorded in `speedrun-docs/KNOWN-DEFECTS.md` alongside the phone-companion gap, and treated the same way: stated, not hedged.
+
+---
+
 ## 16. Deliverables checklist (brief §7, §12)
 
 **Repo**

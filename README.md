@@ -36,7 +36,7 @@ They are never blended into one number.
 - ⬜ AI consensus check transcripts — harness designed, not run
 - ⬜ Calibration and ablation — `BRAINLIFT.md` Appendices A and B
 
-`BRAINLIFT.md` §0 carries a full status disclosure. Nothing in this repo is presented as more finished than it is.
+`BRAINLIFT.md` §0 carries a full status disclosure, and [`speedrun-docs/KNOWN-DEFECTS.md`](speedrun-docs/KNOWN-DEFECTS.md) lists the defects we found in our own work — third-party deck text left in history, no clean-machine install recording, the unbuilt phone companion, and eight calibration thresholds still UNKNOWN. Nothing in this repo is presented as more finished than it is.
 
 **Repository layout.** The root of this repository _is_ the Anki fork — upstream's tree, with full history. Speedrun's own writing lives in [`speedrun-docs/`](speedrun-docs/) and `BRAINLIFT.md`, kept deliberately separate from upstream's `docs/` so that `git diff upstream/main` shows exactly what this fork adds and nothing else.
 

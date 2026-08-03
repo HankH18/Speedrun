@@ -333,3 +333,38 @@ computed by Anki, either.
 Until the truncation stage exists in `mastery.rs`, no floor derived on this
 dataset may be applied to `fsrs_item_count` without restating which of the two
 units it is in.
+
+---
+
+## Licence finding — recorded because an earlier claim of mine was wrong
+
+**I previously reported that this dataset's licence was custom and could not be read
+without access. That is false, and the correction matters because it changes what is
+blocking.** The gate covers the **parquet payload only**. At the pinned revision
+`75299740cff05894ef42d7ad990666691efdd2da`, `LICENSE` and `README.md` both return
+**HTTP 200 unauthenticated**; only `revlogs/user_id=*/data.parquet` returns 401
+`GatedRepo`. Verified directly by fetching `LICENSE`.
+
+Full text, 326 bytes:
+
+> This data was provided to the FSRS project for use in memory research.
+> University students and individuals may also use it for their own research.
+> Please do not redistribute the data publicly (other than linking here).
+> If you wish to use the data in other contexts, please request permission on
+> https://anki.tenderapp.com.
+
+**What that permits, and what it does not:**
+
+| Use                                                                    | Status                                                                                          |
+| ---------------------------------------------------------------------- | ----------------------------------------------------------------------------------------------- |
+| University student / individual research — **what this coursework is** | **PERMITTED by the licence text**                                                               |
+| Public redistribution of the data                                      | **PROHIBITED.** No payload is committed here; `fetch_dataset.py` downloads to a gitignored path |
+| Use in a shipped product                                               | **UNKNOWN — an "other context" requiring permission.** Not assumed, and not relied on anywhere  |
+
+**The remaining blocker is an account gate, not a licence question.** HuggingFace
+requires a logged-in user to agree to share contact information before the parquet
+files download. `fetch_dataset.py` is already written: it pins the revision above,
+rejects any response whose `X-Repo-Commit` differs, strips `Authorization` on
+cross-host redirects, verifies its destination is gitignored before writing a byte,
+and scrubs the token from all output including exception text. **So this is a
+one-step unblock** — create an account, accept the conditions, set `HF_TOKEN`.

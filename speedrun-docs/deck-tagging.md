@@ -197,6 +197,8 @@ of 348, task 27 of 31, discipline 0 of 11.
 
 **Weighted coverage, per axis, never summed across axes:**
 
+> ⚠ **Read the weighted range below with its caveat, never alone.** The honest headline is **46 of 156 notes tagged (29.5%), 19 of 390 outline topics hit**. The weighted percentages are a **group-level upper bound**, not a measure of exam coverage — every published weight sits at an axis root, so the subtree figure asks only whether _any_ card lands anywhere inside an organ-system group. It is not "80–90% of Step 1 covered."
+
 | axis       | mode            | weighted topics covered | covered share (exact published range) |
 | ---------- | --------------- | ----------------------- | ------------------------------------- |
 | system     | exact           | 0 of 11                 | 0.00% – 0.00%                         |
