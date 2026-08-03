@@ -1,7 +1,7 @@
 # Brainlift v1 — Speedrun
 
 **Exam: USMLE Step 1** (pass/fail since 26 January 2022)
-**Author:** Hank Holcomb · **Status:** early submission · **Remaining gaps: §8, Appendix A (written and pre-registered, not yet run), Appendix B (stub) — see §0**
+**Author:** Hank Holcomb · **Remaining gaps: §8, Appendix A (written and pre-registered, not yet run), Appendix B (stub) — see §0**
 
 ---
 
@@ -27,7 +27,7 @@
 
 ## 0. Status disclosure — read first
 
-This is a partial Brainlift submitted at the Friday deadline. Rather than present it as complete, here is exactly what stands and what does not.
+This is v1. Rather than present it as complete, here is exactly what stands and what does not.
 
 | Required section                                          | Status                                                                                          |
 | --------------------------------------------------------- | ----------------------------------------------------------------------------------------------- |
@@ -40,7 +40,7 @@ This is a partial Brainlift submitted at the Friday deadline. Rather than presen
 | 5. DOK 4 — three Spiky POVs with falsifiers               | Complete                                                                                        |
 | 6. AI consensus check transcripts                         | **COMPLETE** — 2 full runs + 1 discarded attempt, both transcripts verbatim in `speedrun-docs/` |
 | 7. Traceability table                                     | Complete as specification; no code yet                                                          |
-| 8. What changed by Sunday                                 | **PENDING** — Sunday deliverable                                                                |
+| 8. What changed                                           | **IN PROGRESS** — four updates recorded; the build's lessons still to come                      |
 | Appendix A — Thesis test design (brief §9)                | **WRITTEN · PRE-REGISTERED · NOT YET RUN**                                                      |
 | Appendix B — Score model and calibration plan (brief §10) | **NOT WRITTEN** — stub only; every §7 threshold depends on it                                   |
 
@@ -531,7 +531,7 @@ The latency rule is unchanged and carried forward above.
 
 ## 8. What changed
 
-**PENDING — Sunday deliverable.** Four updates already belong here, recorded now because they happened during research rather than during the build:
+**IN PROGRESS.** Four updates already belong here, recorded now because they happened during research rather than during the build:
 
 **The FSRS abstention precedent — wrong, then wrongly corrected, now settled.** This claim has been revised three times and the heading below preserves the second version so the sequence is visible. **Final position:** the mechanism is real — [`training.rs:319`](https://github.com/open-spaced-repetition/fsrs-rs/blob/56a78d971e73c16d2e9a757edfdc3d9e1f0b3695/src/training.rs#L319) in `fsrs-rs` returns `DEFAULT_PARAMETERS` below **8** items, and upstream applies a graduated ladder above it (8 / 8–63 / ≥64 for fitting, > 300 for the health check) plus two shrinkage mechanisms, an **L1 penalty** pulling initial stability toward the default and **Laplace smoothing** of recall toward the collection average. But my figure was **25× too strict**, I located it in the **wrong codebase**, and it gates **fitting a model** rather than **showing a student a number**. Read at fsrs-rs **v6.6.0** (`56a78d97`); Anki pins **6.6.1**, which carries no git tag, so that gap is unverified. Full scorecard in §7; ladder in `speedrun-docs/source-citations.md`, Finding G.
 

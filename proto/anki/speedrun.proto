@@ -1,0 +1,54 @@
+// Copyright: Ankitects Pty Ltd and contributors
+// License: GNU AGPL, version 3 or later; http://www.gnu.org/licenses/agpl.html
+
+syntax = "proto3";
+
+option java_multiple_files = true;
+
+package anki.speedrun;
+
+service SpeedrunService {
+  rpc TopicMastery(TopicMasteryRequest) returns (TopicMasteryResponse);
+}
+
+// Implicitly includes any of the above methods that are not listed in the
+// backend service.
+service BackendSpeedrunService {}
+
+message TopicMasteryRequest {
+  // Empty = all topics. Otherwise restrict to these topic tags.
+  repeated string topic_tags = 1;
+  // Cards whose retrievability is computed as of this timestamp.
+  int64 as_of_unix_secs = 2;
+}
+
+message TopicMastery {
+  string topic_tag = 1;
+  // cards carrying this topic tag
+  uint32 card_count = 2;
+  // cards with >= 1 review
+  uint32 reviewed_count = 3;
+  // current interval >= 21 days
+  uint32 mature_count = 4;
+  // Trainable FSRS items, per Anki's own definition: an item is emitted at
+  // params.rs's `idx >= 1 && delta_t > 0` guard, so a card with k qualifying
+  // reviews yields at most k-1 items. This is NOT the same number as
+  // review_count below, which counts surviving revlog entries.
+  uint32 fsrs_item_count = 5;
+  // FSRS R, computed via fsrs::current_retrievability over cards that have a
+  // memory state. Cards without one are excluded from all three means and
+  // reported in TopicMasteryResponse.cards_without_memory_state.
+  float mean_retrievability = 6;
+  float mean_stability = 7;
+  float mean_difficulty = 8;
+  // Revlog entries surviving has_rating_and_affects_scheduling(), the filter
+  // applied at params.rs before item construction.
+  uint32 review_count = 9;
+}
+
+message TopicMasteryResponse {
+  repeated TopicMastery topics = 1;
+  // Distinct cards excluded from the means because they carry no FSRS memory
+  // state. Reported so a caller can state what the means leave out.
+  uint32 cards_without_memory_state = 2;
+}
