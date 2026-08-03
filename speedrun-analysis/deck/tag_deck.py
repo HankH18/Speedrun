@@ -26,18 +26,36 @@ single byte moved.
 
 HOW MATCHING WORKS
 ------------------
-The matching vocabulary is derived from ``outline.json`` itself -- topic names
-and the outline's own verbatim ``examples`` strings -- not from a keyword list
-invented here. Each examples string is split on the punctuation the outline
-uses to separate items (``; , : ( ) / [ ]``) into candidate phrases. Three
-kinds of index entry come out:
+The matching vocabulary is derived from ``outline.json`` itself -- the
+outline's own verbatim ``examples`` strings -- not from a keyword list invented
+here. Each examples string is taken apart the way the outline punctuates it,
+and each fragment is classified STRONG or WEAK:
 
-  * ``phrase`` -- a multi-word outline phrase, e.g. "staphylococcal scalded
-                  skin syndrome".
-  * ``term``   -- a single-word outline phrase, e.g. "osteomyelitis".
-  * ``head``   -- the head noun of a multi-word phrase, e.g. "endocarditis"
-                  from "bacterial endocarditis". Weaker evidence, because the
-                  modifier was thrown away.
+  * material inside ( ) or [ ] is WEAK. The outline uses brackets for the
+    causative organisms and for "eg" lists; a card that names the bug is not
+    thereby a card about that organ system's disorder.
+  * ``;``, ``/`` and newline separate coordinate list items -- STRONG.
+  * ``:`` introduces a breakdown of the item before it -- both halves STRONG.
+  * ``,`` is ambiguous. The outline uses it both for lists ("cellulitis,
+    erysipelas, impetigo") and for index-style inversion ("myositis,
+    infective"; "otitis, externa, media"). The first comma part is STRONG; a
+    later part is STRONG only if it has two or more words, because a lone
+    trailing word is far more often a modifier than a disease.
+  * topic NAMES are WEAK. They are structural labels ("Infectious disorders",
+    "Shock"), not mentions of an entity.
+
+Fragments then become index entries of these kinds:
+
+  * ``phrase`` -- STRONG, multi-word, e.g. "staphylococcal scalded skin
+                  syndrome". Can establish a proposal.
+  * ``term``   -- STRONG, single word, e.g. "osteomyelitis". Can establish a
+                  proposal. Also produced by stripping a purely generic
+                  modifier: "bacterial endocarditis" -> "endocarditis", since
+                  nothing specific was thrown away.
+  * ``head``   -- the head noun of a STRONG phrase whose modifier was NOT
+                  generic ("lobar pneumonia" -> "pneumonia"). Corroborates
+                  only.
+  * ``weak``   -- everything ruled WEAK above. Corroborates only.
 
 A phrase used by many topics discriminates nothing, so entries are dropped
 above ``MAX_DOC_FREQUENCY`` topics and discounted below it. The only
@@ -78,6 +96,7 @@ import shutil
 import sqlite3
 import sys
 import tempfile
+import time
 import unicodedata
 import zipfile
 from pathlib import Path
@@ -106,15 +125,20 @@ MAX_HEAD_TOKENS = 5  # only derive a head noun from phrases up to this many toke
 MAX_TAGS_PER_NOTE = 6  # a note proposing more than this is truncated and flagged
 MEDIUM_MIN = 0.9  # score at or above this, without a HIGH hit, is MEDIUM
 
-BASE_WEIGHT = {"phrase": 3.0, "term": 2.0, "head": 1.2}
+BASE_WEIGHT = {"phrase": 3.0, "term": 2.0, "head": 1.2, "weak": 1.0}
+# Only these kinds may ESTABLISH a proposal. The rest can only corroborate one.
+DECIDING_KINDS = ("phrase", "term")
 # Discount for evidence shared between several topics. Index is the number of
 # topics using the entry; entries above MAX_DOC_FREQUENCY never reach here.
 IDF_FACTOR = {1: 1.0, 2: 0.5, 3: 0.3}
 LCA_FACTOR = 0.7  # evidence resolved by backing off to a common ancestor
 MIN_LCA_LEVEL = 2  # never back off to a whole level-1 exam section
 
-# Splits an outline `examples` string into candidate items.
-PHRASE_SPLIT_RE = re.compile(r"[;,:()\[\]/]|\s-\s|\.\s")
+# How an outline `examples` string is taken apart. See the module docstring.
+BRACKET_RE = re.compile(r"\(([^()]*)\)|\[([^\[\]]*)\]")
+LIST_SPLIT_RE = re.compile(r"[;/\n]|\s-\s|\.\s")
+COLON_SPLIT_RE = re.compile(r":")
+COMMA_SPLIT_RE = re.compile(r",")
 TOKEN_RE = re.compile(r"[a-z0-9]+")
 
 # Words that are pure connective tissue in the outline's prose, or so common
@@ -138,7 +162,21 @@ GENERIC_TERMS = frozenset(
     spirochetal state states structure symptom symptoms syndrome syndromes
     system systemic tissue toxic traumatic treatment tumor tumors type types
     unspecified upper viral virus viruses
+    diagnosis prognosis mechanism mechanisms organism organisms metabolism
     """.split()
+)
+
+# A lone word is only allowed to DECIDE a proposal when it is morphologically a
+# clinical entity. Without this, single words the outline happens to use in one
+# sense and the deck in another -- "shock", "colon", "hemolysis", "adherence",
+# "penicillins", "transfers" -- each mis-tag a dozen notes apiece; that was
+# measured on this deck, not assumed. The cost is real and stated in the
+# report: entity names with no suffix ("gangrene", "tetanus", "impetigo",
+# "syphilis") lose their deciding power and their notes fall to MEDIUM.
+CLINICAL_SUFFIXES = (
+    "itis", "itides", "osis", "oses", "iasis", "emia", "aemia", "emias",
+    "oma", "omas", "omata", "pathy", "pathies", "plasia", "trophy", "algia",
+    "uria", "rrhea", "rrhoea", "penia", "megaly", "ectasis", "ism", "isms",
 )
 
 # Deck shorthand -> outline spelling. Pure abbreviation expansion: each entry
@@ -269,8 +307,8 @@ class Index:
         if phrase is None:
             return
         slot = self.postings.setdefault(phrase, {})
-        rank = {"phrase": 3, "term": 2, "head": 1}
-        if rank[kind] > rank.get(slot.get(topic_id, "head"), 0) or topic_id not in slot:
+        current = slot.get(topic_id)
+        if current is None or BASE_WEIGHT[kind] > BASE_WEIGHT[current]:
             slot[topic_id] = kind
 
     def ancestors(self, topic_id: str) -> List[str]:
@@ -292,6 +330,67 @@ class Index:
         return max(shared, key=lambda t: (self.level.get(t, 0), t))
 
 
+def split_examples(source: str) -> List[Tuple[str, bool]]:
+    """Take one `examples` string apart into (fragment, strong) pairs.
+
+    The rules, and why, are in the module docstring. Nothing here is specific
+    to microbiology; it is punctuation handling for the outline's own prose.
+    """
+    out: List[Tuple[str, bool]] = []
+    bracketed: List[str] = []
+
+    def collect(match: "re.Match[str]") -> str:
+        bracketed.append(match.group(1) or match.group(2) or "")
+        return " ; "
+
+    stripped = source
+    for _ in range(4):  # unwind nesting a few levels; the outline nests shallowly
+        stripped, count = BRACKET_RE.subn(collect, stripped)
+        if not count:
+            break
+
+    for group in bracketed:
+        for piece in re.split(r"[;,]", group):
+            out.append((piece, False))
+
+    for item in LIST_SPLIT_RE.split(stripped):
+        for subitem in COLON_SPLIT_RE.split(item):
+            parts = COMMA_SPLIT_RE.split(subitem)
+            for position, part in enumerate(parts):
+                strong = position == 0 or len(tokens_of(normalise(part))) >= 2
+                out.append((part, strong))
+    return out
+
+
+def is_clinical_word(token: str) -> bool:
+    return token.endswith(CLINICAL_SUFFIXES)
+
+
+def _index_fragment(index: Index, topic_id: str, fragment: str, strong: bool) -> None:
+    key = phrase_key(fragment)
+    if key is None:
+        return
+    parts = tokens_of(key)
+    if not strong:
+        index._add(key, topic_id, "weak")
+        return
+    if len(parts) > 1:
+        index._add(key, topic_id, "phrase")
+    else:
+        index._add(key, topic_id, "term" if is_clinical_word(parts[0]) else "weak")
+    if not 2 <= len(parts) <= MAX_HEAD_TOKENS:
+        return
+    head = parts[-1]
+    if len(head) < MIN_HEAD_CHARS or head in GENERIC_TERMS:
+        return
+    # Dropping "bacterial" from "bacterial endocarditis" loses nothing, so the
+    # head keeps full strength. Dropping "lobar" from "lobar pneumonia" loses
+    # the thing that made it specific, so the head can only corroborate.
+    only_generic_modifiers = all(p in GENERIC_TERMS for p in parts[:-1])
+    promote = only_generic_modifiers and is_clinical_word(head)
+    index._add(head, topic_id, "term" if promote else "head")
+
+
 def build_index(topics: Sequence[dict]) -> Index:
     index = Index()
     for topic in topics:
@@ -304,19 +403,10 @@ def build_index(topics: Sequence[dict]) -> Index:
 
     for topic in topics:
         topic_id = topic["id"]
-        raw_sources = [topic.get("name") or ""]
-        raw_sources.extend(topic.get("examples") or [])
-        for source in raw_sources:
-            for chunk in PHRASE_SPLIT_RE.split(source):
-                key = phrase_key(chunk)
-                if key is None:
-                    continue
-                parts = tokens_of(key)
-                index._add(key, topic_id, "phrase" if len(parts) > 1 else "term")
-                if 2 <= len(parts) <= MAX_HEAD_TOKENS:
-                    head = parts[-1]
-                    if len(head) >= MIN_HEAD_CHARS and head not in GENERIC_TERMS:
-                        index._add(head, topic_id, "head")
+        _index_fragment(index, topic_id, topic.get("name") or "", strong=False)
+        for source in topic.get("examples") or []:
+            for fragment, strong in split_examples(source):
+                _index_fragment(index, topic_id, fragment, strong)
 
     for phrase in list(index.postings):
         parts = tokens_of(phrase)
@@ -409,7 +499,7 @@ def match_note(
 
 def confidence_of(record: dict) -> str:
     for evidence in record["evidence"]:
-        if evidence["kind"] not in ("phrase", "term"):
+        if evidence["kind"] not in DECIDING_KINDS:
             continue
         if evidence["via"] == "lca" or evidence["topics_sharing"] == 1:
             return "HIGH"
@@ -608,8 +698,15 @@ def summarise(results: Sequence[dict], topics: Sequence[dict], index: Index) -> 
     tagged = [r for r in results if r["proposed_tags"]]
     by_confidence: Dict[str, int] = {}
     for record in results:
-        key = record["best_confidence"] if not record["proposed_tags"] else "HIGH"
-        by_confidence[key] = by_confidence.get(key, 0) + 1
+        # Always the note's own best candidate, never the floor it cleared. At
+        # the default --min-confidence=high the two agree, because a note is
+        # only tagged when a HIGH candidate exists. Under --min-confidence
+        # medium they do not: reporting a MEDIUM-tagged note as HIGH would
+        # inflate this histogram, which is the one place a reader looks to see
+        # how much of the match rate is actually confident.
+        by_confidence[record["best_confidence"]] = (
+            by_confidence.get(record["best_confidence"], 0) + 1
+        )
 
     notes_per_topic: Dict[str, int] = {}
     for record in tagged:
@@ -709,7 +806,7 @@ def _render_summary(out: List[str], summary: dict) -> None:
         )
     )
     add("  tags proposed     {}".format(summary["tags_proposed_total"]))
-    add("  best confidence per note (untagged notes shown at their best candidate):")
+    add("  best confidence per note (every note shown at its own best candidate):")
     for key in ("HIGH", "MEDIUM", "LOW", "NONE"):
         add("      {:<7} {}".format(key, summary["notes_by_best_confidence"].get(key, 0)))
     add("")
@@ -830,8 +927,27 @@ KNOWN_LIMITATIONS = [
     "The outline states its examples are 'just examples', so a topic's "
     "vocabulary is incomplete by construction. Absence of a hit is weak "
     "evidence of absence of coverage.",
-    "Head-noun evidence ('endocarditis' from 'bacterial endocarditis') throws "
-    "the modifier away and can only support a proposal, never establish one.",
+    "Head-noun evidence throws a modifier away, so it only supports a proposal "
+    "unless the discarded modifier was itself generic ('bacterial "
+    "endocarditis' -> 'endocarditis' keeps full strength; 'lobar pneumonia' -> "
+    "'pneumonia' does not).",
+    "A lone word may only decide a proposal if it carries a clinical suffix "
+    "(-itis, -osis, -emia, -oma, -uria, ...). Without that rule the words the "
+    "outline and the deck use in different senses -- shock, colon, hemolysis, "
+    "adherence, penicillins, transfers -- mis-tagged 38 note/tag pairs on this "
+    "deck. The rule also costs real matches: 'gangrene', 'tetanus', "
+    "'impetigo', 'erysipelas', 'syphilis' and 'botulism' name real entities "
+    "and carry no suffix, so notes resting on them alone fall to MEDIUM.",
+    "A comma-separated outline fragment is ambiguous between a list and an "
+    "index-style inversion, so a lone trailing word after a comma is treated "
+    "as a modifier. That is right for 'myositis, infective' and wrong for "
+    "'cellulitis, erysipelas, impetigo', where it demotes two real disease "
+    "names.",
+    "Some outline fragments are truncated phrases in their own right -- the "
+    "bare 'hospital-acquired' matched a card about hospital-acquired "
+    "pneumonia and proposed a musculoskeletal trauma topic. Proposals are "
+    "printed with their deciding evidence precisely so a reviewer can catch "
+    "this class of error before anything is applied.",
     "Nothing here has been applied to any collection. Applying is a separate, "
     "explicit step.",
 ]
@@ -873,7 +989,10 @@ def _fixture_outline(path: Path) -> None:
         ),
         topic(
             "sys.skin", "Skin", 1, None, ["system", "skin"],
-            ["impetigo; staphylococcal scalded skin syndrome"],
+            [
+                "folliculitis; staphylococcal scalded skin syndrome; sunburn; "
+                "myositis, infective (Fusobacterium necrophorum)"
+            ],
         ),
     ]
     path.write_text(json.dumps({"topics": topics}), encoding="utf-8")
@@ -927,17 +1046,20 @@ def self_test() -> int:
         _fixture_apkg(
             apkg_path,
             [
-                (1001, "What causes impetigo?\x1fStaphylococcus aureus."),
+                (1001, "What causes folliculitis?\x1fStaphylococcus aureus."),
                 (1002, "What is a shared marker disease?\x1fA shared thing."),
                 (1003, "Explain the Krebs cycle\x1fIt makes ATP."),
                 (1004, "Which bug causes scalded skin?\x1fS. aureus exfoliatin."),
                 (1005, "Name a lung infection\x1flobar pneumonia."),
+                (1006, "What is sunburn?\x1fA burn, from the sun."),
+                (1007, "Is this infective?\x1fYes, infective."),
+                (1008, "Name a bug\x1fFusobacterium necrophorum."),
             ],
         )
         topics, _ = load_outline(outline_path)
         index = build_index(topics)
         notes, prov, member = read_notes(str(apkg_path))
-        check("notes read", len(notes), 5)
+        check("notes read", len(notes), 8)
         check("collection member", member, "collection.anki21")
         results = analyse(notes, index, "high")
         by_id = {r["note_id"]: r for r in results}
@@ -964,8 +1086,25 @@ def self_test() -> int:
             by_id[1005]["proposed_topic_ids"],
             ["sys.chest.lung.lower"],
         )
-        if "staphylococcus aureus" in index.postings:
-            failures.append("fixture leaked an organism posting; index build is wrong")
+        check(
+            "a lone word with no clinical suffix cannot decide",
+            by_id[1006]["proposed_tags"],
+            [],
+        )
+        check(
+            "an inverted comma modifier cannot decide",
+            by_id[1007]["proposed_tags"],
+            [],
+        )
+        check(
+            "an organism named inside brackets cannot decide",
+            by_id[1008]["proposed_tags"],
+            [],
+        )
+        check("bracketed organism is indexed, but weakly",
+              index.postings.get("fusobacterium necrophorum"), {"sys.skin": "weak"})
+        check("a lone non-clinical word is indexed weakly",
+              index.postings.get("sunburn"), {"sys.skin": "weak"})
 
         sha_before = import_deck.sha256_of(str(apkg_path))
         copy_path = root / "copy.anki2"
@@ -985,7 +1124,7 @@ def self_test() -> int:
         check("copy carries the tag", tags.strip(), TAG_PREFIX + "system::skin")
 
         reread, _, _ = read_notes(str(apkg_path))
-        check("source still has zero tags", [n["existing_tags"] for n in reread].count([]), 5)
+        check("source still has zero tags", [n["existing_tags"] for n in reread].count([]), 8)
         check("provenance sha matches", prov["sha256"], sha_before)
     finally:
         shutil.rmtree(str(root), ignore_errors=True)
@@ -1074,7 +1213,7 @@ def main(argv: Optional[Sequence[str]] = None) -> int:
             "the published USMLE outline. Nothing has been applied to any "
             "collection; applying is a separate explicit step."
         ),
-        "generated_utc": import_deck.utc(Path(__file__).stat().st_mtime),
+        "generated_utc": import_deck.utc(time.time()),
         "deck": provenance,
         "collection_member": member,
         "outline": {"path": str(args.outline.resolve()), "sha256": outline_sha},

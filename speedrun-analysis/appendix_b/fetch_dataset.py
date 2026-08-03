@@ -76,9 +76,10 @@ TABLES = ("revlogs", "cards", "decks")
 
 HF_HOST = "https://huggingface.co"
 
-# Repo-relative, and listed in .gitignore. `_assert_untracked()` re-checks at
-# runtime rather than trusting that entry to still be there.
-DEFAULT_DEST = Path(__file__).resolve().parents[2] / "speedrun-analysis" / "appendix_b" / "data"
+# Listed in .gitignore as `/speedrun-analysis/appendix_b/data/`.
+# `_assert_untracked()` re-checks at runtime rather than trusting that entry to
+# still be there.
+DEFAULT_DEST = Path(__file__).resolve().parent / "data"
 
 USER_AGENT = "speedrun-appendix-b-fetch/1 (+https://github.com/ankitects/anki fork)"
 
@@ -228,12 +229,20 @@ def _assert_untracked(dest: Path) -> None:
 
 
 def _git_check_ignore(root: Path, dest: Path) -> bool | None:
-    """True if git ignores `dest`, False if not, None if git could not answer."""
+    """True if git ignores `dest`, False if not, None if git could not answer.
+
+    The trailing separator is load-bearing and was put there by a test that
+    caught its absence. `.gitignore` carries a directory-only rule
+    (`/speedrun-analysis/appendix_b/data/`), and `git check-ignore` will not match
+    a directory-only rule against a bare path that does not yet exist on disk --
+    which, on a fresh clone, is exactly the state this runs in. Asking about
+    `<dest>/` matches whether or not the directory exists.
+    """
     import subprocess
 
     try:
         proc = subprocess.run(
-            ["git", "check-ignore", "-q", str(dest)],
+            ["git", "check-ignore", "-q", f"{dest}{os.sep}"],
             cwd=root,
             capture_output=True,
             check=False,
@@ -734,7 +743,6 @@ def _fetch(args: argparse.Namespace, token: Token, secrets: list[str]) -> int:
 
     dest = Path(args.dest).expanduser().resolve()
     _assert_untracked(dest)
-    dest.mkdir(parents=True, exist_ok=True)
 
     remotes = select_remote_files(token, users, tables, args.use_listing)
     _print(f"{len(remotes)} file(s) selected -> {dest}", secrets)
@@ -748,6 +756,10 @@ def _fetch(args: argparse.Namespace, token: Token, secrets: list[str]) -> int:
         if remote.remote_sha256 and not head.remote_sha256:
             head.remote_sha256 = remote.remote_sha256
         resolved.append(head)
+
+    # Created only once every HEAD has succeeded, so a run that fails on access
+    # or on a wrong layout leaves no empty directory behind.
+    dest.mkdir(parents=True, exist_ok=True)
 
     use_hub = _hub_available() and not args.http
     mode = "huggingface_hub" if use_hub else "stdlib urllib"

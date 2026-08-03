@@ -167,6 +167,23 @@ impl Collection {
         // per-card totals are only ever read back for cards that survived pass
         // 1. Anki's own filter and item-construction rule are applied below
         // rather than re-derived.
+        //
+        // KNOWN DIVERGENCE, stated rather than glossed. `reviews_for_fsrs` in
+        // `scheduler/fsrs/params.rs` runs a *third* stage before either of the
+        // two below: it walks each card's history backwards, cuts everything
+        // before the first entry of the last group of learning steps, and — when
+        // training — drops the card entirely if it has no learning steps at all.
+        // That stage is absent here, so `fsrs_item_count` over-counts relative to
+        // `compute_params`' `fsrs_items` on any card that was reset and re-learnt,
+        // or whose history starts mid-review (imported or shared decks). Upstream
+        // pins the two cases in `card_reset_drops_all_previous_history` and
+        // `single_learning_step_skipped_when_training`. The gated benchmark
+        // dataset applies the same cut at build time
+        // (`anki-revlogs-dataset-builder/build_parquet.py::process_revlogs`), so
+        // both upstream and the benchmark agree with each other and not with us.
+        // See `speedrun-analysis/appendix_b/DATASET-PROVENANCE.md`. Until this is
+        // closed, no `fsrs_items` floor derived on that dataset may be applied to
+        // this counter without restating which unit it is in.
         let mut per_card_counts: HashMap<CardId, (u32, u32)> = HashMap::new();
         if !cards.is_empty() {
             let entries: Vec<RevlogEntry> = self.storage.get_all_revlog_entries_in_card_order()?;

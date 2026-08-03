@@ -304,7 +304,8 @@ the wrong one.
 | **history truncated at the last learning run**         | `first_of_last_learn_entries` + `drain(..idx)`; card dropped entirely when training and it has no learning steps | `process_revlogs` mask + `groupby("card_id").filter(state.iloc[0] == 0)` | **absent**                                   |
 
 `mastery.rs` implements exactly two stages — the `has_rating_and_affects_scheduling()`
-retain and the `idx_in_card >= 1 && delta_t > 0` emit (lines 181–194). It never
+retain (`mastery.rs:199`) and the `idx_in_card >= 1 && delta_t > 0` emit
+(`mastery.rs:209`). It never
 mentions `Learning`, `is_reset`, `first_of_last_learn_entries` or `drain`, so the
 stage is not merely wrong, it is not present.
 
@@ -312,13 +313,13 @@ The consequence is one-directional: `fsrs_item_count` here **over-counts**. Two
 worked cases, both taken from upstream's own tests so the expected values are
 not this project's opinion:
 
-| Card history                                                        | Anki (`params.rs` tests)                                        | `mastery.rs` |
-| ------------------------------------------------------------------- | --------------------------------------------------------------- | ------------ |
-| `Learning@10, Reset@7, Learning@4, Review@0`                        | **1** item — `card_reset_drops_all_previous_history`            | **2**        |
-| `Review@10, Review@5` (no learning entry — imported / shared deck)  | **0** items — same rule as `single_learning_step_skipped_when_training` | **1**   |
+| Card history                                                       | Anki (`params.rs` tests)                                                | `mastery.rs` |
+| ------------------------------------------------------------------ | ----------------------------------------------------------------------- | ------------ |
+| `Learning@10, Reset@7, Learning@4, Review@0`                       | **1** item — `card_reset_drops_all_previous_history`                    | **2**        |
+| `Review@10, Review@5` (no learning entry — imported / shared deck) | **0** items — same rule as `single_learning_step_skipped_when_training` | **1**        |
 
 In the first, the `Reset` is dropped by stage 1 as an unrated entry, so nothing
-downstream can see that it was ever there; upstream uses it *before* that filter
+downstream can see that it was ever there; upstream uses it _before_ that filter
 to cut the history. Cards imported from another collection, cards re-learnt after
 `Forget`, and shared-deck cards with truncated histories are all in this class.
 

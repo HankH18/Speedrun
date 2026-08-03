@@ -37,8 +37,9 @@ data/holdout/
 
 # Gated review dataset (open-spaced-repetition/anki-revlogs-10k). Downloaded by
 # speedrun-analysis/appendix_b/fetch_dataset.py, which refuses to write anywhere
-# `git check-ignore` does not already cover. Its licence is custom and unread, so
-# no byte of it -- and no manifest describing it -- may enter this history.
+# `git check-ignore` does not already cover. Its licence says "please do not
+# redistribute the data publicly", so no byte of it -- and no manifest describing
+# it -- may enter this history. See appendix_b/DATASET-PROVENANCE.md.
 /speedrun-analysis/appendix_b/data/
 *.parquet
 
@@ -48,3 +49,7 @@ data/holdout/
 *.apkg
 *.colpkg
 .env
+
+# Tagger output: derived from the user's deck and quotes its note text.
+# Regenerate with speedrun-analysis/deck/tag_deck.py; never commit it.
+speedrun-analysis/deck/out/
