@@ -1,7 +1,7 @@
 # Brainlift v0.9 — Speedrun
 
 **Exam: USMLE Step 1** (pass/fail since 26 January 2022)
-**Author:** Hank Holcomb · **Status:** early submission · **Sections 6 and 8 incomplete — see §0**
+**Author:** Hank Holcomb · **Status:** early submission · **Remaining gaps: §8, Appendix A (written and pre-registered, not yet run), Appendix B (stub) — see §0**
 
 ---
 
@@ -64,6 +64,10 @@ Additional known gaps, disclosed rather than hidden:
 **The finding I am betting the app on is Pan & Rickard's moderator structure** (§2 source 1, unpacked in §3.1): that transfer is not a fixed property of retrieval practice but is *conditional* on three moderators — **response congruency**, **initial retrieval accuracy**, and **elaboration** — and that all three are measurable from data Anki already logs or could log. The bet is specifically on the *conditionality*. If transfer were uniform, the right product would be more cards; if it is moderated, the right product is one that measures the moderators and acts on them, and nothing in the market does either.
 
 **What it forces me to build that no observed tool does: scheduling that allocates study time between retention-maximizing and transfer-maximizing practice, rather than optimizing interval alone.** FSRS answers *when* to show a card so that it is recalled. It has no representation of whether the card's response structure resembles the item the student will actually face, and therefore no way to trade a review that would maximize retention for one that would maximize transfer. Every tool in the teardown (§4.3) optimizes on one side of that boundary or the other — AnKing and AnkiHub on retention, AMBOSS and UWorld on application — and the incumbent's own courseware routes users across the gap to a competitor rather than spanning it. Making the allocation itself a scheduling decision is the concrete, falsifiable consequence of the bet, and it is what Appendix A is designed to test.
+
+**Why these three moderators and not others — answering the objection rather than leaving it standing.** The AI consensus check raised this in both runs and it **survives** in run 2 (§6, run 2 objection 2): *"no argument is made for why these three and not others — interleaving, variability of practice, desirable difficulties more broadly, prior knowledge activation, metacognitive monitoring."* The honest answer is that the three were selected on **two tractability criteria, and neither is a claim about importance.** First, **Pan & Rickard quantifies all three in a single synthesis** — 192 effect sizes, one meta-analysis, one set of consistent units — so they can be combined in a model without stitching together incommensurable literatures. Second, **all three are derivable from data Anki's revlog already holds or could hold**: initial retrieval accuracy is the grade button, elaboration is a property of note structure, and congruency is a property of the card/item pair (which is why it needs traceability row 10 before it is usable at all).
+
+**Stated plainly: this is a tractability criterion, not a claim that these three are the complete or the dominant set.** Interleaving, variability of practice, and prior-knowledge activation are plausible omissions, and this project does not test them — it cannot rule out that one of them is the larger lever, and nothing here should be read as having tried. What the selection buys is a set of moderators that can be measured from a real collection inside a week and modelled in common units; what it costs is any claim to completeness. **The objection is therefore answered as to *method* and conceded as to *scope*,** and a stronger version of this project would begin by testing whether the residual variance §3.2 identifies is better explained by one of the omitted three.
 
 ---
 
@@ -336,7 +340,7 @@ Their two outcomes are defined as *"the percentage of incorrectly answered basel
 
 **Survives, legitimately — and these are the real ones:**
 
-- **Obj 2 (moderator selection undefended) — SURVIVES.** Why these three and not interleaving, variability of practice, prior-knowledge activation, metacognitive monitoring? Pan & Rickard establishes the three matter; it does not establish they are the *governing set* for this context. Unanswered.
+- **Obj 2 (moderator selection undefended) — SURVIVES; now answered as to method, conceded as to scope.** Why these three and not interleaving, variability of practice, prior-knowledge activation, metacognitive monitoring? Pan & Rickard establishes the three matter; it does not establish they are the *governing set* for this context. **§1c now states the selection criteria** — a single synthesis giving commensurable units, and derivability from Anki's revlog — and concedes explicitly that these are tractability criteria rather than a completeness claim. The objection is not defeated: the omitted moderators remain untested, and one of them may be the larger lever.
 - **Obj 5 (scope of "this applied context" undefined) — SURVIVES.** Now addressed by POV 1's scope-boundary paragraph, written after this run.
 - **Obj 7 (descriptive critique implies undefended prescription) — SURVIVES.** Nothing in the packet shows that a tool optimizing these moderators would outperform the current ecosystem.
 
