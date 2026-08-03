@@ -1,6 +1,6 @@
 # Speedrun — Build Doc
 
-**Exam:** USMLE Step 1 · **Repo:** fork of `ankitects/anki` · **Brainlift:** `BRAINLIFT.md` (complete through §7)
+**Exam:** USMLE Step 1 · **Repo:** fork of `ankitects/anki` · **Brainlift:** `BRAINLIFT.md` v1 (§1–§7 complete incl. the AI consensus check; Appendix A pre-registered, not yet run)
 
 This document specifies the build. Every section maps to a numbered requirement in the assignment brief; §16 is the deliverables checklist that proves nothing was dropped.
 
@@ -91,9 +91,24 @@ message TopicMasteryResponse {
 
 **Design notes that matter for honesty:**
 
-- `fsrs_item_count` is reported because it is the denominator Anki's own optimizer uses, and because §7's gates depend on trainable items, not raw button presses. Do **not** invent a new denominator — use `has_rating_and_affects_scheduling()`'s definition (`speedrun-docs/source-citations.md`).
+- **CORRECTED.** `fsrs_item_count` and `review_count` are **two different numbers produced by two different stages**, and an earlier version of this doc wrongly collapsed them into one definition. Verified against the pinned tree:
+  - `review_count` (field 9) = revlog entries surviving `has_rating_and_affects_scheduling()`, the filter applied at `rslib/src/scheduler/fsrs/params.rs:487`.
+  - `fsrs_item_count` (field 5) = items built at `params.rs:506` under the guard `idx >= 1 && delta_t > 0`.
+    A card with _k_ qualifying reviews therefore yields **at most _k_ − 1** items: the first review yields none, and same-day repeats yield none because `delta_t` must be positive. Do not invent a new denominator, and do not use one filter for both fields. `BRAINLIFT.md` §7 states this correctly; see also `speedrun-docs/source-citations.md`, Finding E.
 - `cards_without_memory_state` is returned so the dashboard can say what the means exclude. A mean computed over an unstated subset is the failure this project is about.
-- Retrievability is **computed, not stored**. Find the existing computation in `rslib/src/scheduler/fsrs/memory_state.rs` and call it. Do not reimplement the FSRS forgetting curve.
+- **CORRECTED.** Retrievability is **computed, not stored** — but it is **not** in `rslib/src/scheduler/fsrs/memory_state.rs`, as an earlier version of this doc claimed. It lives in the `fsrs` crate:
+  ```rust
+  fsrs::current_retrievability(state: MemoryState, days_elapsed: f32, decay: f32) -> f32
+  ```
+  Call it with the idiom rslib itself uses (`rslib/src/stats/graphs/retrievability.rs`, `rslib/src/stats/card.rs`):
+  ```rust
+  fsrs::current_retrievability(
+      state.into(),
+      elapsed_seconds as f32 / 86_400.0,
+      card.decay.unwrap_or(FSRS5_DEFAULT_DECAY),
+  )
+  ```
+  What _is_ in `memory_state.rs` is `get_decay_from_params`, which is probably the source of the original confusion. Do not reimplement the FSRS forgetting curve.
 
 ### 3.2 Implementation
 
@@ -348,6 +363,8 @@ Order is chosen so that each stage produces something verifiable and nothing lat
 ## 15. Repo conventions
 
 - Speedrun code lives in `rslib/src/speedrun/`, `speedrun-analysis/`, `speedrun-docs/`. Upstream trees stay clean so `git diff upstream/main --stat` remains a truthful file list.
+- **`CONTRIBUTORS` is a legitimate exception to that rule, not a violation of it.** The file exists precisely so downstream contributors can add themselves, and upstream's own `check:minilints` **fails the build** unless every commit author appears in it — the error is `Author <you> NOT found in list`. Adding your name is therefore required to satisfy `just check`, not an incursion into upstream's tree. It is one line, and it is the only upstream file this fork modifies.
+- Two further edits are required for a green `just check` on a fresh clone and are not code changes: initialise the installer submodules (`git submodule update --init`), or `qt/tests/test_installer.py` fails with `Unable to clone application template`; and run `just fix-fmt` before committing, because `dprint` formats Markdown too and will reject prose written with `*emphasis*` instead of `_emphasis_`.
 - Speedrun-specific agent instructions go in `.claude/user.md` (referenced by upstream's `CLAUDE.md`) — **do not edit upstream's `CLAUDE.md`**.
 - Every derived number in a doc cites the script that produced it.
 - Source citations pin **commit SHA + symbol**, never line number alone.
@@ -361,7 +378,7 @@ Order is chosen so that each stage produces something verifiable and nothing lat
 
 - [x] Public fork under AGPL-3.0-or-later, credit to Anki
 - [x] Exam stated up front in README
-- [x] Brainlift, complete through §7
+- [x] Brainlift v1 — §1–§7 complete, consensus check run twice with verbatim transcripts, Appendix A pre-registered
 - [ ] Build instructions for both apps
 - [x] Architecture overview (`speedrun-docs/architecture.md`)
 - [ ] Rust note, finalized against the implementation
@@ -398,7 +415,7 @@ Order is chosen so that each stage produces something verifiable and nothing lat
 
 | Criterion                           | Weight | Where it lives                          |
 | ----------------------------------- | ------ | --------------------------------------- |
-| Brainlift                           | 25%    | `BRAINLIFT.md` — complete through §7    |
+| Brainlift                           | 25%    | `BRAINLIFT.md` v1 — §1–§7 complete      |
 | Rust change and fit                 | 15%    | §3                                      |
 | Score accuracy + honest uncertainty | 15%    | §5, §10                                 |
 | Testing the thesis                  | 15%    | §9                                      |

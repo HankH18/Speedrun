@@ -247,3 +247,180 @@ impl crate::services::SpeedrunService for Collection {
         Collection::topic_mastery(self, req)
     }
 }
+
+#[cfg(test)]
+mod test {
+    use super::*;
+    use crate::revlog::RevlogEntry;
+    use crate::revlog::RevlogReviewKind;
+
+    /// revlog.id is the review timestamp in milliseconds.
+    fn revlog_id_days_ago(days_ago: i64) -> RevlogId {
+        RevlogId(TimestampSecs::now().adding_secs(-days_ago * 86_400).0 * 1000)
+    }
+
+    fn add_card(col: &mut Collection, front: &str, tags: &[&str]) -> Card {
+        let nt = col.get_notetype_by_name("Basic").unwrap().unwrap();
+        let mut note = nt.new_note();
+        note.set_field(0, front).unwrap();
+        note.set_field(1, "back").unwrap();
+        note.tags = tags.iter().map(|t| t.to_string()).collect();
+        col.add_note(&mut note, DeckId(1)).unwrap();
+        col.storage
+            .all_cards_of_note(note.id)
+            .unwrap()
+            .pop()
+            .unwrap()
+    }
+
+    fn counted_review(cid: CardId, days_ago: i64) -> RevlogEntry {
+        RevlogEntry {
+            id: revlog_id_days_ago(days_ago),
+            cid,
+            usn: Usn(-1),
+            button_chosen: 3,
+            interval: 30,
+            last_interval: 10,
+            ease_factor: 2500,
+            taken_millis: 3000,
+            review_kind: RevlogReviewKind::Review,
+        }
+    }
+
+    /// Fixture with values chosen so every aggregate is hand-checkable.
+    ///
+    /// card A  cardio          mature (ivl 30), reps 3, memory state, 3 reviews
+    /// card B  cardio + renal  young  (ivl 5),  reps 1, memory state
+    /// card C  renal           new,               reps 0, NO memory state
+    fn fixture() -> Collection {
+        let mut col = Collection::new();
+
+        let mut a = add_card(&mut col, "a", &["speedrun::topic::cardio"]);
+        a.ctype = CardType::Review;
+        a.interval = 30;
+        a.reps = 3;
+        a.memory_state = Some(FsrsMemoryState {
+            stability: 40.0,
+            difficulty: 5.0,
+        });
+        a.decay = Some(FSRS5_DEFAULT_DECAY);
+        a.last_review_time = Some(TimestampSecs::now().adding_secs(-10 * 86_400));
+        col.storage.update_card(&a).unwrap();
+        // 3 counted reviews => 3 review_count, and 2 items (first yields none).
+        for days in [30i64, 20, 10] {
+            col.storage
+                .add_revlog_entry(&counted_review(a.id, days), false)
+                .unwrap();
+        }
+
+        let mut b = add_card(
+            &mut col,
+            "b",
+            &["speedrun::topic::cardio", "speedrun::topic::renal"],
+        );
+        b.ctype = CardType::Review;
+        b.interval = 5;
+        b.reps = 1;
+        b.memory_state = Some(FsrsMemoryState {
+            stability: 10.0,
+            difficulty: 7.0,
+        });
+        b.decay = Some(FSRS5_DEFAULT_DECAY);
+        b.last_review_time = Some(TimestampSecs::now().adding_secs(-2 * 86_400));
+        col.storage.update_card(&b).unwrap();
+
+        let c = add_card(&mut col, "c", &["speedrun::topic::renal"]);
+        assert!(c.memory_state.is_none(), "card C must have no memory state");
+
+        col
+    }
+
+    fn topic<'a>(resp: &'a TopicMasteryResponse, tag: &str) -> &'a TopicMastery {
+        resp.topics
+            .iter()
+            .find(|t| t.topic_tag == tag)
+            .unwrap_or_else(|| panic!("topic {tag} missing"))
+    }
+
+    /// (a) Aggregation is correct against a fixture with known values.
+    #[test]
+    fn aggregation_matches_known_values() {
+        let mut col = fixture();
+        let resp = col.topic_mastery(TopicMasteryRequest::default()).unwrap();
+
+        // Topics are returned sorted, and only tagged cards appear.
+        assert_eq!(
+            resp.topics.iter().map(|t| &t.topic_tag).collect::<Vec<_>>(),
+            vec!["speedrun::topic::cardio", "speedrun::topic::renal"]
+        );
+
+        let cardio = topic(&resp, "speedrun::topic::cardio");
+        assert_eq!(cardio.card_count, 2, "A and B carry cardio");
+        assert_eq!(cardio.reviewed_count, 2, "both have reps > 0");
+        assert_eq!(cardio.mature_count, 1, "only A has interval >= 21");
+        // Only A has revlog: 3 surviving entries, yielding 3 - 1 = 2 items.
+        assert_eq!(cardio.review_count, 3);
+        assert_eq!(cardio.fsrs_item_count, 2);
+        // Stability mean over A (40) and B (10).
+        assert!((cardio.mean_stability - 25.0).abs() < 1e-4);
+        // Difficulty mean over A (5) and B (7).
+        assert!((cardio.mean_difficulty - 6.0).abs() < 1e-4);
+        assert!(cardio.mean_retrievability > 0.0 && cardio.mean_retrievability <= 1.0);
+
+        let renal = topic(&resp, "speedrun::topic::renal");
+        assert_eq!(renal.card_count, 2, "B and C carry renal");
+        assert_eq!(renal.reviewed_count, 1, "only B has reps > 0");
+        assert_eq!(renal.mature_count, 0);
+        assert_eq!(renal.review_count, 0, "neither B nor C has revlog");
+        assert_eq!(renal.fsrs_item_count, 0);
+    }
+
+    /// (b) Cards with no memory state are excluded from the means, still
+    /// counted in card_count, and reported in cards_without_memory_state.
+    #[test]
+    fn cards_without_memory_state_are_excluded_from_means_but_counted() {
+        let mut col = fixture();
+        let resp = col.topic_mastery(TopicMasteryRequest::default()).unwrap();
+
+        assert_eq!(
+            resp.cards_without_memory_state, 1,
+            "card C only, counted once"
+        );
+
+        let renal = topic(&resp, "speedrun::topic::renal");
+        // C is in card_count...
+        assert_eq!(renal.card_count, 2);
+        // ...but the means are over B alone, not (B + 0)/2.
+        assert!(
+            (renal.mean_stability - 10.0).abs() < 1e-4,
+            "mean must be B's 10.0, not 5.0 — C must not dilute it"
+        );
+        assert!((renal.mean_difficulty - 7.0).abs() < 1e-4);
+        assert!(renal.mean_retrievability > 0.0);
+    }
+
+    /// (c) The topic filter returns only requested tags, and a card carrying
+    /// two topic tags is counted under both.
+    #[test]
+    fn topic_filter_and_multi_tagged_cards() {
+        let mut col = fixture();
+
+        let resp = col
+            .topic_mastery(TopicMasteryRequest {
+                topic_tags: vec!["speedrun::topic::renal".to_string()],
+                as_of_unix_secs: 0,
+            })
+            .unwrap();
+        assert_eq!(resp.topics.len(), 1, "only the requested topic");
+        assert_eq!(resp.topics[0].topic_tag, "speedrun::topic::renal");
+        assert_eq!(resp.topics[0].card_count, 2);
+
+        // B carries both tags and must be counted under each.
+        let all = col.topic_mastery(TopicMasteryRequest::default()).unwrap();
+        assert_eq!(topic(&all, "speedrun::topic::cardio").card_count, 2);
+        assert_eq!(topic(&all, "speedrun::topic::renal").card_count, 2);
+        // 3 distinct cards, but 4 topic memberships.
+        let memberships: u32 = all.topics.iter().map(|t| t.card_count).sum();
+        assert_eq!(memberships, 4);
+    }
+}
