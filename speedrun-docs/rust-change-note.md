@@ -8,11 +8,13 @@ Fork base: `ankitects/anki` @ [`d735cd25d076051c6788b5a5acf65b57b9ea7277`](https
 
 ## 1. What was built
 
-`Collection::topic_mastery` — a read-only per-topic aggregation over cards tagged `speedrun::topic::*`, exposed as a new protobuf service method so desktop and phone consume one implementation.
+`Collection::topic_mastery` — a per-topic aggregation over cards tagged `speedrun::topic::*`, exposed as a new protobuf service method so desktop and phone consume one implementation.
+
+**The read-only claim, stated at the precision the brief's proof actually turns on:** the query is read-only with respect to the collection's **card, note and revlog data**, and it **creates no undo entry**. It may, on a collection that has never been scheduled, trigger upstream's **one-time `rollover` / `localOffset` config backfill** via `Collection::timing_today`. Those two rows are Anki's, not the aggregation's; they are written outside any transaction, so the undo stack never sees them, and they happen at most once. That distinction is the whole point — "nothing is written anywhere ever" would be false, and a warm-up call hiding it would be worse than false. See §6.
 
 It returns, per topic tag: `card_count`, `reviewed_count`, `mature_count`, `fsrs_item_count`, `review_count`, and the means of FSRS retrievability, stability and difficulty. The response also carries `cards_without_memory_state`, so a caller can state what the means exclude rather than quietly averaging over an unstated subset.
 
-**Decision recorded:** the mastery query, **not** the points-at-stake queue. The queue would have mutated queue construction; the mastery query is read-only, which is what makes the brief's "prove undo works and the collection does not corrupt" demonstrable instead of perilous. See §6.
+**Decision recorded:** the mastery query, **not** the points-at-stake queue. The queue would have mutated queue construction, so proving undo and non-corruption would have meant proving the scheduler was not broken, and a failure there is a corrupted collection rather than a wrong number. The mastery query touches no card, note or revlog row and takes no undo entry, which makes that proof demonstrable instead of perilous. See §6.
 
 ### Why this belongs in Rust, not Python
 
@@ -49,7 +51,7 @@ worst case               105.9 ms   PASS
 OVERALL: PASS — dashboard first load < 1000 ms, judged on the worst case
 ```
 
-One run, release profile, on an Apple Silicon laptop — a single machine, not a claim about all hardware. The deck shape is checked by the benchmark itself rather than trusted: it asserts all 20 topics come back, that summed `card_count` equals the 57,143 memberships it built, that `cards_without_memory_state` equals the 10,000 it left unreviewed, and that no revlog id collided (`add.sql` is `INSERT OR IGNORE`, so a collision would silently shrink the workload and make the timing flattering). The headroom is roughly 10× on the budget, and the spread between best and worst is under 8 ms, which is what a walk with no per-card query should look like. Nothing here is a claim about a **Python** implementation's speed: no Python version was written, so the comparison is unmeasured and is not made.
+One run, release profile, on an Apple Silicon laptop — a single machine, not a claim about all hardware. An immediate second run on the same machine gave best 98.8 / median 99.8 / p95 101.4 / worst 103.2 ms, so the run-to-run spread is a few ms against a 1,000 ms budget and the numbers above are not a lucky sample. The deck shape is checked by the benchmark itself rather than trusted: it asserts all 20 topics come back, that summed `card_count` equals the 57,143 memberships it built, that `cards_without_memory_state` equals the 10,000 it left unreviewed, and that no revlog id collided (`add.sql` is `INSERT OR IGNORE`, so a collision would silently shrink the workload and make the timing flattering). The headroom is roughly 10× on the budget, and the spread between best and worst is under 8 ms, which is what a walk with no per-card query should look like. Nothing here is a claim about a **Python** implementation's speed: no Python version was written, so the comparison is unmeasured and is not made.
 
 ---
 
@@ -285,8 +287,10 @@ rg -n 'FSRS|min_.*review|MIN_.*REVIEW' --type rust rslib/ | rg -i 'min|threshold
 rg -n 'train_set.len\(\) <|DEFAULT_PARAMETERS' src/training.rs
 
 # 2. Proof of absence for the "400 is dead code" claim -> CONFIRMED dead.
-#    10 hits, none of them an active threshold check.
-rg -n '\b400\b' --type rust
+#    10 hits in upstream, none of them an active threshold check. Now returns 12:
+#    the fork's own bench.rs adds two (`rng.below(400)`, synthetic intervals).
+#    Exclude it to reproduce the upstream number.
+rg -n '\b400\b' --type rust -g '!rslib/src/speedrun/bench.rs'
 
 # 3. The revlog helper -> VERIFIED; approximation above was wrong.
 rg -n 'has_rating_and_affects_scheduling' -A 15

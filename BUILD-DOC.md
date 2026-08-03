@@ -113,7 +113,7 @@ message TopicMasteryResponse {
 ### 3.2 Implementation
 
 - New module `rslib/src/speedrun/mastery.rs`, wired into `rslib/src/lib.rs`.
-- Single SQL pass over cards joined to notes for tags, aggregating in Rust. Avoid N+1 — the 50,000-card target is the point.
+- **Two single-pass queries**, aggregating in Rust: one over `cards` joined to `notes` for tags, one over `revlog` in card order. An earlier version of this doc said "a single SQL pass"; that was tightened past what the problem allows, because `fsrs_item_count` needs an **ordered per-card walk** to apply the `idx >= 1 && delta_t > 0` guard, which one flat query cannot express. The binding constraint is **no N+1**, and it is met: neither query is per-card, so the cost is **O(cards + revlog)**. The 50,000-card target is the point, and `just bench` measures it — median 99.9 ms, p95 102.7 ms, worst 103.6 ms against a 1000 ms budget.
 - Topic tag prefix: `speedrun::topic::<outline-path>`. Cards may carry several; a card counts once per topic tag it holds.
 - Use `AnkiError`/`Result` and snafu per Anki's conventions.
 - Read-only. No writes, no `OpChanges`, no undo entry.
@@ -366,7 +366,7 @@ Order is chosen so that each stage produces something verifiable and nothing lat
 - **`CONTRIBUTORS` is a legitimate exception to that rule, not a violation of it.** The file exists precisely so downstream contributors can add themselves, and upstream's own `check:minilints` **fails the build** unless every commit author appears in it — the error is `Author <you> NOT found in list`. Adding your name is therefore required to satisfy `just check`, not an incursion into upstream's tree. It is one line, and it is the only upstream file this fork modifies.
 - Two further edits are required for a green `just check` on a fresh clone and are not code changes: initialise the installer submodules (`git submodule update --init`), or `qt/tests/test_installer.py` fails with `Unable to clone application template`; and run `just fix-fmt` before committing, because `dprint` formats Markdown too and will reject prose written with `*emphasis*` instead of `_emphasis_`.
 - Speedrun-specific agent instructions go in `.claude/user.md` (referenced by upstream's `CLAUDE.md`) — **do not edit upstream's `CLAUDE.md`**.
-- Every derived number in a doc cites the script that produced it.
+- **Every number in `BRAINLIFT.md` or `BUILD-DOC.md` that a script can produce must be traceable to the script that produced it, and must be regenerated rather than retyped.** This is not style. A stale figure survived several revisions of Appendix A — the σ-sensitivity line kept quoting `0.077 d × σ` after the primary had dropped to `0.061 d` — and it was caught only because `speedrun-analysis/appendix_a/` recomputes the numbers independently instead of trusting the prose. Prose drifts silently; a harness that reproduces its own claims does not. Where a number cannot yet be produced by a script, mark it as asserted and say so.
 - Source citations pin **commit SHA + symbol**, never line number alone.
 - `.gitignore` already excludes `*.anki2` and `data/holdout/`. Held-out data never enters the repo.
 
