@@ -17,11 +17,11 @@ The POV text submitted in run 2 was a **draft supplied in conversation**, not co
 
 ## Run log — all attempts
 
-| Attempt | Outcome |
-|---|---|
-| Run 1 | Both passes completed. Pass two truncated mid-sentence at the 1000-token cap. Transcript retained in `consensus-check-transcripts.md`. |
+| Attempt           | Outcome                                                                                                                                                                                                                            |
+| ----------------- | ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| Run 1             | Both passes completed. Pass two truncated mid-sentence at the 1000-token cap. Transcript retained in `consensus-check-transcripts.md`.                                                                                             |
 | Discarded attempt | Placeholder text left in the POV field. The model correctly declined to assess an incomplete claim. No usable output. Harness subsequently patched to block submission when the field is empty or still contains placeholder text. |
-| Run 2 | Both passes completed in full. Reported below. |
+| Run 2             | Both passes completed in full. Reported below.                                                                                                                                                                                     |
 
 ---
 

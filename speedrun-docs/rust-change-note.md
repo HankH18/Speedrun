@@ -62,7 +62,7 @@ The Rust helper that decides whether a revlog row counts is
 ease > 0 AND NOT (type = 3 AND factor = 0)
 ```
 
-**Superseded, do not reuse:** `ease > 0 AND type NOT IN (4, 5)`. Two defects. It never excluded cram reviews, so it is **over-inclusive** — and the error runs in the damaging direction, because it *inflates* review counts, which is exactly the quantity every "do I have enough data" decision in this project depends on. **Any review count computed before this correction is inflated for any collection that has used a filtered deck in preview mode, and must be recomputed before it is cited.** The `type NOT IN (4,5)` clause was separately redundant: Manual (4) and Rescheduled (5) rows are written with `ease = 0`, so `ease > 0` had already removed them.
+**Superseded, do not reuse:** `ease > 0 AND type NOT IN (4, 5)`. Two defects. It never excluded cram reviews, so it is **over-inclusive** — and the error runs in the damaging direction, because it _inflates_ review counts, which is exactly the quantity every "do I have enough data" decision in this project depends on. **Any review count computed before this correction is inflated for any collection that has used a filtered deck in preview mode, and must be recomputed before it is cited.** The `type NOT IN (4,5)` clause was separately redundant: Manual (4) and Rescheduled (5) rows are written with `ease = 0`, so `ease > 0` had already removed them.
 
 ### Verification commands, with outcomes
 

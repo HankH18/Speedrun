@@ -14,11 +14,11 @@ A desktop and mobile study app built on a fork of **[Anki](https://github.com/an
 
 Speedrun reports **three separately-derived scores**, each with an explicit range, each refusing to report when the data underneath it is insufficient:
 
-| Score | Question it answers | DOK level |
-|---|---|---|
-| **Memory** | Can you recall this fact right now? | 1 |
-| **Performance** | Can you answer a novel exam-style question that uses it? | 2–3 |
-| **Readiness** | What is your probability of passing today, and how sure are we? | 4 |
+| Score           | Question it answers                                             | DOK level |
+| --------------- | --------------------------------------------------------------- | --------- |
+| **Memory**      | Can you recall this fact right now?                             | 1         |
+| **Performance** | Can you answer a novel exam-style question that uses it?        | 2–3       |
+| **Readiness**   | What is your probability of passing today, and how sure are we? | 4         |
 
 They are never blended into one number.
 
@@ -38,7 +38,7 @@ They are never blended into one number.
 
 `BRAINLIFT.md` §0 carries a full status disclosure. Nothing in this repo is presented as more finished than it is.
 
-**Repository layout.** The root of this repository *is* the Anki fork — upstream's tree, with full history. Speedrun's own writing lives in [`speedrun-docs/`](speedrun-docs/) and `BRAINLIFT.md`, kept deliberately separate from upstream's `docs/` so that `git diff upstream/main` shows exactly what this fork adds and nothing else.
+**Repository layout.** The root of this repository _is_ the Anki fork — upstream's tree, with full history. Speedrun's own writing lives in [`speedrun-docs/`](speedrun-docs/) and `BRAINLIFT.md`, kept deliberately separate from upstream's `docs/` so that `git diff upstream/main` shows exactly what this fork adds and nothing else.
 
 ---
 
@@ -65,6 +65,7 @@ The app refuses to report a score when the data underneath it cannot support one
 ⬜ **Pending.** Build instructions for the desktop app and the phone companion land with the first Speedrun change. Upstream Anki's own build documentation applies in the meantime — see [`docs/`](docs/).
 
 Planned:
+
 - **Desktop** — Rust core (`rslib`), protobuf bridge, Qt frontend, as upstream
 - **Android** — built on AnkiDroid's JNI bridge to the shared `rslib` core
 - **iOS** — Rust backend through its C interface, following the approach demonstrated by [amgi](https://github.com/antigluten/amgi)

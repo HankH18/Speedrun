@@ -18,7 +18,7 @@
 >
 > I think card mastery's predictive power degrades as item complexity rises, and that transfer from memorized facts to novel exam vignettes is governed by three measurable moderators — response congruency, initial retrieval accuracy, and elaboration — none of which any shipping study tool measures or optimizes. Spaced-repetition schedulers optimize WHEN you see a card. Nothing optimizes whether the card's response structure resembles the item you will actually face on the exam.
 
-*(Note: this is the POV as it stood at the time of the check. It has since been revised in response to objections 1 and 3 — see §5.)*
+_(Note: this is the POV as it stood at the time of the check. It has since been revised in response to objections 1 and 3 — see §5.)_
 
 ---
 
