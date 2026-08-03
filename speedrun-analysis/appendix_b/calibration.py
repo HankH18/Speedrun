@@ -77,6 +77,14 @@ Its job is to keep the fit finite when a feature separates the classes
 perfectly -- without it the weights diverge and the "converged" parameters are
 whatever the iteration count happened to reach. It is deliberately tiny; it is a
 numerical guard, and it is NOT presented as a tuned regularisation strength.
+
+MEASURED LIMIT, STATED RATHER THAN LEFT TO BE DISCOVERED. On perfectly separable
+data the maximum-likelihood optimum is at infinity and this penalty is the only
+thing bounding it, so PLATT_ITERATIONS stops being enough: separate seeds then
+land ~2e-4 apart on a slope of ~47.6 (relative ~4e-6) instead of agreeing bit
+for bit as they do on overlapping data. Nothing in `run.py` is fitted on
+separable data, but a caller who supplies some is entitled to know that the
+"deterministic given the seed" guarantee weakens exactly there.
 """
 
 

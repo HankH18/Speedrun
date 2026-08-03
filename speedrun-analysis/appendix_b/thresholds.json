@@ -1,0 +1,304 @@
+{
+    "schema_version": 1,
+    "generated_by": "speedrun-analysis/appendix_b/derive_thresholds.py",
+    "standing_rule": "Thresholds are OUTPUTS of Appendix B and never inputs to it. No number in this file may be asserted in BRAINLIFT.md section 7 and validated here afterwards; that ordering is the circularity section 8 records. Where the derivation cannot run, section 7 says TBD and the app abstains.",
+    "synthetic_rule": "On synthetic data NO threshold is final and none is marked DERIVED. A synthetic run reports its number under dry_run.value_not_a_threshold with the top-level value left null.",
+    "forbidden_metric": "Accuracy. At a ~91% base rate a constant 'pass' predictor scores ~91%. Every decision here runs on log loss, with Brier reported beside it.",
+    "seed": 20260802,
+    "core_modules": {
+        "metrics": {
+            "importable": true,
+            "probe": "PASSED",
+            "bound": [
+                "log_loss_value",
+                "brier_score",
+                "skill_vs_null",
+                "constant_predictor_log_loss",
+                "constant_predictor_brier"
+            ]
+        },
+        "gates": {
+            "importable": true,
+            "probe": "NO PUBLIC accept_only_if_better",
+            "note": "gates.py keeps the accept-only-if-better primitive private by design. Not reached into.",
+            "consumers_found": [
+                "memory_gate",
+                "performance_gate",
+                "readiness_gate",
+                "sanity_gate"
+            ],
+            "binding": "local strict log-loss improvement -- the same rule as upstream's params.rs:156, applied here rather than imported"
+        },
+        "calibration": {
+            "importable": true,
+            "consumed_by_this_script": false,
+            "note": "Appendix B items 1 and 3 live in calibration.py. The coverage floor and the shrinkage constant must be re-derived on post-hoc-calibrated probabilities once its entry point is fixed; see each threshold's pending_integration field."
+        }
+    },
+    "dataset": null,
+    "summary": {
+        "DERIVED": 0,
+        "UNKNOWN": 8
+    },
+    "thresholds": [
+        {
+            "id": "memory_fsrs_items_floor",
+            "value": null,
+            "unit": "fsrs_items (Anki's own count, ComputeFsrsParamsResponse)",
+            "status": "UNKNOWN",
+            "script": "speedrun-analysis/appendix_b/derive_thresholds.py",
+            "function": "derive_memory_fsrs_items_floor",
+            "dataset": null,
+            "owed_by": "BRAINLIFT.md section 7 give-up rule; Appendix B item 5",
+            "consumed_by": "BUILD-DOC.md section 6, Memory row",
+            "procedure": "Bin students by fsrs_items on a power-of-two grid. In each bin, per student, compute held-out log loss of the personal FSRS model minus held-out log loss of the incumbent (the student's current parameters, or shipped defaults). Bootstrap the mean delta over students. The floor is the smallest bin whose upper 95% bound is below zero and which stays below zero in every evaluable bin above it -- i.e. the point where reporting the personal model stops losing to falling back on the incumbent.",
+            "reason": "not run: no dataset supplied",
+            "policy_inputs": {
+                "count_grid": [
+                    0,
+                    1,
+                    2,
+                    4,
+                    8,
+                    16,
+                    32,
+                    64,
+                    128,
+                    256,
+                    512,
+                    1024
+                ],
+                "min_units_per_bin": 20,
+                "bootstrap_resamples": 1000,
+                "alpha": 0.05,
+                "note": "These four are stated choices about how much evidence is enough to let a bin speak, not derived quantities. They are listed here so they cannot be mistaken for outputs."
+            },
+            "retired_starting_value": 200,
+            "retired_value_provenance": "200 graded reviews, taken from the assignment brief's illustrative sentence and then defended with an FSRS precedent that did not exist in the codebase claimed (BRAINLIFT.md section 8). Not read by this procedure. Note also the unit error: graded reviews are not fsrs_items.",
+            "needs": "Per-student held-out FSRS reviews with (a) the fsrs_items count Anki returns, (b) the personal fitted model's predicted recall probability per held-out review, (c) the incumbent model's probability on the same reviews, (d) the observed outcome. The probabilities must come from the Rust/fsrs-rs fitter on a temporal split -- this script does not fit FSRS and must not."
+        },
+        {
+            "id": "performance_scored_item_floor",
+            "value": null,
+            "unit": "scored novel exam-style items",
+            "status": "UNKNOWN",
+            "script": "speedrun-analysis/appendix_b/derive_thresholds.py",
+            "function": "derive_performance_scored_item_floor",
+            "dataset": null,
+            "owed_by": "BRAINLIFT.md section 7 give-up rule; Appendix B item 5",
+            "consumed_by": "BUILD-DOC.md section 6, Performance row",
+            "procedure": "Identical shape to the Memory floor, with the comparator changed: the personal performance model is scored against the TOPIC PRIOR -- the population's performance on that topic, which is what we would say knowing nothing about this student. Bin by scored-item count, bootstrap the per-student held-out log-loss delta, take the smallest bin that wins and keeps winning above itself.",
+            "reason": "not run: no dataset supplied",
+            "policy_inputs": {
+                "count_grid": [
+                    0,
+                    1,
+                    2,
+                    4,
+                    8,
+                    16,
+                    32,
+                    64,
+                    128,
+                    256,
+                    512,
+                    1024
+                ],
+                "min_units_per_bin": 20,
+                "bootstrap_resamples": 1000,
+                "alpha": 0.05
+            },
+            "retired_starting_value": 50,
+            "retired_value_provenance": "50 scored novel items. BRAINLIFT.md section 8 records its provenance as UNKNOWN -- it did not come from the brief and could not be reconstructed. Not read by this procedure.",
+            "needs": "Per-student held-out scored items with the personal model's P(correct), the topic prior's P(correct) on the same items fitted on the training split only, the observed outcome, and the student's scored-item count at the time of the split."
+        },
+        {
+            "id": "readiness_coverage_floor",
+            "value": null,
+            "unit": "fraction of the published USMLE Step 1 outline covered (weighted)",
+            "status": "UNKNOWN",
+            "script": "speedrun-analysis/appendix_b/derive_thresholds.py",
+            "function": "derive_readiness_coverage_floor",
+            "dataset": null,
+            "owed_by": "BRAINLIFT.md section 7 give-up rule; Appendix B item 5",
+            "consumed_by": "BUILD-DOC.md section 6, Readiness row; section 5.4 display contract",
+            "procedure": "Readiness is validated at the MODEL level on held-out STUDENTS, because an individual's Step 1 outcome cannot be held out. Sweep a coverage grid; at each level restrict to held-out students at or above it and bootstrap, over students, the per-student log loss of the readiness model minus that of the base-rate null (a constant predictor at the student's cohort pass rate, taken from the TRAINING split). TWO tests must pass at each level, not one. (a) The CUMULATIVE pool at or above the level must beat the null -- that is the population who would be shown a score, so it is the decision-relevant comparison. (b) The MARGINAL stratum at the level must beat it too. (b) exists because (a) alone is an average, and an average lets a band of students for whom the model is actively WORSE than a constant predictor be carried by better-covered students above them; a floor set that way licenses harm at its own boundary, which is where every student the gate newly admits sits. The floor is the smallest level where both hold and keep holding above.",
+            "reason": "not run: no dataset supplied",
+            "policy_inputs": {
+                "coverage_grid": [
+                    0.0,
+                    0.05,
+                    0.1,
+                    0.15,
+                    0.2,
+                    0.25,
+                    0.3,
+                    0.35,
+                    0.4,
+                    0.45,
+                    0.5,
+                    0.55,
+                    0.6,
+                    0.65,
+                    0.7,
+                    0.75,
+                    0.8,
+                    0.85,
+                    0.9,
+                    0.95
+                ],
+                "min_units_per_level": 20,
+                "bootstrap_resamples": 1000,
+                "alpha": 0.05
+            },
+            "retired_starting_value": 0.5,
+            "retired_value_provenance": "50% topic coverage, lifted verbatim from the assignment brief's illustrative sentence 'no score below 200 graded reviews and 50% topic coverage' (BRAINLIFT.md section 8). Not read by this procedure.",
+            "needs": "Held-out students with a known Step 1 outcome, each carrying the readiness model's P(pass), the student's weighted outline coverage from speedrun-analysis/outline/coverage.py, and their cohort; plus cohort pass rates estimated on the training split. This is the one threshold whose data cannot be manufactured from a collection: it needs real outcomes for real students.",
+            "pending_integration": "Must be re-derived on post-hoc-calibrated probabilities once calibration.py's entry point is fixed (BUILD-DOC section 10: Platt or isotonic, fitted on a set disjoint from both training and evaluation). An uncalibrated model can lose to the null for reasons a calibration map would fix, which would place this floor too high."
+        },
+        {
+            "id": "sanity_gate_min_items",
+            "value": null,
+            "unit": "held-out items in the sanity-gate evaluation set",
+            "status": "UNKNOWN",
+            "script": "speedrun-analysis/appendix_b/derive_thresholds.py",
+            "function": "derive_sanity_gate_min_items",
+            "dataset": null,
+            "owed_by": "BRAINLIFT.md section 7 'A separate sanity gate'; Appendix B item 5",
+            "consumed_by": "gates.py sanity gate; BUILD-DOC.md section 6",
+            "procedure": "Upstream gates its health check at >300 items on the stated ground that below that an ABSOLUTE quality ESTIMATE is too noisy to act on. That is a claim about the estimate's precision, so precision is what gets measured. Split each student's held-out set into two random halves and take the absolute metric (log loss) on each. The within-student difference cancels every between-student difference in true quality, so its spread across a count bin is pure sampling noise: sd(difference) = sqrt(2) x sd(half-sample estimate), and the full-sample estimate's sd is therefore sd(difference)/2. Express that as a fraction of the absolute bound the estimate is compared against (the base-rate null's log loss); the floor is the smallest count bin where the fraction is at or below the stated tolerance and stays there above. NOT split-half decision agreement, which was tried first and is the wrong statistic: a model sitting genuinely on the bound flips at any sample size, so agreement plateaus well short of any usable tolerance and the floor comes back UNKNOWN for a reason that is about the bound's neighbourhood rather than about sample size.",
+            "reason": "not run: no dataset supplied",
+            "policy_inputs": {
+                "count_grid": [
+                    0,
+                    1,
+                    2,
+                    4,
+                    8,
+                    16,
+                    32,
+                    64,
+                    128,
+                    256,
+                    512,
+                    1024
+                ],
+                "precision_tolerance": 0.1,
+                "min_units_per_bin": 20,
+                "min_holdout_items_per_student": 8,
+                "note": "The tolerance is a STATED CHOICE, not a derived quantity: it says how much sampling noise, as a fraction of the bound itself, we are willing to have in an absolute quality estimate before acting on it. The whole precision curve is in `evidence.per_bin`, so a reader can read the floor off a different tolerance without rerunning anything."
+            },
+            "retired_starting_value": 300,
+            "retired_value_provenance": "> 300, from Anki's params.rs:182 health check. Real upstream code, but it gates a different quantity in a different estimator; BRAINLIFT.md section 7 records that borrowing its magnitude was one of the errors this appendix exists to stop repeating. Not read here.",
+            "needs": "The same per-student held-out sets the Memory floor needs, plus the training-split base rate that sets the bound's scale. At least MIN_BIN_UNITS students per count bin, each with at least 8 held-out items so both halves are non-trivial."
+        },
+        {
+            "id": "sanity_gate_log_loss_bound",
+            "value": null,
+            "unit": "nats (mean negative log-likelihood on held-out data)",
+            "status": "UNKNOWN",
+            "script": "speedrun-analysis/appendix_b/derive_thresholds.py",
+            "function": "derive_sanity_gate_log_loss_bound",
+            "dataset": null,
+            "owed_by": "BRAINLIFT.md section 7 'A separate sanity gate'; Appendix B item 5",
+            "consumed_by": "gates.py sanity gate",
+            "procedure": "Upstream pairs its >300 gate with fixed absolute bounds (adjusted_log_loss <= 1.11 || adjusted_rmse <= 1.53). Those constants have no authority here, so the bound is derived instead of borrowed, and derived without a free parameter: it is the held-out log loss of the base-rate null itself, computed from the training split's base rate against the held-out outcomes. A model whose ABSOLUTE held-out log loss exceeds what a constant predictor achieves is not fit to show, whatever it beat on the way in.",
+            "reason": "not run: no dataset supplied",
+            "policy_inputs": {
+                "combination_rule": "This procedure derives the bound only. Whether the sanity gate requires log loss AND Brier or, like upstream, log loss OR RMSE, is a gates.py decision and is deliberately not made here."
+            },
+            "retired_starting_value": 1.11,
+            "retired_value_provenance": "adjusted_log_loss <= 1.11 from Anki params.rs:182. Real code, different estimator, no authority here. Not read by this procedure.",
+            "needs": "A training-split base rate and a held-out outcome set. Supplied by the `memory` block (null_rate plus every student's holdout)."
+        },
+        {
+            "id": "sanity_gate_brier_bound",
+            "value": null,
+            "unit": "Brier score (mean squared error of the probability forecast)",
+            "status": "UNKNOWN",
+            "script": "speedrun-analysis/appendix_b/derive_thresholds.py",
+            "function": "derive_sanity_gate_brier_bound",
+            "dataset": null,
+            "owed_by": "BRAINLIFT.md section 7 'A separate sanity gate'; Appendix B item 5",
+            "consumed_by": "gates.py sanity gate (reported beside the log-loss bound, never overturning it)",
+            "procedure": "The Brier counterpart of the log-loss bound, derived the same way: the base-rate null's held-out Brier score. It exists because this project reports Brier and log loss together and never one alone; it is the analogue of upstream's adjusted_rmse limb. It is REPORTED beside the log-loss decision and does not overturn it.",
+            "reason": "not run: no dataset supplied",
+            "policy_inputs": {},
+            "retired_starting_value": 1.53,
+            "retired_value_provenance": "adjusted_rmse <= 1.53 from Anki params.rs:182. Different scale (RMSE on FSRS's adjusted residuals, not Brier), different estimator, no authority here. Not read by this procedure.",
+            "needs": "Same as sanity_gate_log_loss_bound."
+        },
+        {
+            "id": "latency_fraction",
+            "value": null,
+            "unit": "fraction of the item's target time (session median response latency / target)",
+            "status": "UNKNOWN",
+            "script": "speedrun-analysis/appendix_b/derive_thresholds.py",
+            "function": "derive_latency_fraction",
+            "dataset": null,
+            "owed_by": "BRAINLIFT.md section 7 latency rule; Appendix B item 6",
+            "consumed_by": "BUILD-DOC.md section 6 latency plausibility filter; Performance scoring inputs",
+            "procedure": "The filter's premise is that fast-enough sessions carry no information, so the cut is located by measuring information rather than by picking a number. Sessions are cut into STRATA by latency ratio (median latency / target time). Within each stratum, ask whether the performance model has any edge over the base-rate null: edge = null log loss - model log loss per session, bootstrapped over SESSIONS. A stratum of people answering without reading has edge <= 0 -- their outcomes do not track the model's forecast. Walk up from the fastest stratum and stop at the first evaluable stratum that DOES show an edge; f* is that stratum's lower boundary. Strata, not cumulative pools, because a cumulative pool below f mixes noise sessions with informative ones and stays indistinguishable from noise well past the real cut by dilution -- which pushes the derived filter too wide and destroys real data. Scope, per BRAINLIFT section 7: scored novel items only. Card reviews have no target time and are not filtered here.",
+            "reason": "not run: no dataset supplied",
+            "policy_inputs": {
+                "stratum_boundaries": [
+                    0.0,
+                    0.05,
+                    0.1,
+                    0.15,
+                    0.2,
+                    0.25,
+                    0.3,
+                    0.35,
+                    0.4,
+                    0.45,
+                    0.5,
+                    0.55,
+                    0.6,
+                    0.65,
+                    0.7,
+                    0.75,
+                    0.8,
+                    0.85,
+                    0.9,
+                    0.95,
+                    1.0
+                ],
+                "min_sessions_per_stratum": 20,
+                "bootstrap_resamples": 1000,
+                "alpha": 0.05
+            },
+            "retired_starting_value": 0.2,
+            "retired_value_provenance": "20% of target time, recorded in BRAINLIFT.md section 7 as a TEARDOWN STARTING VALUE, not an assertion. It came from speedrun-docs/teardown-observation-log.md, where zero-effort probe sessions ran at 1-4 seconds against tool-displayed targets of roughly 90 seconds -- ratios of about 0.01 to 0.04, an order of magnitude below the 20% figure it was written up as. Not read by this procedure.",
+            "needs": "Sessions of scored novel items with a per-session median response latency, the item's published target time, the performance model's P(correct) per item, the observed outcome, and a training-split item base rate for the null. Enough sessions in the fast tail to make small-f pools evaluable -- which real students may simply not produce, in which case this stays UNKNOWN."
+        },
+        {
+            "id": "shrinkage_constant",
+            "value": null,
+            "unit": "k, in the weight w = n / (k + n)",
+            "status": "UNKNOWN",
+            "script": "speedrun-analysis/appendix_b/derive_thresholds.py",
+            "function": "derive_shrinkage_constant",
+            "dataset": null,
+            "owed_by": "BRAINLIFT.md section 7 shrinkage caveat; Appendix B item 7",
+            "consumed_by": "gates.py shrinkage for Memory and Performance",
+            "procedure": "Fit k by direct search over a geometric grid, minimising held-out log loss of the shrunk forecast w*p_personal + (1-w)*p_prior with w = n/(k+n), on a FITTING split; then report the log loss that k achieves on a DISJOINT EVALUATION split, alongside the loss of the borrowed k = 50, of no shrinkage (k -> 0), and of total shrinkage (k -> infinity). A bootstrap over fitting-split students gives an interval on k, and whether 50 falls inside it is reported as the direct test of the borrowed constant.",
+            "reason": "not run: no dataset supplied",
+            "policy_inputs": {
+                "k_grid": {
+                    "min": 0.5,
+                    "max": 5000.0,
+                    "points": 121,
+                    "spacing": "geometric"
+                },
+                "k_ci_grid_points": 25,
+                "alpha": 0.05,
+                "note": "The grid bounds are a search range, not a prior. A fitted k landing on either bound is reported as UNRESOLVED rather than as the bound."
+            },
+            "retired_starting_value": 50,
+            "retired_value_provenance": "50, from fsrs-optimizer issue #116, where Expertium proposes n/(50+n) for smoothing MEDIAN REVIEW TIMES in a different estimator. BRAINLIFT.md section 7 records that the functional form is borrowed and the constant is not: no upstream code shrinks FSRS parameters, and the Anki-side implementation of #116 shrank first-rating probabilities and was deleted in 52ce6e6a. Not read by this procedure -- it appears below only as a comparator whose loss is reported next to the fitted k's.",
+            "needs": "Two disjoint sets of students, each with their per-student observation count n, the personal estimate, the prior it shrinks toward, and held-out outcomes. Fitting k on the same split it is evaluated on would report the fit's own optimum as its performance and is refused.",
+            "pending_integration": "Re-derive on post-hoc-calibrated probabilities once calibration.py's entry point is fixed. Shrinkage and a calibration map both move probabilities toward the base rate, so a k fitted on uncalibrated output is partly absorbing miscalibration and will be too large."
+        }
+    ]
+}

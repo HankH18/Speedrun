@@ -299,7 +299,10 @@ def section_metric_checks() -> None:
     print("These four rows are computed two ways -- empirically over a vector, and from")
     print("the closed form -- and `test_appendix_b.py` asserts them independently.")
     print()
-    for rate in (0.91, 0.86, 0.73):
+    print(f"{'constant predictor':>20}{'Brier':>11}{'closed form':>14}"
+          f"{'log loss':>11}{'closed form':>14}")
+    print(rule())
+    for rate, who in ((0.91, "US MD"), (0.86, "US DO"), (0.73, "IMG")):
         n = 10000
         ones = int(round(rate * n))
         outcomes = [1] * ones + [0] * (n - ones)
@@ -307,9 +310,9 @@ def section_metric_checks() -> None:
         bs = metrics.brier_score(preds, outcomes)
         ll, _ = metrics.log_loss(preds, outcomes)
         print(
-            f"  constant p = {rate:.2f} at base rate {rate:.2f}:  "
-            f"Brier {bs:.6f} (closed form {metrics.constant_predictor_brier(rate, rate):.6f})  "
-            f"log loss {ll:.6f} (closed form {metrics.constant_predictor_log_loss(rate, rate):.6f})"
+            f"{f'p = {rate:.2f}  ({who})':>20}{bs:>11.6f}"
+            f"{metrics.constant_predictor_brier(rate, rate):>14.6f}"
+            f"{ll:>11.6f}{metrics.constant_predictor_log_loss(rate, rate):>14.6f}"
         )
     print()
     print("  Read the first row carefully. A CONSTANT function -- the thing BRAINLIFT.md")
@@ -718,7 +721,11 @@ def section_floors(memory_records, cohort, fitted, eval_idx) -> None:
     print(f"{'floor':>7}{'students':>10}{'model LL':>12}{'null LL':>11}{'margin':>11}")
     print(rule())
     for r in rows:
-        mark = "  <- the retracted 50% from the brief's example" if abs(r.floor - PROVISIONAL_COVERAGE_FLOOR) < 1e-9 else ""
+        mark = (
+            "  <- the retracted 50%"
+            if abs(r.floor - PROVISIONAL_COVERAGE_FLOOR) < 1e-9
+            else ""
+        )
         print(f"{r.floor:>7.1f}{r.n_students:>10}{r.model_log_loss:>12.5f}"
               f"{r.null_log_loss:>11.5f}{r.margin:>+11.5f}{mark}")
     print()
@@ -743,7 +750,9 @@ def section_floors(memory_records, cohort, fitted, eval_idx) -> None:
         log_loss_bound=gates.UPSTREAM_HEALTH_LOG_LOSS_BOUND,
         bound_provenance="BORROWED from Anki params.rs:182 -- NOT derived for Speedrun",
     )
-    print(f"  and on 20 items: {small.decision} -- {small.reason}")
+    print(f"  and on 20 items: {small.decision}")
+    print(f"    -- {small.reason[:70]}")
+    print(f"       {small.reason[70:]}")
     print()
     print("  A relative gate cannot catch a model that beat its predecessor and is still")
     print("  badly calibrated. Only this one can, and its bound is BORROWED, so Appendix")
@@ -876,13 +885,22 @@ def section_latency(cohort) -> None:
         1 for _, sess in flat if not sess["zero_effort"] and sess["latency_fraction"] >= best
     )
     genuine = len(flat) - truth
-    print(f"  Fitted cut on this synthetic cohort: {best:.2f} of target time.")
-    print(f"  Ground-truth check (AVAILABLE ONLY BECAUSE THE DATA IS SYNTHETIC --")
-    print(f"  no such column exists in production): {caught}/{truth} zero-effort sessions")
-    print(f"  excluded, {kept_genuine}/{genuine} genuine sessions kept.")
-    print("  This diagnostic is printed to show the operational criterion found something")
-    print("  real HERE. It is not available to validate the cut on real data, which is")
-    print("  exactly why the operational definition is the one that ships.")
+    print(f"  Fitted cut on this synthetic cohort: {best:.2f} of target time, against the")
+    print("  0.20 recorded in section 7 from teardown observation. The two are close, and")
+    print("  that is a coincidence of this generator, not corroboration.")
+    print()
+    print("  Ground-truth check -- AVAILABLE ONLY BECAUSE THE DATA IS SYNTHETIC. No such")
+    print("  column exists in production, and this is the diagnostic a real run cannot have:")
+    print(f"    zero-effort sessions excluded : {caught} of {truth}  ({caught / truth:.1%})")
+    print(f"    genuine sessions kept         : {kept_genuine} of {genuine}  "
+          f"({kept_genuine / genuine:.1%})")
+    print(f"    genuine sessions wrongly cut  : {genuine - kept_genuine}")
+    print()
+    print("  Note the cost, because a filter that only reports its catch rate is selling")
+    print(f"  something: buying {caught} exclusions costs {genuine - kept_genuine} genuine sessions, because the")
+    print("  two latency populations OVERLAP by construction. A cut cannot separate them")
+    print("  and no fitted value will; the log-loss argmin is where the trade stops paying,")
+    print("  not where the contamination ends.")
 
 
 def section_scorecard(memory_gate_pass, readiness_gate) -> None:
@@ -892,26 +910,28 @@ def section_scorecard(memory_gate_pass, readiness_gate) -> None:
     print("number is blocked on real reviews before that number means anything.")
     print()
     rows = [
-        ("1. Reliability curves, Brier + log loss vs the null, never accuracy",
-         "MACHINERY COMPLETE", "metrics.py; section 6. Curves shown for two calibrators."),
-        ("2. Accept-only-if-better implemented and MEASURED (Memory, Performance)",
-         "MACHINERY COMPLETE", "gates.py; sections 3-4. Runs per student, gate/eval disjoint."),
-        ("3. Readiness model-level test vs the base-rate null on held-out students",
-         "MACHINERY COMPLETE", "gates.py; section 5 + the signal-free control."),
+        ("1. Reliability curves; Brier + log loss vs the null; never accuracy",
+         "MACHINERY COMPLETE", ["metrics.py; section 6, for two calibrators."]),
+        ("2. Accept-only-if-better, implemented and MEASURED (Mem, Perf)",
+         "MACHINERY COMPLETE", ["gates.py; sections 3-4. Per student,",
+                                "with the gate and eval slices disjoint."]),
+        ("3. Readiness model-level test vs the null, on held-out students",
+         "MACHINERY COMPLETE", ["gates.py; section 5, plus the signal-free control."]),
         ("4. Abstention vs shrinkage, on the overlap, destruction accounted",
-         "MACHINERY COMPLETE", "gates.abstention_vs_shrinkage; section 8."),
-        ("5. Derived floors (fsrs_items, scored items, coverage, sanity bounds)",
-         "PARTIAL", "sweeps run (section 7); the SANITY BOUND is still borrowed from"),
-        ("", "", "     upstream (1.11 / 300 items) and is NOT derived. Item not discharged."),
+         "MACHINERY COMPLETE", ["gates.abstention_vs_shrinkage; section 8."]),
+        ("5. Derived floors (fsrs_items, coverage, sanity-gate bounds)",
+         "PARTIAL", ["sweeps run in section 7, BUT the sanity bound is",
+                     "still borrowed from upstream (1.11 / 300 items)",
+                     "and is NOT derived. Item NOT discharged."]),
         ("6. Latency fraction fitted, replacing the 20%",
-         "MACHINERY COMPLETE", "gates.fit_latency_cut; section 10."),
+         "MACHINERY COMPLETE", ["gates.fit_latency_cut; section 10."]),
         ("7. Shrinkage constant fitted, replacing the borrowed 50",
-         "MACHINERY COMPLETE", "calibration.fit_shrinkage_constant; section 9."),
+         "MACHINERY COMPLETE", ["calibration.fit_shrinkage_constant; section 9."]),
     ]
     for name, status, detail in rows:
-        if name:
-            print(f"  [{status:<18}] {name}")
-        print(f"   {'':<20}  {detail}")
+        print(f"  [{status:<18}] {name}")
+        for line in detail:
+            print(f"  {'':<20}   {line}")
     print()
     print("  ADOPTED INTO BRAINLIFT.md section 7 AS A DERIVED THRESHOLD: nothing. Not one")
     print("  number in this run is eligible, because none of it came from a student.")

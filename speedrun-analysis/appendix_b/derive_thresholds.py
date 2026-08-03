@@ -129,6 +129,7 @@ import hashlib
 import json
 import math
 import random
+import statistics
 import sys
 from pathlib import Path
 from typing import Any, Callable, Dict, List, Optional, Sequence, Tuple
@@ -139,6 +140,12 @@ if str(_HERE) not in sys.path:
 
 SCRIPT = "speedrun-analysis/appendix_b/derive_thresholds.py"
 SCHEMA_VERSION = 1
+
+JSON_INDENT = 4
+"""Matches `.dprint.json`'s json indentWidth. Not cosmetic: dprint formats
+`thresholds.json`, so writing any other width means regenerating the report
+leaves the repository unformatted and turns `just check` red for whoever runs it
+next."""
 
 SEED = 20260802
 """Fixed so bootstrap intervals are reproducible. Changing it changes every
@@ -306,12 +313,32 @@ class Core:
                     "(0.4,0.5)=True, (0.5,0.4)=False, (0.5,0.5)=False",
                 },
             )
+        elif self.gates is not None:
+            # gates.py deliberately keeps its shared primitive private
+            # (`_beats_on_log_loss`), on the stated ground that exporting it
+            # would let a caller make the layer decision itself. That is the
+            # collapse BRAINLIFT section 7's table exists to prevent, so this
+            # script does not reach into the private name; it applies the
+            # identical strict-log-loss rule locally and says so.
+            self.report["gates"] = {
+                "importable": True,
+                "probe": "NO PUBLIC accept_only_if_better",
+                "note": (
+                    "gates.py keeps the accept-only-if-better primitive private by "
+                    "design. Not reached into."
+                ),
+                "consumers_found": sorted(
+                    name
+                    for name in ("sanity_gate", "memory_gate", "performance_gate", "readiness_gate")
+                    if hasattr(self.gates, name)
+                ),
+            }
         else:
-            self.report["gates"] = {"importable": self.gates is not None, "probe": "ABSENT"}
+            self.report["gates"] = {"importable": False, "probe": "ABSENT"}
         self.accept_only_if_better = _strict_log_loss_improvement
         self.report["gates"]["binding"] = (
-            "local strict log-loss improvement (identical rule; gates.py not "
-            "usable at generation time)"
+            "local strict log-loss improvement -- the same rule as upstream's "
+            "params.rs:156, applied here rather than imported"
         )
 
 
@@ -820,8 +847,17 @@ def derive_readiness_coverage_floor(
             "above it and bootstrap, over students, the per-student log loss of "
             "the readiness model minus that of the base-rate null (a constant "
             "predictor at the student's cohort pass rate, taken from the TRAINING "
-            "split). The floor is the smallest coverage level that wins and keeps "
-            "winning at every level above it."
+            "split). "
+            "TWO tests must pass at each level, not one. (a) The CUMULATIVE pool "
+            "at or above the level must beat the null -- that is the population "
+            "who would be shown a score, so it is the decision-relevant "
+            "comparison. (b) The MARGINAL stratum at the level must beat it too. "
+            "(b) exists because (a) alone is an average, and an average lets a "
+            "band of students for whom the model is actively WORSE than a "
+            "constant predictor be carried by better-covered students above them; "
+            "a floor set that way licenses harm at its own boundary, which is "
+            "where every student the gate newly admits sits. The floor is the "
+            "smallest level where both hold and keep holding above."
         ),
         needs=(
             "Held-out students with a known Step 1 outcome, each carrying the "
@@ -885,27 +921,53 @@ def derive_readiness_coverage_floor(
     # so everything below the first failure is irrelevant and is not evaluated;
     # rows for those levels are recorded as `evaluated: false` rather than
     # omitted, so the table cannot be mistaken for a full sweep.
+    step = COVERAGE_GRID[1] - COVERAGE_GRID[0]
     rows_desc: List[Dict[str, Any]] = []
     floor: Optional[float] = None
     stopped_on: Optional[float] = None
     saw_evaluable = False
+    sparse_strata: List[float] = []
     for level in reversed(COVERAGE_GRID):
         deltas = [delta for cov, delta in students if cov >= level]
+        stratum = [delta for cov, delta in students if level <= cov < level + step]
         row: Dict[str, Any] = {
             "coverage_at_least": level,
-            "students": len(deltas),
+            "students_cumulative": len(deltas),
+            "students_in_stratum": len(stratum),
             "evaluated": True,
         }
         if len(deltas) < MIN_BIN_UNITS:
             row["evaluable"] = False
             row["passes"] = None
+            row["note"] = "cumulative pool below {} students".format(MIN_BIN_UNITS)
             rows_desc.append(row)
             continue
         mean, lo, hi = _bootstrap_mean_ci(deltas, rng)
+        row["cumulative_mean_log_loss_delta_vs_null"] = round(mean, 6)
+        row["cumulative_ci95"] = [round(lo, 6), round(hi, 6)]
+        cumulative_ok = hi < 0.0
+        if len(stratum) == 0:
+            stratum_ok = True
+            row["stratum_status"] = "empty; nothing observed at this coverage band"
+        elif len(stratum) < MIN_BIN_UNITS:
+            stratum_ok = False
+            row["evaluable"] = False
+            row["passes"] = None
+            row["stratum_status"] = "fewer than {} students; band cannot be checked".format(
+                MIN_BIN_UNITS
+            )
+            sparse_strata.append(level)
+            rows_desc.append(row)
+            continue
+        else:
+            s_mean, s_lo, s_hi = _bootstrap_mean_ci(stratum, rng)
+            row["stratum_mean_log_loss_delta_vs_null"] = round(s_mean, 6)
+            row["stratum_ci95"] = [round(s_lo, 6), round(s_hi, 6)]
+            stratum_ok = s_hi < 0.0
         row["evaluable"] = True
-        row["mean_log_loss_delta_vs_null"] = round(mean, 6)
-        row["ci95"] = [round(lo, 6), round(hi, 6)]
-        row["passes"] = hi < 0.0
+        row["cumulative_passes"] = cumulative_ok
+        row["stratum_passes"] = stratum_ok
+        row["passes"] = cumulative_ok and stratum_ok
         rows_desc.append(row)
         if not row["passes"]:
             stopped_on = level
@@ -938,6 +1000,14 @@ def derive_readiness_coverage_floor(
         return d.resolve(
             None, "no coverage level retained {} or more students".format(MIN_BIN_UNITS)
         )
+    blocked = [lvl for lvl in sparse_strata if floor is not None and lvl >= floor]
+    if blocked:
+        return d.resolve(
+            None,
+            "coverage bands at {} sit at or above the candidate floor and hold some students "
+            "but fewer than {}, so the band-level test cannot be run there and the floor "
+            "cannot be claimed underneath them".format(sorted(blocked), MIN_BIN_UNITS),
+        )
     below = sum(1 for cov, _ in students if cov < floor)
     d.evidence["abstention_cost"] = {
         "students_below_floor": below,
@@ -946,8 +1016,9 @@ def derive_readiness_coverage_floor(
     }
     return d.resolve(
         floor,
-        "smallest coverage level at which the readiness model beats the base-rate null on "
-        "held-out students, and keeps beating it at every level above",
+        "smallest coverage level at which BOTH the cumulative population at or above it and "
+        "the marginal band at it beat the base-rate null on held-out students, and both keep "
+        "beating it at every level above",
     )
 
 
@@ -1027,40 +1098,57 @@ def derive_sanity_gate_min_items(
         )
     null_rate = float(null_rate)
 
-    by_bin: Dict[int, List[int]] = {}
+    all_outcomes: List[int] = []
+    for s in block["students"]:
+        all_outcomes.extend(int(r["outcome"]) for r in s.get("holdout", []))
+    if len(all_outcomes) < MIN_BIN_UNITS:
+        return d.resolve(None, "fewer than {} held-out reviews in total".format(MIN_BIN_UNITS))
+    bound_scale = core.log_loss([null_rate] * len(all_outcomes), all_outcomes)
+    if bound_scale <= 0.0:
+        return d.resolve(None, "the base-rate null's log loss is zero; there is no scale to be precise against")
+
+    by_bin: Dict[int, List[float]] = {}
     for s in block["students"]:
         holdout = s.get("holdout", [])
-        if len(holdout) < 4:
+        if len(holdout) < 8:
             continue
         idx = list(range(len(holdout)))
         rng.shuffle(idx)
         half = len(idx) // 2
         a = [holdout[i] for i in idx[:half]]
         b = [holdout[i] for i in idx[half : 2 * half]]
-        da = _absolute_decision(
-            core, [float(r["p_personal"]) for r in a], [int(r["outcome"]) for r in a], null_rate
+        ll_a = core.log_loss(
+            [float(r["p_personal"]) for r in a], [int(r["outcome"]) for r in a]
         )
-        db = _absolute_decision(
-            core, [float(r["p_personal"]) for r in b], [int(r["outcome"]) for r in b], null_rate
+        ll_b = core.log_loss(
+            [float(r["p_personal"]) for r in b], [int(r["outcome"]) for r in b]
         )
-        by_bin.setdefault(_bin_index(float(s["fsrs_items"]), COUNT_GRID), []).append(
-            0 if da == db else 1
-        )
+        by_bin.setdefault(_bin_index(float(s["fsrs_items"]), COUNT_GRID), []).append(ll_a - ll_b)
 
     table: List[Dict[str, Any]] = []
     for i, edge in enumerate(COUNT_GRID):
-        flags = by_bin.get(i, [])
-        row: Dict[str, Any] = {"bin_floor": edge, "students": len(flags)}
-        if len(flags) < MIN_BIN_UNITS:
+        diffs = by_bin.get(i, [])
+        row: Dict[str, Any] = {"bin_floor": edge, "students": len(diffs)}
+        if len(diffs) < MIN_BIN_UNITS:
             row["evaluable"] = False
+            row["empty"] = len(diffs) == 0
             row["passes"] = None
         else:
-            rate = sum(flags) / len(flags)
+            sd_diff = statistics.stdev(diffs)
+            sd_full = sd_diff / 2.0
+            ratio = sd_full / bound_scale
             row["evaluable"] = True
-            row["split_half_disagreement"] = round(rate, 4)
-            row["passes"] = rate <= tolerance
+            row["empty"] = False
+            row["sd_of_split_half_difference"] = round(sd_diff, 6)
+            row["sd_of_full_sample_estimate"] = round(sd_full, 6)
+            row["precision_ratio"] = round(ratio, 4)
+            row["passes"] = ratio <= tolerance
         table.append(row)
-    d.evidence = {"per_bin": table, "null_rate_used": null_rate}
+    d.evidence = {
+        "per_bin": table,
+        "null_rate_used": null_rate,
+        "bound_scale_log_loss": round(bound_scale, 6),
+    }
 
     evaluable = [i for i, row in enumerate(table) if row["evaluable"]]
     if not evaluable:
@@ -1069,8 +1157,11 @@ def derive_sanity_gate_min_items(
     if not table[top]["passes"]:
         return d.resolve(
             None,
-            "even the highest evaluable bin disagrees with itself more often than the "
-            "tolerance allows, so no count makes the absolute estimate stable enough to act on",
+            "even the highest evaluable bin (floor {}) estimates the absolute metric to "
+            "within only {} of the bound, worse than the stated tolerance of {}. No count in "
+            "this data makes an absolute quality estimate precise enough to act on".format(
+                table[top]["bin_floor"], table[top]["precision_ratio"], tolerance
+            ),
         )
     floor_idx = top
     for i in sorted(evaluable, reverse=True):
@@ -1078,10 +1169,22 @@ def derive_sanity_gate_min_items(
             floor_idx = i
         else:
             break
+    sparse_above = [
+        table[i]["bin_floor"]
+        for i in range(floor_idx, len(table))
+        if not table[i]["evaluable"] and not table[i]["empty"]
+    ]
+    if sparse_above:
+        return d.resolve(
+            None,
+            "bins at {} sit above the candidate floor and hold some students but fewer than "
+            "{}, so precision cannot be checked there".format(sparse_above, MIN_BIN_UNITS),
+        )
     return d.resolve(
         table[floor_idx]["bin_floor"],
-        "smallest count bin whose split-half absolute decision disagrees at or below the "
-        "stated tolerance, and stays there in every evaluable bin above it",
+        "smallest count bin at which the sampling noise of the absolute log-loss estimate is "
+        "within the stated fraction of the bound it is compared against, and stays there in "
+        "every non-empty bin above it",
     )
 
 
@@ -1624,7 +1727,7 @@ def build_synthetic_dataset(seed: int = SEED) -> Dict[str, Any]:
         return rng.randrange(COUNT_GRID[b], max(COUNT_GRID[b] + 1, COUNT_GRID[b + 1]))
 
     def _holdout_size(count: int) -> int:
-        return max(4, min(120, count // 2))
+        return max(4, min(400, count // 2))
 
     payload: Dict[str, Any] = {
         "dataset_id": "synthetic-tamper-check",
@@ -1697,11 +1800,11 @@ def build_synthetic_dataset(seed: int = SEED) -> Dict[str, Any]:
     # above the planted coverage and anti-correlated below it.
     cohort_rates = {"us_md": 0.91, "us_do": 0.86, "img": 0.73}
     read_students = []
-    for i in range(5000):
+    for i in range(8000):
         cohort = rng.choice(list(cohort_rates))
         base = cohort_rates[cohort]
         coverage = round(rng.uniform(0.02, 0.98), 3)
-        signal = rng.uniform(-0.30, 0.08)
+        signal = rng.uniform(-0.40, 0.05)
         p_true = _clamp(base + signal)
         outcome = 1 if rng.random() < p_true else 0
         p_model = p_true if coverage >= PLANTED["readiness_coverage_floor"] else _clamp(base - signal)
@@ -1843,8 +1946,10 @@ def self_test() -> int:
     lat = value_of("latency_fraction")
     check(
         "latency-fraction-recovers-planted-0.25",
-        lat is not None and abs(lat - PLANTED["latency_fraction"]) <= 0.06,
-        "found {}, planted {} (grid step 0.02)".format(lat, PLANTED["latency_fraction"]),
+        lat is not None and abs(lat - PLANTED["latency_fraction"]) <= 0.05,
+        "found {}, planted {} (stratum width {})".format(
+            lat, PLANTED["latency_fraction"], round(LATENCY_GRID[1] - LATENCY_GRID[0], 2)
+        ),
     )
     k = value_of("shrinkage_constant")
     lo_ok = PLANTED["shrinkage_constant"] / 3.0
@@ -1887,11 +1992,13 @@ def self_test() -> int:
         "empirical {} vs closed form {}".format(bs_dry, bs_closed),
     )
 
-    # 9. the sanity-gate item count is self-consistent with its own curve
+    # 9. the sanity-gate item count is self-consistent with its own curve, and
+    #    the precision it measures actually improves with sample size (if it did
+    #    not, the statistic would not be measuring sampling noise at all)
     mi_rec = by_id["sanity_gate_min_items"]
     mi_dry = (mi_rec.get("dry_run") or {}).get("value_not_a_threshold")
     per_bin = mi_rec.get("evidence", {}).get("per_bin", [])
-    tol = mi_rec["policy_inputs"]["split_half_disagreement_tolerance"]
+    tol = mi_rec["policy_inputs"]["precision_tolerance"]
     at_or_above = [
         row
         for row in per_bin
@@ -1901,9 +2008,17 @@ def self_test() -> int:
         "sanity-gate-min-items-holds-at-and-above-itself",
         mi_dry is not None
         and bool(at_or_above)
-        and all(row["split_half_disagreement"] <= tol for row in at_or_above),
+        and all(row["precision_ratio"] <= tol for row in at_or_above),
         "floor {} with {} evaluable bins at or above it, tolerance {}".format(
             mi_dry, len(at_or_above), tol
+        ),
+    )
+    ratios = [row["precision_ratio"] for row in per_bin if row.get("evaluable")]
+    check(
+        "sanity-gate-precision-improves-with-sample-size",
+        len(ratios) >= 4 and ratios[0] > ratios[-1] * 2.0,
+        "precision ratio falls from {} in the smallest evaluable bin to {} in the largest".format(
+            ratios[0] if ratios else None, ratios[-1] if ratios else None
         ),
     )
 
@@ -1978,7 +2093,7 @@ def main(argv: Optional[Sequence[str]] = None) -> int:
 
     if args.emit_synthetic:
         args.emit_synthetic.write_text(
-            json.dumps(build_synthetic_dataset(), indent=2, sort_keys=False) + "\n",
+            json.dumps(build_synthetic_dataset(), indent=JSON_INDENT, sort_keys=False) + "\n",
             encoding="utf-8",
         )
         print("wrote synthetic fixture to {}".format(args.emit_synthetic))
@@ -1991,7 +2106,7 @@ def main(argv: Optional[Sequence[str]] = None) -> int:
     dataset = load_dataset(args.dataset) if args.dataset else None
     report = run(dataset, core)
     if not args.no_write:
-        args.out.write_text(json.dumps(report, indent=2, sort_keys=False) + "\n", encoding="utf-8")
+        args.out.write_text(json.dumps(report, indent=JSON_INDENT, sort_keys=False) + "\n", encoding="utf-8")
     print_table(report)
     if not args.no_write:
         print("wrote {}".format(args.out))
