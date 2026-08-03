@@ -18,7 +18,7 @@ This is a partial Brainlift submitted at the Friday deadline. Rather than presen
 | 3. DOK 2 — own words, took/rejected | Complete |
 | 4. DOK 3 — disagreements, assumptions, teardown | Complete |
 | 5. DOK 4 — three Spiky POVs with falsifiers | Complete |
-| 6. AI consensus check transcripts | **NOT RUN** — harness designed, not executed |
+| 6. AI consensus check transcripts | **COMPLETE** — 2 full runs + 1 discarded attempt, both transcripts verbatim in `speedrun-docs/` |
 | 7. Traceability table | Complete as specification; no code yet |
 | 8. What changed by Sunday | **PENDING** — Sunday deliverable |
 | Appendix A — Thesis test design (brief §9) | **WRITTEN · PRE-REGISTERED · NOT YET RUN** |
@@ -273,7 +273,114 @@ Their two outcomes are defined as *"the percentage of incorrectly answered basel
 
 ## 6. AI consensus check
 
-**NOT RUN.** Harness designed: two passes against a model with no access to this document — pass one presents POV 1 cold with no evidence or framing; pass two supplies the evidence packet once, without argument, and asks the model to name specifically what changed its mind. Enthusiastic agreement on pass one will be treated as a failure signal indicating the POV restates consensus. Verbatim transcripts and a "what moved" analysis will be attached for the Sunday submission.
+**RUN — two complete runs, both transcripts verbatim and unedited:**
+
+- **Run 1** → [`speedrun-docs/consensus-check-transcripts.md`](speedrun-docs/consensus-check-transcripts.md)
+- **Run 2** → [`speedrun-docs/consensus-check-transcripts-run2.md`](speedrun-docs/consensus-check-transcripts-run2.md)
+
+**Setup, identical across runs.** `claude-sonnet-4-6` via the Anthropic Messages API, fresh context, no access to this document or the repo. The POV was supplied as **a third party's claim** — *"A researcher makes the following claim. Assess it."* — rather than in the first person, to reduce politeness bias. Pass one runs cold with no evidence. Pass two supplies the evidence packet **once, without argument**, with instructions forbidding agreement that cannot name a specific cause. Both packets are reproduced in full in the transcript files.
+
+**All three attempts, including the one that produced nothing:**
+
+| Attempt | Outcome |
+|---|---|
+| **Run 1** | Both passes completed. Pass two **truncated mid-sentence** at the 1000-token cap. The cut is preserved exactly as returned and **not reconstructed**. |
+| **Discarded attempt** | Placeholder text was left in the POV field. The model correctly declined to assess an incomplete claim; no usable output. The harness was then patched to block submission when the field is empty or still contains placeholder text. |
+| **Run 2** | Both passes completed in full. Continuation-safe harness (8000 tokens with structural resume on `max_tokens`); neither pass needed it. POV revised after run 1; evidence packet item 7 added. |
+
+**Provenance divergence, checked rather than assumed.** The run 2 transcript carries a warning that its POV text was a draft supplied in conversation rather than copied from this file. I diffed them. Run 2 tested the **post-run-1** revision — market-consensus framing, novelty conceded, the Again/Hard/Good/Easy rebuttal — all of which match the committed POV 1. What the committed POV 1 has that **run 2 never saw** are the two paragraphs written *in response to run 2*: the shipped-versus-reviewed correction (its objection 1) and the scope boundary (its objection 5). So the committed POV is downstream of run 2, not identical to it, and no run 2 objection is answered in this section by text that objection had already seen.
+
+---
+
+### The headline finding: three targeted changes retired three objections
+
+**Run 1's objections 1, 3 and 5 did not recur in run 2.** Each had a specific change made against it, and each was replaced by a narrower successor rather than reappearing:
+
+| Run 1 objection | Change made | Run 2 |
+|---|---|---|
+| **1 — strawman consensus** ("no serious learning scientist holds this") | POV retargeted at the market's revealed preference, with the field/market distinction stated explicitly | **Gone.** Successor (obj 4) attacks whether product features evidence *belief* — a narrower and better objection |
+| **3 — moderators not novel** | Novelty conceded in the POV; moderators credited to transfer-appropriate processing | **Gone.** Successor (obj 2) attacks moderator *selection* — why these three and not interleaving, variability, prior-knowledge activation |
+| **5 — Step 1's factual load** | Evidence item 7 added (NBME physician-task weighting) | **Gone.** Absorbed into obj 6, which accepts item 7 with its stated hedge |
+
+**This is the check's primary result.** Not that the model agreed — it did not, in either run — but that targeted revision *moved the frontier*. The objections that replaced them are harder, more specific, and better aimed, which is what a working consensus check is supposed to produce.
+
+---
+
+### Run 1 — what moved, and what we refuse to bank
+
+**Answered, legitimately:**
+
+- **Obj 4 (complexity-degradation unsupported) — ANSWERED.** The Step 1 / Step 2 CK dissociation: same tool, same students, association significant on Step 1 and absent on Step 2 CK after controls. **The model named this as what moved it most** — *"the empirical pattern the researcher's framework predicts and that a pure volume hypothesis cannot easily explain."* Cleanest evidence in the set.
+- **Obj 2 (dose-response confounded) — ANSWERED**, and it cuts our way twice. The objection attacked the **dose-response studies — evidence for the *consensus* position, not ours.** Strengthening it strengthens the thing POV 1 argues against, and the POV survives anyway.
+- **Obj 7 (effect size unestablished) — PARTIALLY ANSWERED.** The residual variance is established (R² = 0.427 leaves ~57% unexplained); that *the three moderators occupy it* is not.
+
+**Survives, legitimately:**
+
+- **Obj 3 (moderators not novel) — SURVIVES.** Conceded without reservation. The moderators are established findings back to Tulving & Thomson (1973). Our claim is only that nothing measures them in this applied context. Fixed in the POV rather than argued with.
+- **Obj 6 (congruency unoperationalized) — SURVIVES.** *"No one has produced a student-level instrument that scores congruency between a specific Anki card and a specific vignette item."* Correct, and now **build work: traceability row 10.**
+
+**Rejected concessions — we overrule the model where it folded toward us:**
+
+- **Obj 1 (strawman consensus) — model said ANSWERED. Recorded as a PARTIAL FOLD.** The model resolved the ambiguity *charitably in our favour*, supplying the market-versus-field distinction itself — *"the commercial ecosystem operationally endorses the volume-equals-readiness framing even if academic learning scientists do not."* **The POV never made that distinction.** The wording defect was real, and a pass earned by the reader's generosity is not a pass. Fixed in the POV instead of banked.
+- **Obj 5 (Step 1's factual load) — model said ANSWERED. Recorded as SURVIVING.** This is the one where **we reject a concession made in our favour outright.** The objection was that Step 1's heavy factual load may mean response congruency rarely *fails* on this exam. The model answered with the Step 2 CK null and called our framework *"the most parsimonious"* explanation. But that evidence is **consistent with — and arguably supports — the objection**: Step 2 CK is the high-complexity exam where cards stop helping, Step 1 the lower-complexity one where they still do. That is precisely the objection's claim. **The model inverted the objection and substituted parsimony for data.** Parsimony is not evidence, and the question the objection asked — what proportion of Step 1 items are congruency-failing — remains unanswered.
+
+---
+
+### Run 2 — what moved, against the revised POV
+
+**Answered, legitimately:**
+
+- **Obj 4 (market claim analytically weak) — ANSWERED.** Item 6 is direct evidence of a *stated belief*, not an inference from product features: the official course claims spaced repetition delivers transfer while outsourcing application to AMBOSS and UWorld. The model: *"That is a real finding about the market, not just a rhetorical observation."* Strong.
+- **Obj 3 (FSRS counterexample mishandled) — PARTIALLY ANSWERED**, by the effect sizes plus the Step 2 CK dissociation, which the model called *"the strongest empirical move in the entire submission."*
+- **Obj 6 (framework not applied with enough specificity) — PARTIALLY ANSWERED.** Item 7 was accepted **with its stated hedge** — the model explicitly noted it is task weighting, not a measure of response congruency, and accepted that characterization.
+
+**Survives, legitimately — and these are the real ones:**
+
+- **Obj 2 (moderator selection undefended) — SURVIVES.** Why these three and not interleaving, variability of practice, prior-knowledge activation, metacognitive monitoring? Pan & Rickard establishes the three matter; it does not establish they are the *governing set* for this context. Unanswered.
+- **Obj 5 (scope of "this applied context" undefined) — SURVIVES.** Now addressed by POV 1's scope-boundary paragraph, written after this run.
+- **Obj 7 (descriptive critique implies undefended prescription) — SURVIVES.** Nothing in the packet shows that a tool optimizing these moderators would outperform the current ecosystem.
+
+**Rejected concession:**
+
+- **Obj 1 (deck size vs review volume) — model said ANSWERED. Recorded as SURVIVING.** The objection was sharp: *"Card ownership is not card review. If the evidence actually shows that review volume — not deck size — predicts scores, the market critique collapses."* The model answered that Winter's predictor **is** objectively logged mature-card count, concluded the citation was firmer than it had assumed, and moved on. **But that confirms the objection's antecedent rather than refuting it.** The studies measure cards *reviewed and matured*; the market sells cards *shipped*. The model validated the study's methodology and mistook that for resolving the conflation. **We reject the concession**, and POV 1 now states the shipped-versus-reviewed gap explicitly and folds it into the critique.
+
+---
+
+### The strongest surviving objections, and what answering them would take
+
+**Run 1's obj 5 and obj 6 are the strongest surviving objections to POV 1**, joined by run 2's obj 2 and obj 7.
+
+**Answering run 1's obj 5 properly requires a per-item congruency audit of real Step 1 material** — classifying a representative sample of vignettes by whether the response they demand matches the response a card trains. **That is outside this week's scope**, and the objection stands unanswered until it is done.
+
+**The nearest available evidence, and it was not in run 1's packet.** The NBME CBSSA sample score report weights items by physician task at **60–70% "Medical Knowledge: Applying Foundational Science Concepts"**, **20–25% "Patient Care: Diagnosis"**, and **4–6% "Practice-based Learning: Evidence-Based Medicine"**, with the sample examinee scoring **74 / 74 / 56** across the three. This was added as item 7 for run 2, where the model accepted it with the hedge it was offered under. **It is indirect: a task weighting is not a measure of response congruency**, and it does not answer the objection. *Sourced to the NBME CBSSA sample report, which is not in this repository; the figures are as supplied and I have not independently verified them.*
+
+---
+
+### Limitations of the check itself
+
+**The check's four hardest objections were never given the material that bears on them.** Run 2's objections 2, 3, 6 and 7 all demand the same two things: **an effect size, and a defended prescriptive claim.** Appendix A is exactly that — a pre-registered design with a derived effect (+0.061 *d*), a decision boundary, and stated falsifiers — **and it was not in the evidence packet.** Those objections were therefore argued against a version of the position that had no quantitative arm. They may or may not survive contact with Appendix A; the check does not tell us, and any future run should include it.
+
+**Run 1's dismissal of Price et al. is convergence, not independent confirmation.** The model set Price aside on population grounds — practicing physicians maintaining knowledge versus students acquiring and transferring it — which is **the same distinction already drawn in §3.3**. A model reaching the argument we had already made is not corroboration; it is two paths to one belief, and §3.3 now records that this was the *weaker* of the two available arguments. The stronger reconciliation, on item format, came from reading Price's method afterwards and appears in §3.3.
+
+**Run 2's crux is now answered, and not by the check.** The model's closing objection was that POV 1 *"predicts the Step 2 CK finding [but] does not yet explain the Price et al. finding."* That reconciliation — Price's practice items are case-based and its transfer test is a matched-paraphrase design, making it the response-*congruent* condition — is in §3.3, and was found by going back to the source rather than by anything the check produced.
+
+---
+
+### Convergent validation of the test design
+
+Run 2's pass one, cold and with no access to the build plan, was asked what would change its mind. It named two things:
+
+> *"A **pre-registered study** showing that flashcard-trained medical students who score well on isolated recall items fail to outperform matched controls on novel vignettes testing the same material…"*
+
+> *"Evidence that **manipulating response congruency** or elaboration depth during flashcard study produces measurable improvement in vignette-based exam performance — **beyond what scheduling optimization already achieves**…"*
+
+Those are, respectively, **the matched-pair paraphrase test (traceability row 1) and the Appendix A ablation (row 3)** — described by a model with no knowledge that either existed, down to the pre-registration and the requirement that the comparison beat scheduling alone. That is convergent validation that the tests were aimed at the right question. **It says nothing about whether they will pass.**
+
+---
+
+### Outcome
+
+**The check produced two POV revisions — run 1's objections 1 and 3 — plus two more from run 2 (its objections 1 and 5).** All four were **evidence and framing gaps, not reasoning errors**: in every case the underlying claim survived and the *statement* of it was wrong — an unspecified consensus, an overclaimed novelty, a conflated quantity, an undefined scope. That is the outcome the assignment describes as the productive one, and it is the reason the POV is narrower now than when it went in. **No objection was answered by arguing with the model**, and three concessions the model made in our favour were refused.
 
 ---
 
