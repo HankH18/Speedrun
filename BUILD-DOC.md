@@ -372,6 +372,39 @@ Order is chosen so that each stage produces something verifiable and nothing lat
 
 ---
 
+## 15b. Android companion — unbuilt, and the cap is accepted knowingly
+
+**Stated plainly, for the record and for the demo video: the phone companion is not built. That caps this submission at 70%. It is a knowing tradeoff made because the Android toolchain is not installed on this machine, and the hours it would take are worth more spent on Appendix B, which carries 15% and which every numeric threshold in §7 currently depends on.**
+
+### The integration path, verified against the real repos rather than from memory
+
+AnkiDroid does **not** consume `rslib` directly. Verified 2026-08-02 against `ankidroid/Anki-Android-Backend` and `ankidroid/Anki-Android`:
+
+- `Anki-Android-Backend` vendors upstream Anki as a **git submodule** — `.gitmodules` declares `[submodule "anki"] path = anki, url = https://github.com/ankitects/anki`. To ship our query, that submodule must point at **this fork**.
+- The Rust core is cross-compiled and wrapped by two modules: **`rslib-bridge`** (the JNI bridge crate) and **`rsdroid`** (the Android library that emits the artifact). `rsdroid-testing` produces a JVM test jar.
+- The artifact is `rsdroid/build/outputs/aar/rsdroid-release.aar`.
+- **The cheap part, and it is cheaper than it first looks:** `Anki-Android/AnkiDroid/build.gradle` can consume that `.aar` from a **local sibling checkout** —
+  `implementation(files(rootProject.file("../Anki-Android-Backend/rsdroid/build/outputs/aar/rsdroid-release.aar")))`
+  — as well as from the published Maven artifact (`libs.ankiBackend.backend`). **No Maven publish is required**; two sibling directories suffice.
+- The new proto service regenerates JNI bindings automatically, because the backend builds bindings from the vendored `anki` submodule's `proto/` — which is exactly why the service was added as a proper proto method rather than a side channel.
+
+### Toolchain versions required (from `Anki-Android-Backend/gradle/libs.versions.toml`)
+
+| Component              | Version                                                                                             |
+| ---------------------- | --------------------------------------------------------------------------------------------------- |
+| Android NDK            | **29.0.14206865** (`set-android-ndk-home.sh` resolves it from this file and fails loudly if absent) |
+| compileSdk / targetSdk | **36**                                                                                              |
+| minSdk                 | **23**                                                                                              |
+| Kotlin                 | **2.2.10**                                                                                          |
+
+**One risk to check before starting:** the backend's `gradle.properties` reads `VERSION_NAME=0.1.66-anki26.05`, i.e. it is pinned to Anki **26.05**. This fork is based on a later upstream commit (`d735cd25`), so the submodule bump may not be a clean fast-forward and the bridge may need adjusting. Budget for that; it is the most likely place the estimate slips.
+
+### Minimum viable bar — what would actually close the cap
+
+Not feature parity. The brief asks for the phone app **building and running on the shared engine, with bidirectional sync and no lost or double-counted reviews**. Concretely: AnkiDroid built against this fork's backend, **one** review session on the phone, and the 20-review sync test from §8.1 passing. That is the whole bar.
+
+---
+
 ## 16. Deliverables checklist (brief §7, §12)
 
 **Repo**
