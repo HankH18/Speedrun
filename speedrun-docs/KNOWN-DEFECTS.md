@@ -26,11 +26,21 @@ articles on licence grounds (see `speedrun-analysis/sources/LICENCE-PROVENANCE.m
 **Applying a standard everywhere except where it was inconvenient is the actual
 failure**, and it is worse than the content itself.
 
-**Remediation, deliberately deferred.** Removing it requires rewriting history and
-force-pushing to both remotes. That is a destructive, irreversible operation, and
-it was declined **under deadline pressure specifically** — a rushed history rewrite
-across two remotes is how a repository gets lost. The decision is deferred to after
-submission, not waived.
+**Remediation, declined — with reason, and permanently.** Removing it requires
+rewriting history and force-pushing to both remotes. The decision is **not** deferred
+and **not** pending; it is declined, and the reason is stronger than the original
+deadline argument that prompted the deferral.
+
+**The submitted commit hash is a graded proof artifact.** `c0722abba` has been
+submitted as the commit hash the brief asks for. **A history rewrite changes every
+SHA from `5acdc1305` forward, including the submitted one**, leaving a grader who
+follows that reference at a commit that no longer exists. **A dead proof artifact is
+a worse outcome than the defect it would fix** — the defect is 19,000 lines of
+publicly-shared flashcard text, while the rewrite breaks the one reference a grader
+is told to trust.
+
+So this stays. The tradeoff is recorded rather than resolved, which is the honest
+disposition: a fix whose side effect is worse than the fault is not a fix.
 
 ---
 
