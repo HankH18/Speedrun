@@ -266,7 +266,10 @@ def skill_vs_null(probs, outcomes, null_rate: float) -> Skill:
     anything at all about an individual student.
     """
     p, y = _validated(probs, outcomes)
-    base = sum(y) / len(y)
+    # The evaluation set's own base rate is deliberately NOT computed here. A
+    # null built from `outcomes` is an oracle (see `empirical_base_rate`), so
+    # the only rate this function may use is the `null_rate` the caller took
+    # from the training split.
     null = base_rate_null(null_rate, len(p))
     model_ll, clamped = log_loss(p, y)
     null_ll, _ = log_loss(null, y)

@@ -35,6 +35,13 @@ docs/autoapi/
 # Held-out evaluation sets must never enter training data
 data/holdout/
 
+# Gated review dataset (open-spaced-repetition/anki-revlogs-10k). Downloaded by
+# speedrun-analysis/appendix_b/fetch_dataset.py, which refuses to write anywhere
+# `git check-ignore` does not already cover. Its licence is custom and unread, so
+# no byte of it -- and no manifest describing it -- may enter this history.
+/speedrun-analysis/appendix_b/data/
+*.parquet
+
 # Carried over from Speedrun's pre-merge .gitignore. Not in the four rules
 # specified for the merge, but dropping them would be a regression: .env in
 # particular guards against committing secrets.

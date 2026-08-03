@@ -1,0 +1,1279 @@
+==============================================================================
+PROPOSED OUTLINE TAGS -- Manozzita_Microbiology_USMLE_Step_1.apkg
+==============================================================================
+deck              /Users/hankholcomb/Downloads/Manozzita_Microbiology_USMLE_Step_1.apkg
+deck sha256       5b99672b855b8ae6cf9b6b4e8dbdae7fb675adb910c6c4c3c35cec04c97e5d02
+collection member collection.anki21
+outline           /Users/hankholcomb/Documents/code_parent_folders/gauntlet_repos/Speedrun/speedrun-analysis/outline/outline.json
+outline sha256    652a29a832f0b73f3cf43e8d5422bf07d9b5c23e296c818cf6acbdb7370085bb
+generated (UTC)   2026-08-03T03:55:39Z
+
+NOTHING HERE HAS BEEN APPLIED. These are PROPOSALS. The source package
+was opened read-only and its sha256 is unchanged: True
+
+matcher configuration
+  index entries kept            3312
+  dropped as generic            0
+  dropped as used by > 3 topics 78
+  weights                       {'phrase': 3.0, 'term': 2.0, 'head': 1.2}
+  shared-evidence discount      {1: 1.0, 2: 0.5, 3: 0.3}
+  common-ancestor discount      0.7 (min level 2)
+  MEDIUM threshold              0.9
+  min confidence proposed       high
+  curated organism aliases      26
+
+------------------------------------------------------------------------------
+COVERAGE OF THE DECK
+------------------------------------------------------------------------------
+  notes tagged      109 of 156  (69.9%)
+  notes UNTAGGED    47 of 156  (30.1%)
+  tags proposed     208
+  best confidence per note (untagged notes shown at their best candidate):
+      HIGH    109
+      MEDIUM  25
+      LOW     5
+      NONE    17
+
+  outline topics hit exactly            45 of 390
+  outline topics hit incl. ancestors    81 of 390
+
+------------------------------------------------------------------------------
+PROPOSALS, NOTE BY NOTE (tagged notes)
+------------------------------------------------------------------------------
+note 1763040914684  how do you differentiate coagulase-negative staphylococcus species using novobiocin
+    aliases fired: staphylococcus epidermidis, staphylococcus saprophyticus
+    -> speedrun::topic::system::behavioral_health_and_nervous_systems_special::nervous_system_and_special_senses::infectious_immunologic_and_inflammatory::infectious_disorders
+       HIGH | infectious disorders | score 2.00
+        term   unique  2.00  'epidermidis'
+
+note 1763040967649  what are the key structural features of gram-positive bacteria
+    -> speedrun::topic::system::behavioral_health_and_nervous_systems_special::nervous_system_and_special_senses::disorders_of_the_eye_and_eyelid::disorders_of_the_eye_and_eyelid_structural
+       HIGH | disorders of the eye and eyelid, structural | score 2.00
+        term   unique  2.00  'structural'
+
+note 1763040983553  what are the key structural features of gram-negative bacteria
+    -> speedrun::topic::system::respiratory_and_renal_urinary_systems::respiratory_system::infectious_immunologic_and_inflammatory::infectious_immunologic_and_inflammatory_2
+       HIGH | infectious, immunologic, and inflammatory disorders of the lower airways | score 3.00
+        phrase unique  3.00  'gram-negative bacteria'
+    -> speedrun::topic::system::behavioral_health_and_nervous_systems_special::nervous_system_and_special_senses::disorders_of_the_eye_and_eyelid::disorders_of_the_eye_and_eyelid_structural
+       HIGH | disorders of the eye and eyelid, structural | score 2.00
+        term   unique  2.00  'structural'
+    -> speedrun::topic::system::social_sciences_communication_and_interpersonal::social_sciences::systems_based_practice_including_health_systems::complexity_systems_thinking
+       HIGH | Complexity/systems thinking | score 2.00
+        term   unique  2.00  'space'
+
+note 1763041040055  why do gram-negative bacteria stain pink
+    -> speedrun::topic::system::respiratory_and_renal_urinary_systems::respiratory_system::infectious_immunologic_and_inflammatory::infectious_immunologic_and_inflammatory_2
+       HIGH | infectious, immunologic, and inflammatory disorders of the lower airways | score 3.00
+        phrase unique  3.00  'gram-negative bacteria'
+
+note 1763041073012  what is the role of pili/fimbriae in bacterial virulence
+    aliases fired: escherichia coli
+    -> speedrun::topic::system::gastrointestinal_system::infectious_immunologic_and_inflammatory::infectious_disorders
+       HIGH | infectious disorders | score 3.00
+        phrase unique  3.00  'escherichia coli'
+
+note 1763041571340  key facts about the bacterial capsule
+    aliases fired: neisseria meningitidis, streptococcus pneumoniae
+    -> speedrun::topic::system::behavioral_health_and_nervous_systems_special::nervous_system_and_special_senses::infectious_immunologic_and_inflammatory::infectious_disorders
+       HIGH | infectious disorders | score 7.80
+        phrase unique  3.00  'neisseria meningitidis'
+        phrase unique  3.00  'streptococcus pneumoniae'
+        head   unique  1.20  'meningitidis'
+        head   shared x2  0.60  'pneumoniae'
+
+note 1763041684977  what are the main characteristics of endotoxin (lps)
+    -> speedrun::topic::system::multisystem_processes_and_disorders::shock
+       HIGH | Shock | score 2.00
+        term   unique  2.00  'shock'
+
+note 1763041778664  why can gram-positive s. aureus / s. pyogenes cause shock without endotoxin
+    aliases fired: staphylococcus aureus, streptococcus pyogenes
+    -> speedrun::topic::system::multisystem_processes_and_disorders::shock
+       HIGH | Shock | score 2.00
+        term   unique  2.00  'shock'
+
+note 1763041853708  what defines the gram-negative cell wall
+    -> speedrun::topic::system::social_sciences_communication_and_interpersonal::social_sciences::systems_based_practice_including_health_systems::complexity_systems_thinking
+       HIGH | Complexity/systems thinking | score 2.00
+        term   unique  2.00  'space'
+
+note 1763041911004  what is transformation
+    aliases fired: haemophilus influenzae, streptococcus pneumoniae
+    -> speedrun::topic::system::behavioral_health_and_nervous_systems_special::nervous_system_and_special_senses::infectious_immunologic_and_inflammatory::infectious_disorders
+       HIGH | infectious disorders | score 5.70
+        phrase unique  3.00  'streptococcus pneumoniae'
+        phrase shared x2  1.50  'haemophilus influenzae'
+        head   shared x2  0.60  'influenzae'
+        head   shared x2  0.60  'pneumoniae'
+
+note 1763041962515  what is transduction , and what are its two types
+    -> speedrun::topic::system::social_sciences_communication_and_interpersonal::social_sciences::systems_based_practice_including_health_systems::patient_safety
+       HIGH | Patient safety | score 2.00
+        term   unique  2.00  'transfers'
+
+note 1763042051669  what is conjugation and what mediates it
+    -> speedrun::topic::system::social_sciences_communication_and_interpersonal::social_sciences::systems_based_practice_including_health_systems::patient_safety
+       HIGH | Patient safety | score 2.00
+        term   unique  2.00  'transfer'
+
+note 1763042239246  mnemonics for remembering gram-positive, gram-negative capsules
+    aliases fired: streptococcus pneumoniae
+    -> speedrun::topic::system::blood_and_lymphoreticular_immune_systems::blood_and_lymphoreticular_system::coagulation_disorders_hypocoagulable_and::hypocoagulable
+       HIGH | hypocoagulable | score 4.20
+        phrase unique  3.00  'disseminated intravascular coagulation'
+        head   unique  1.20  'coagulation'
+    -> speedrun::topic::system::behavioral_health_and_nervous_systems_special::nervous_system_and_special_senses::infectious_immunologic_and_inflammatory::infectious_disorders
+       HIGH | infectious disorders | score 3.60
+        phrase unique  3.00  'streptococcus pneumoniae'
+        head   shared x2  0.60  'pneumoniae'
+    -> speedrun::topic::system::multisystem_processes_and_disorders::infectious_immunologic_and_inflammatory::infectious_disorders
+       HIGH | infectious disorders | score 2.00
+        term   unique  2.00  'disseminated'
+
+note 1763042248129  a/b toxins that inhibit protein synthesis
+    aliases fired: corynebacterium diphtheriae, pseudomonas aeruginosa
+    -> speedrun::topic::system::respiratory_and_renal_urinary_systems::respiratory_system::infectious_immunologic_and_inflammatory::infectious_immunologic_and_inflammatory_2
+       HIGH | infectious, immunologic, and inflammatory disorders of the lower airways | score 4.20
+        phrase unique  3.00  'pseudomonas aeruginosa'
+        head   unique  1.20  'aeruginosa'
+    -> speedrun::topic::system::reproductive_and_endocrine_systems::pregnancy_childbirth_and_the_puerperium::adverse_effects_of_drugs_on_pregnancy
+       HIGH | Adverse effects of drugs on pregnancy, childbirth, and the puerperium | score 2.00
+        term   unique  2.00  'toxins'
+    -> speedrun::topic::system::respiratory_and_renal_urinary_systems::respiratory_system::infectious_immunologic_and_inflammatory::infectious_immunologic_and_inflammatory
+       HIGH | infectious, immunologic, and inflammatory disorders of the upper airways | score 2.00
+        term   unique  2.00  'pharyngitis'
+
+note 1763042260957  toxins that increase camp
+    aliases fired: vibrio cholerae
+    -> speedrun::topic::system::gastrointestinal_system::infectious_immunologic_and_inflammatory::infectious_disorders
+       HIGH | infectious disorders | score 4.80
+        phrase unique  3.00  'vibrio cholerae'
+        head   unique  1.20  'cholerae'
+        head   shared x2  0.60  'diarrhea'
+    -> speedrun::topic::system::multisystem_processes_and_disorders::signs_symptoms_and_ill_defined_disorders
+       HIGH | Signs, symptoms, and ill-defined disorders | score 2.00
+        term   unique  2.00  'cough'
+    -> speedrun::topic::system::reproductive_and_endocrine_systems::pregnancy_childbirth_and_the_puerperium::adverse_effects_of_drugs_on_pregnancy
+       HIGH | Adverse effects of drugs on pregnancy, childbirth, and the puerperium | score 2.00
+        term   unique  2.00  'toxins'
+
+note 1763042272603  neurotoxins
+    aliases fired: clostridium botulinum, clostridium tetani
+    -> speedrun::topic::system::behavioral_health_and_nervous_systems_special::nervous_system_and_special_senses::infectious_immunologic_and_inflammatory::infectious_disorders
+       HIGH | infectious disorders | score 7.20
+        phrase unique  3.00  'clostridium botulinum'
+        phrase unique  3.00  'clostridium tetani'
+        head   unique  1.20  'botulinum'
+
+note 1763042287391  toxins that affect cell membranes
+    aliases fired: clostridium perfringens, streptococcus pyogenes
+    -> speedrun::topic::system::musculoskeletal_skin_and_subcutaneous_tissue::musculoskeletal_system::infectious_inflammatory_and_immunologic::infectious_disorders
+       HIGH | infectious disorders | score 6.20
+        phrase unique  3.00  'clostridium perfringens'
+        term   unique  2.00  'gangrene'
+        head   unique  1.20  'perfringens'
+    -> speedrun::topic::system::reproductive_and_endocrine_systems::pregnancy_childbirth_and_the_puerperium::adverse_effects_of_drugs_on_pregnancy
+       HIGH | Adverse effects of drugs on pregnancy, childbirth, and the puerperium | score 2.00
+        term   unique  2.00  'toxins'
+    -> speedrun::topic::system::blood_and_lymphoreticular_immune_systems::blood_and_lymphoreticular_system
+       HIGH | Blood & Lymphoreticular System | score 1.40
+        term   shared x3  1.40  'hemolysis' [backed off to common ancestor]
+
+note 1763042300513  superantigens massive cytokine release
+    aliases fired: staphylococcus aureus, streptococcus pyogenes
+    -> speedrun::topic::system::musculoskeletal_skin_and_subcutaneous_tissue::skin_and_subcutaneous_tissue::infectious_immunologic_and_inflammatory::infectious_disorders_and_infestations
+       HIGH | infectious disorders and infestations | score 3.60
+        phrase unique  3.00  'scarlet fever'
+        head   shared x2  0.60  'streptococcus'
+    -> speedrun::topic::system::cardiovascular_system::hypotension
+       HIGH | Hypotension | score 2.40
+        term   shared x2  1.40  'hypotension' [backed off to common ancestor]
+        term   shared x2  1.00  'hypotension'
+    -> speedrun::topic::system::multisystem_processes_and_disorders::shock
+       HIGH | Shock | score 2.00
+        term   unique  2.00  'shock'
+
+note 1763042316950  toxins that cause fluid loss (gi)
+    aliases fired: bacillus cereus, staphylococcus aureus
+    -> speedrun::topic::system::multisystem_processes_and_disorders::fluid_electrolyte_and_acid_base_balance
+       HIGH | Fluid, electrolyte, and acid-base balance disorders | score 2.00
+        term   unique  2.00  'fluid'
+    -> speedrun::topic::system::reproductive_and_endocrine_systems::pregnancy_childbirth_and_the_puerperium::adverse_effects_of_drugs_on_pregnancy
+       HIGH | Adverse effects of drugs on pregnancy, childbirth, and the puerperium | score 2.00
+        term   unique  2.00  'toxins'
+
+note 1763042335042  what are the classifications of streptococcus based on hemolysis
+    -> speedrun::topic::system::behavioral_health_and_nervous_systems_special::nervous_system_and_special_senses::paroxysmal_disorders
+       HIGH | Paroxysmal disorders | score 2.00
+        term   unique  2.00  'partial'
+    -> speedrun::topic::system::blood_and_lymphoreticular_immune_systems::blood_and_lymphoreticular_system
+       HIGH | Blood & Lymphoreticular System | score 1.40
+        term   shared x3  1.40  'hemolysis' [backed off to common ancestor]
+
+note 1763042506468  which 2 high-yield bacteria are alpha-hemolytic , and how do you tell them apart
+    aliases fired: streptococcus mutans, streptococcus pneumoniae
+    -> speedrun::topic::system::behavioral_health_and_nervous_systems_special::nervous_system_and_special_senses::infectious_immunologic_and_inflammatory::infectious_disorders
+       HIGH | infectious disorders | score 4.60
+        phrase unique  3.00  'streptococcus pneumoniae'
+        term   shared x2  1.00  'meningitis'
+        head   shared x2  0.60  'pneumoniae'
+    -> speedrun::topic::system::behavioral_health_and_nervous_systems_special::nervous_system_and_special_senses::disorders_of_the_ear::infectious_and_inflammatory_disorders_of_the
+       HIGH | infectious and inflammatory disorders of the ear, including microbiologic and host response to insult | score 4.00
+        term   unique  2.00  'media'
+        term   unique  2.00  'otitis'
+    -> speedrun::topic::system::gastrointestinal_system::disorders_of_the_oral_cavity_salivary_glands::oral_cavity_and_salivary_glands
+       HIGH | oral cavity and salivary glands | score 3.00
+        phrase unique  3.00  'dental caries'
+    -> speedrun::topic::system::musculoskeletal_skin_and_subcutaneous_tissue::musculoskeletal_system::infectious_inflammatory_and_immunologic::infectious_disorders
+       HIGH | infectious disorders | score 2.00
+        term   unique  2.00  'infective'
+
+note 1763042586050  what are the major virulence factors of group a strep
+    aliases fired: streptococcus pyogenes
+    -> speedrun::topic::system::multisystem_processes_and_disorders::shock
+       HIGH | Shock | score 2.00
+        term   unique  2.00  'shock'
+    -> speedrun::topic::system::blood_and_lymphoreticular_immune_systems::blood_and_lymphoreticular_system
+       HIGH | Blood & Lymphoreticular System | score 1.40
+        term   shared x3  1.40  'hemolysis' [backed off to common ancestor]
+
+note 1763042611479  what diseases are caused by strep pyogenes
+    aliases fired: streptococcus pyogenes
+    -> speedrun::topic::system::musculoskeletal_skin_and_subcutaneous_tissue::skin_and_subcutaneous_tissue::infectious_immunologic_and_inflammatory::infectious_disorders_and_infestations
+       HIGH | infectious disorders and infestations | score 6.20
+        phrase unique  3.00  'scarlet fever'
+        term   unique  2.00  'impetigo'
+        term   shared x3  0.60  'cellulitis'
+        head   shared x2  0.60  'streptococcus'
+    -> speedrun::topic::system::respiratory_and_renal_urinary_systems::respiratory_system::infectious_immunologic_and_inflammatory::infectious_immunologic_and_inflammatory
+       HIGH | infectious, immunologic, and inflammatory disorders of the upper airways | score 2.00
+        term   unique  2.00  'pharyngitis'
+
+note 1763042645200  why is strep agalactiae important clinically
+    aliases fired: streptococcus agalactiae
+    -> speedrun::topic::system::behavioral_health_and_nervous_systems_special::nervous_system_and_special_senses
+       HIGH | Nervous System & Special Senses | score 1.40
+        term   shared x2  1.40  'meningitis' [backed off to common ancestor]
+
+note 1763042693379  what are characteristics of enterococcus (e. faecalis, e. faecium)
+    -> speedrun::topic::system::blood_and_lymphoreticular_immune_systems::blood_and_lymphoreticular_system
+       HIGH | Blood & Lymphoreticular System | score 1.40
+        term   shared x3  1.40  'hemolysis' [backed off to common ancestor]
+
+note 1763043006097  what are key virulence factors produced by staph aureus
+    aliases fired: staphylococcus aureus
+    -> speedrun::topic::system::multisystem_processes_and_disorders::shock
+       HIGH | Shock | score 2.00
+        term   unique  2.00  'shock'
+
+note 1763043042674  which skin infections are caused by staph aureus
+    aliases fired: staphylococcus aureus
+    -> speedrun::topic::system::musculoskeletal_skin_and_subcutaneous_tissue::skin_and_subcutaneous_tissue::infectious_immunologic_and_inflammatory::infectious_disorders_and_infestations
+       HIGH | infectious disorders and infestations | score 4.60
+        term   unique  2.00  'folliculitis'
+        term   unique  2.00  'impetigo'
+        term   shared x3  0.60  'cellulitis'
+    -> speedrun::topic::system::multisystem_processes_and_disorders::shock
+       HIGH | Shock | score 2.00
+        term   unique  2.00  'shock'
+
+note 1763043065505  what is the most common cause of osteomyelitis in children
+    aliases fired: staphylococcus aureus
+    -> speedrun::topic::system::musculoskeletal_skin_and_subcutaneous_tissue::musculoskeletal_system::infectious_inflammatory_and_immunologic::infectious_disorders
+       HIGH | infectious disorders | score 2.00
+        term   unique  2.00  'osteomyelitis'
+    -> speedrun::topic::system::musculoskeletal_skin_and_subcutaneous_tissue::skin_and_subcutaneous_tissue::congenital_disorders
+       HIGH | Congenital disorders | score 2.00
+        term   unique  2.00  'children'
+
+note 1763043136946  what is the most common cause of acute infective endocarditis in iv drug users
+    aliases fired: staphylococcus aureus
+    -> speedrun::topic::system::cardiovascular_system::valvular_heart_disease
+       HIGH | Valvular heart disease | score 2.00
+        term   unique  2.00  'tricuspid'
+    -> speedrun::topic::system::musculoskeletal_skin_and_subcutaneous_tissue::musculoskeletal_system::infectious_inflammatory_and_immunologic::infectious_disorders
+       HIGH | infectious disorders | score 2.00
+        term   unique  2.00  'infective'
+
+note 1763043198884  what is the preferred empirical treatment for suspected mrsa
+    -> speedrun::topic::system::cardiovascular_system::dysrhythmias
+       HIGH | Dysrhythmias | score 2.00
+        term   unique  2.00  'first'
+
+note 1763043256305  what causes toxic shock syndrome in staph aureus infection
+    aliases fired: staphylococcus aureus
+    -> speedrun::topic::system::multisystem_processes_and_disorders::infectious_immunologic_and_inflammatory::infectious_disorders
+       HIGH | infectious disorders | score 3.00
+        phrase unique  3.00  'toxic shock syndrome'
+    -> speedrun::topic::system::cardiovascular_system::hypotension
+       HIGH | Hypotension | score 2.40
+        term   shared x2  1.40  'hypotension' [backed off to common ancestor]
+        term   shared x2  1.00  'hypotension'
+    -> speedrun::topic::system::multisystem_processes_and_disorders::shock
+       HIGH | Shock | score 2.00
+        term   unique  2.00  'shock'
+
+note 1763043402833  what are the major antibiotics used to treat staphylococcus aureus infections (mssa, mrsa, vrsa)
+    aliases fired: staphylococcus aureus
+    -> speedrun::topic::system::cardiovascular_system::dysrhythmias
+       HIGH | Dysrhythmias | score 2.00
+        term   unique  2.00  'first'
+    -> speedrun::topic::system::respiratory_and_renal_urinary_systems::renal_and_urinary_system::adverse_effects_of_drugs_on_the_renal_and
+       HIGH | Adverse effects of drugs on the renal and urinary system | score 2.00
+        term   unique  2.00  'penicillins'
+    -> speedrun::topic::system::social_sciences_communication_and_interpersonal::social_sciences::systems_based_practice_including_health_systems
+       HIGH | Systems-based practice (including health systems, public health, community, schools) and patient safety (including basic concepts and terminology) | score 1.40
+        term   shared x2  1.40  'antibiotics' [backed off to common ancestor]
+
+note 1763043506189  what are the key laboratory features of staphylococcus epidermidis
+    aliases fired: staphylococcus aureus, staphylococcus epidermidis
+    -> speedrun::topic::system::behavioral_health_and_nervous_systems_special::nervous_system_and_special_senses::infectious_immunologic_and_inflammatory::infectious_disorders
+       HIGH | infectious disorders | score 3.50
+        term   unique  2.00  'epidermidis'
+        phrase shared x2  1.50  'staphylococcus aureus'
+
+note 1763043518805  where is staphylococcus epidermidis normally found
+    aliases fired: staphylococcus epidermidis
+    -> speedrun::topic::system::behavioral_health_and_nervous_systems_special::nervous_system_and_special_senses::infectious_immunologic_and_inflammatory::infectious_disorders
+       HIGH | infectious disorders | score 2.00
+        term   unique  2.00  'epidermidis'
+
+note 1763043551906  what infections are commonly caused by staph epidermidis
+    aliases fired: staphylococcus epidermidis
+    -> speedrun::topic::system::behavioral_health_and_nervous_systems_special::nervous_system_and_special_senses::infectious_immunologic_and_inflammatory::infectious_disorders
+       HIGH | infectious disorders | score 2.00
+        term   unique  2.00  'epidermidis'
+    -> speedrun::topic::system::cardiovascular_system::vascular_disorders::disorders_of_the_great_vessels
+       HIGH | disorders of the great vessels | score 2.00
+        term   unique  2.00  'thoracic'
+    -> speedrun::topic::system::musculoskeletal_skin_and_subcutaneous_tissue::skin_and_subcutaneous_tissue::infectious_immunologic_and_inflammatory::infectious_disorders_and_infestations
+       HIGH | infectious disorders and infestations | score 2.00
+        term   unique  2.00  'infected'
+
+note 1763043569006  what is the first-line treatment for staph epidermidis
+    aliases fired: staphylococcus epidermidis
+    -> speedrun::topic::system::behavioral_health_and_nervous_systems_special::nervous_system_and_special_senses::infectious_immunologic_and_inflammatory::infectious_disorders
+       HIGH | infectious disorders | score 2.00
+        term   unique  2.00  'epidermidis'
+    -> speedrun::topic::system::cardiovascular_system::dysrhythmias
+       HIGH | Dysrhythmias | score 2.00
+        term   unique  2.00  'first'
+    -> speedrun::topic::system::musculoskeletal_skin_and_subcutaneous_tissue::musculoskeletal_system::traumatic_and_mechanical_disorders
+       HIGH | Traumatic and mechanical disorders | score 2.00
+        term   unique  2.00  'strains'
+
+note 1763043683409  what is the classic clinical association for staphylococcus saprophyticus
+    aliases fired: staphylococcus saprophyticus
+    -> speedrun::topic::system::cardiovascular_system::dysrhythmias
+       HIGH | Dysrhythmias | score 2.00
+        term   unique  2.00  'second'
+    -> speedrun::topic::system::reproductive_and_endocrine_systems::pregnancy_childbirth_and_the_puerperium::labor_and_delivery
+       HIGH | Labor and delivery | score 2.00
+        term   unique  2.00  'uncomplicated'
+    -> speedrun::topic::system::respiratory_and_renal_urinary_systems::renal_and_urinary_system::abnormalities_of_urine_urination
+       HIGH | Abnormalities of urine/urination | score 2.00
+        term   unique  2.00  'dysuria'
+    -> speedrun::topic::system::respiratory_and_renal_urinary_systems::renal_and_urinary_system::infectious_immunologic_and_inflammatory
+       HIGH | Infectious, immunologic, and inflammatory disorders, including microbiologic and host response to insult | score 1.40
+        term   shared x2  1.40  'cystitis' [backed off to common ancestor]
+
+note 1763043700352  what allows s. saprophyticus to cause utis
+    aliases fired: staphylococcus epidermidis, staphylococcus saprophyticus
+    -> speedrun::topic::system::behavioral_health_and_nervous_systems_special::nervous_system_and_special_senses::infectious_immunologic_and_inflammatory::infectious_disorders
+       HIGH | infectious disorders | score 2.00
+        term   unique  2.00  'epidermidis'
+
+note 1763043885386  how are streptococcus species classified by hemolytic capability
+    -> speedrun::topic::system::behavioral_health_and_nervous_systems_special::nervous_system_and_special_senses::paroxysmal_disorders
+       HIGH | Paroxysmal disorders | score 2.00
+        term   unique  2.00  'partial'
+    -> speedrun::topic::system::blood_and_lymphoreticular_immune_systems::blood_and_lymphoreticular_system
+       HIGH | Blood & Lymphoreticular System | score 1.40
+        term   shared x3  1.40  'hemolysis' [backed off to common ancestor]
+
+note 1763853360673  what is the target of anti-metabolite antibiotics
+    -> speedrun::topic::system::social_sciences_communication_and_interpersonal::social_sciences::systems_based_practice_including_health_systems
+       HIGH | Systems-based practice (including health systems, public health, community, schools) and patient safety (including basic concepts and terminology) | score 1.40
+        term   shared x2  1.40  'antibiotics' [backed off to common ancestor]
+
+note 1763854927465  which drug class inhibits pbps and includes penicillin g amoxicillin
+    -> speedrun::topic::system::respiratory_and_renal_urinary_systems::renal_and_urinary_system::adverse_effects_of_drugs_on_the_renal_and
+       HIGH | Adverse effects of drugs on the renal and urinary system | score 2.00
+        term   unique  2.00  'penicillins'
+
+note 1763855031318  which antibiotics inhibit rna polymerase
+    -> speedrun::topic::system::social_sciences_communication_and_interpersonal::social_sciences::systems_based_practice_including_health_systems
+       HIGH | Systems-based practice (including health systems, public health, community, schools) and patient safety (including basic concepts and terminology) | score 1.40
+        term   shared x2  1.40  'antibiotics' [backed off to common ancestor]
+
+note 1763855051615  which antibiotics inhibit dna gyrase
+    -> speedrun::topic::system::behavioral_health_and_nervous_systems_special::nervous_system_and_special_senses::adverse_effects_of_drugs_on_the_nervous_system
+       HIGH | Adverse effects of drugs on the nervous system | score 2.00
+        term   unique  2.00  'metronidazole'
+    -> speedrun::topic::system::social_sciences_communication_and_interpersonal::social_sciences::systems_based_practice_including_health_systems
+       HIGH | Systems-based practice (including health systems, public health, community, schools) and patient safety (including basic concepts and terminology) | score 1.40
+        term   shared x2  1.40  'antibiotics' [backed off to common ancestor]
+
+note 1763855080561  which antibiotics disrupt lps membranes
+    -> speedrun::topic::system::social_sciences_communication_and_interpersonal::social_sciences::systems_based_practice_including_health_systems
+       HIGH | Systems-based practice (including health systems, public health, community, schools) and patient safety (including basic concepts and terminology) | score 1.40
+        term   shared x2  1.40  'antibiotics' [backed off to common ancestor]
+
+note 1763855156554  in which organisms does porin-mediated decreased uptake mainly occur
+    -> speedrun::topic::system::respiratory_and_renal_urinary_systems::respiratory_system::infectious_immunologic_and_inflammatory::infectious_immunologic_and_inflammatory_2
+       HIGH | infectious, immunologic, and inflammatory disorders of the lower airways | score 3.00
+        phrase unique  3.00  'gram-negative bacteria'
+
+note 1763855176710  what is the molecular mechanism of decreased uptake resistance
+    -> speedrun::topic::system::social_sciences_communication_and_interpersonal::social_sciences::systems_based_practice_including_health_systems::complexity_systems_thinking
+       HIGH | Complexity/systems thinking | score 2.00
+        term   unique  2.00  'space'
+
+note 1763855197726  what is the result of porin loss or mutation
+    -> speedrun::topic::system::multisystem_processes_and_disorders::genetic_metabolic_and_developmental_disorders::intracellular_extracellular_transport_receptors
+       HIGH | intracellular/extracellular transport receptors | score 2.00
+        term   unique  2.00  'intracellular'
+
+note 1763855219292  which antibiotics are affected by decreased porin uptake resistance
+    -> speedrun::topic::system::respiratory_and_renal_urinary_systems::renal_and_urinary_system::adverse_effects_of_drugs_on_the_renal_and
+       HIGH | Adverse effects of drugs on the renal and urinary system | score 2.00
+        term   unique  2.00  'penicillins'
+    -> speedrun::topic::system::social_sciences_communication_and_interpersonal::social_sciences::systems_based_practice_including_health_systems
+       HIGH | Systems-based practice (including health systems, public health, community, schools) and patient safety (including basic concepts and terminology) | score 1.40
+        term   shared x2  1.40  'antibiotics' [backed off to common ancestor]
+
+note 1763856444368  what is the effect of porin loss or porin mutation in gram-negative bacteria
+    -> speedrun::topic::system::respiratory_and_renal_urinary_systems::respiratory_system::infectious_immunologic_and_inflammatory::infectious_immunologic_and_inflammatory_2
+       HIGH | infectious, immunologic, and inflammatory disorders of the lower airways | score 3.00
+        phrase unique  3.00  'gram-negative bacteria'
+    -> speedrun::topic::system::social_sciences_communication_and_interpersonal::social_sciences::systems_based_practice_including_health_systems
+       HIGH | Systems-based practice (including health systems, public health, community, schools) and patient safety (including basic concepts and terminology) | score 1.40
+        term   shared x2  1.40  'antibiotics' [backed off to common ancestor]
+
+note 1763856478353  what mechanism leads to decreased influx of antibiotics in gram-negative bacteria
+    -> speedrun::topic::system::respiratory_and_renal_urinary_systems::respiratory_system::infectious_immunologic_and_inflammatory::infectious_immunologic_and_inflammatory_2
+       HIGH | infectious, immunologic, and inflammatory disorders of the lower airways | score 3.00
+        phrase unique  3.00  'gram-negative bacteria'
+    -> speedrun::topic::system::social_sciences_communication_and_interpersonal::social_sciences::systems_based_practice_including_health_systems
+       HIGH | Systems-based practice (including health systems, public health, community, schools) and patient safety (including basic concepts and terminology) | score 1.40
+        term   shared x2  1.40  'antibiotics' [backed off to common ancestor]
+
+note 1763939695459  normal bacterial flora
+    aliases fired: escherichia coli
+    -> speedrun::topic::system::gastrointestinal_system::infectious_immunologic_and_inflammatory::infectious_disorders
+       HIGH | infectious disorders | score 3.00
+        phrase unique  3.00  'escherichia coli'
+    -> speedrun::topic::system::gastrointestinal_system::neoplasms::malignant_neoplasms_and_pre_malignant_conditions
+       HIGH | malignant neoplasms and pre-malignant conditions | score 2.00
+        term   unique  2.00  'mouth'
+    -> speedrun::topic::system::reproductive_and_endocrine_systems::female_and_transgender_reproductive_system_and::female_reproductive_system::neoplasms_of_the_vulva_vagina_cervix_uterus_or
+       HIGH | Neoplasms of the vulva, vagina, cervix, uterus, or ovaries | score 2.00
+        term   unique  2.00  'vagina'
+
+note 1763940365705  how does streptococcus pneumoniae develop -lactam resistance
+    aliases fired: streptococcus pneumoniae
+    -> speedrun::topic::system::behavioral_health_and_nervous_systems_special::nervous_system_and_special_senses::infectious_immunologic_and_inflammatory::infectious_disorders
+       HIGH | infectious disorders | score 3.60
+        phrase unique  3.00  'streptococcus pneumoniae'
+        head   shared x2  0.60  'pneumoniae'
+    -> speedrun::topic::system::social_sciences_communication_and_interpersonal::social_sciences::systems_based_practice_including_health_systems
+       HIGH | Systems-based practice (including health systems, public health, community, schools) and patient safety (including basic concepts and terminology) | score 1.40
+        term   shared x2  1.40  'antibiotics' [backed off to common ancestor]
+
+note 1763940409149  what virulence factors are plasmid-encoded
+    aliases fired: bacillus anthracis, escherichia coli
+    -> speedrun::topic::system::gastrointestinal_system::infectious_immunologic_and_inflammatory::infectious_disorders
+       HIGH | infectious disorders | score 3.00
+        phrase unique  3.00  'escherichia coli'
+
+note 1763940520255  what toxins are phage-encoded
+    aliases fired: clostridium botulinum, corynebacterium diphtheriae, streptococcus pyogenes, vibrio cholerae
+    -> speedrun::topic::system::gastrointestinal_system::infectious_immunologic_and_inflammatory::infectious_disorders
+       HIGH | infectious disorders | score 4.80
+        phrase unique  3.00  'vibrio cholerae'
+        head   unique  1.20  'cholerae'
+        head   shared x2  0.60  'diarrhea'
+    -> speedrun::topic::system::behavioral_health_and_nervous_systems_special::nervous_system_and_special_senses::infectious_immunologic_and_inflammatory::infectious_disorders
+       HIGH | infectious disorders | score 4.20
+        phrase unique  3.00  'clostridium botulinum'
+        head   unique  1.20  'botulinum'
+    -> speedrun::topic::system::musculoskeletal_skin_and_subcutaneous_tissue::skin_and_subcutaneous_tissue::infectious_immunologic_and_inflammatory::infectious_disorders_and_infestations
+       HIGH | infectious disorders and infestations | score 3.60
+        phrase unique  3.00  'scarlet fever'
+        head   shared x2  0.60  'streptococcus'
+    -> speedrun::topic::system::reproductive_and_endocrine_systems::pregnancy_childbirth_and_the_puerperium::adverse_effects_of_drugs_on_pregnancy
+       HIGH | Adverse effects of drugs on pregnancy, childbirth, and the puerperium | score 2.00
+        term   unique  2.00  'toxins'
+
+note 1763940581754  how do bacteriophages contribute to bacterial virulence
+    -> speedrun::topic::system::reproductive_and_endocrine_systems::pregnancy_childbirth_and_the_puerperium::adverse_effects_of_drugs_on_pregnancy
+       HIGH | Adverse effects of drugs on pregnancy, childbirth, and the puerperium | score 2.00
+        term   unique  2.00  'toxins'
+
+note 1763940640654  what is the dominant normal flora of the skin
+    aliases fired: staphylococcus epidermidis
+    -> speedrun::topic::system::behavioral_health_and_nervous_systems_special::nervous_system_and_special_senses::infectious_immunologic_and_inflammatory::infectious_disorders
+       HIGH | infectious disorders | score 2.00
+        term   unique  2.00  'epidermidis'
+
+note 1763940669016  what is the main flora of the mouth
+    -> speedrun::topic::system::gastrointestinal_system::neoplasms::malignant_neoplasms_and_pre_malignant_conditions
+       HIGH | malignant neoplasms and pre-malignant conditions | score 2.00
+        term   unique  2.00  'mouth'
+
+note 1763940682452  what are the dominant anaerobic and facultative flora of the colon
+    aliases fired: escherichia coli
+    -> speedrun::topic::system::gastrointestinal_system::infectious_immunologic_and_inflammatory::infectious_disorders
+       HIGH | infectious disorders | score 3.00
+        phrase unique  3.00  'escherichia coli'
+
+note 1763940710291  what are the key bacteria in the vagina
+    aliases fired: escherichia coli, streptococcus agalactiae
+    -> speedrun::topic::system::gastrointestinal_system::infectious_immunologic_and_inflammatory::infectious_disorders
+       HIGH | infectious disorders | score 3.00
+        phrase unique  3.00  'escherichia coli'
+    -> speedrun::topic::system::reproductive_and_endocrine_systems::female_and_transgender_reproductive_system_and::female_reproductive_system::neoplasms_of_the_vulva_vagina_cervix_uterus_or
+       HIGH | Neoplasms of the vulva, vagina, cervix, uterus, or ovaries | score 2.00
+        term   unique  2.00  'vagina'
+
+note 1763940742383  how do you differentiate staph aureus from other staph
+    aliases fired: staphylococcus aureus, staphylococcus epidermidis, staphylococcus saprophyticus
+    -> speedrun::topic::system::behavioral_health_and_nervous_systems_special::nervous_system_and_special_senses::infectious_immunologic_and_inflammatory::infectious_disorders
+       HIGH | infectious disorders | score 3.50
+        term   unique  2.00  'epidermidis'
+        phrase shared x2  1.50  'staphylococcus aureus'
+
+note 1763940763153  which bacteria are alpha-hemolytic
+    aliases fired: streptococcus mutans, streptococcus pneumoniae
+    -> speedrun::topic::system::behavioral_health_and_nervous_systems_special::nervous_system_and_special_senses::infectious_immunologic_and_inflammatory::infectious_disorders
+       HIGH | infectious disorders | score 3.60
+        phrase unique  3.00  'streptococcus pneumoniae'
+        head   shared x2  0.60  'pneumoniae'
+
+note 1763940810728  which bacteria are gamma-hemolytic
+    -> speedrun::topic::system::blood_and_lymphoreticular_immune_systems::blood_and_lymphoreticular_system
+       HIGH | Blood & Lymphoreticular System | score 1.40
+        term   shared x3  1.40  'hemolysis' [backed off to common ancestor]
+
+note 1763942147261  what is the 1 most common bacterial cause of osteomyelitis
+    aliases fired: staphylococcus aureus
+    -> speedrun::topic::system::musculoskeletal_skin_and_subcutaneous_tissue::musculoskeletal_system::infectious_inflammatory_and_immunologic::infectious_disorders
+       HIGH | infectious disorders | score 2.00
+        term   unique  2.00  'osteomyelitis'
+    -> speedrun::topic::system::reproductive_and_endocrine_systems::pregnancy_childbirth_and_the_puerperium::adverse_effects_of_drugs_on_pregnancy
+       HIGH | Adverse effects of drugs on pregnancy, childbirth, and the puerperium | score 2.00
+        term   unique  2.00  'toxins'
+
+note 1763942186705  what are the two most common causes of osteomyelitis in sickle cell disease , and which one is classically hig ... [+7 chars]
+    aliases fired: staphylococcus aureus
+    -> speedrun::topic::system::multisystem_processes_and_disorders::genetic_metabolic_and_developmental_disorders::intracellular_extracellular_transport_receptors
+       HIGH | intracellular/extracellular transport receptors | score 2.00
+        term   unique  2.00  'intracellular'
+    -> speedrun::topic::system::musculoskeletal_skin_and_subcutaneous_tissue::musculoskeletal_system::infectious_inflammatory_and_immunologic::infectious_disorders
+       HIGH | infectious disorders | score 2.00
+        term   unique  2.00  'osteomyelitis'
+
+note 1763942308987  what diseases are associated with staphylococcus aureus (mnemonic: soft pains )
+    aliases fired: staphylococcus aureus
+    -> speedrun::topic::system::musculoskeletal_skin_and_subcutaneous_tissue::musculoskeletal_system::infectious_inflammatory_and_immunologic::infectious_disorders
+       HIGH | infectious disorders | score 7.60
+        phrase unique  3.00  'necrotizing fasciitis'
+        term   unique  2.00  'infective'
+        term   unique  2.00  'osteomyelitis'
+        head   shared x2  0.60  'fasciitis'
+    -> speedrun::topic::system::musculoskeletal_skin_and_subcutaneous_tissue::skin_and_subcutaneous_tissue::infectious_immunologic_and_inflammatory::infectious_disorders_and_infestations
+       HIGH | infectious disorders and infestations | score 4.60
+        term   unique  2.00  'folliculitis'
+        term   unique  2.00  'impetigo'
+        term   shared x3  0.60  'cellulitis'
+    -> speedrun::topic::system::multisystem_processes_and_disorders::infectious_immunologic_and_inflammatory::infectious_disorders
+       HIGH | infectious disorders | score 3.00
+        phrase unique  3.00  'toxic shock syndrome'
+    -> speedrun::topic::system::cardiovascular_system::valvular_heart_disease
+       HIGH | Valvular heart disease | score 2.00
+        term   unique  2.00  'tricuspid'
+    -> speedrun::topic::system::multisystem_processes_and_disorders::shock
+       HIGH | Shock | score 2.00
+        term   unique  2.00  'shock'
+
+note 1763942399786  what does the exfoliative toxin from staph aureus cause
+    aliases fired: staphylococcus aureus
+    -> speedrun::topic::system::musculoskeletal_skin_and_subcutaneous_tissue::skin_and_subcutaneous_tissue::infectious_immunologic_and_inflammatory::infectious_disorders_and_infestations
+       HIGH | infectious disorders and infestations | score 3.00
+        phrase unique  3.00  'staphylococcal scalded skin syndrome'
+    -> speedrun::topic::system::musculoskeletal_skin_and_subcutaneous_tissue::skin_and_subcutaneous_tissue::congenital_disorders
+       HIGH | Congenital disorders | score 2.00
+        term   unique  2.00  'children'
+
+note 1763942416921  what are the major virulence factors of staphylococcus aureus
+    aliases fired: staphylococcus aureus
+    -> speedrun::topic::system::multisystem_processes_and_disorders::shock
+       HIGH | Shock | score 2.00
+        term   unique  2.00  'shock'
+    -> speedrun::topic::system::reproductive_and_endocrine_systems::pregnancy_childbirth_and_the_puerperium::adverse_effects_of_drugs_on_pregnancy
+       HIGH | Adverse effects of drugs on pregnancy, childbirth, and the puerperium | score 2.00
+        term   unique  2.00  'toxins'
+
+note 1763942694564  a patient with a retained tampon develops fever, hypotension, and a diffuse rash involving the palms and soles ... [+38 chars]
+    aliases fired: staphylococcus aureus
+    -> speedrun::topic::system::multisystem_processes_and_disorders::infectious_immunologic_and_inflammatory::infectious_disorders
+       HIGH | infectious disorders | score 3.00
+        phrase unique  3.00  'toxic shock syndrome'
+    -> speedrun::topic::system::cardiovascular_system::hypotension
+       HIGH | Hypotension | score 2.40
+        term   shared x2  1.40  'hypotension' [backed off to common ancestor]
+        term   shared x2  1.00  'hypotension'
+    -> speedrun::topic::system::multisystem_processes_and_disorders::shock
+       HIGH | Shock | score 2.00
+        term   unique  2.00  'shock'
+
+note 1763943181435  what are the clinical settings for mssa vs mrsa pneumonia
+    -> speedrun::topic::system::respiratory_and_renal_urinary_systems::respiratory_system::infectious_immunologic_and_inflammatory::infectious_immunologic_and_inflammatory_2
+       HIGH | infectious, immunologic, and inflammatory disorders of the lower airways | score 4.50
+        phrase unique  3.00  'hospital-acquired pneumonia'
+        phrase shared x2  1.50  'ventilator-associated pneumonia'
+    -> speedrun::topic::system::musculoskeletal_skin_and_subcutaneous_tissue::musculoskeletal_system::traumatic_and_mechanical_disorders
+       HIGH | Traumatic and mechanical disorders | score 3.60
+        phrase unique  3.00  'hospital-acquired'
+        head   shared x2  0.60  'acquired'
+    -> speedrun::topic::system::social_sciences_communication_and_interpersonal::social_sciences::systems_based_practice_including_health_systems
+       HIGH | Systems-based practice (including health systems, public health, community, schools) and patient safety (including basic concepts and terminology) | score 2.00
+        term   unique  2.00  'community'
+
+note 1763943321562  what are the two major causes of septic arthritis , and how do you distinguish them
+    aliases fired: neisseria gonorrhoeae, staphylococcus aureus
+    -> speedrun::topic::system::reproductive_and_endocrine_systems::male_and_transgender_reproductive_system::infectious_immunologic_and_inflammatory::infectious_disorders
+       HIGH | infectious disorders | score 4.10
+        term   unique  2.00  'nongonococcal'
+        phrase shared x2  1.50  'neisseria gonorrhoeae'
+        head   shared x2  0.60  'gonorrhoeae'
+    -> speedrun::topic::system::musculoskeletal_skin_and_subcutaneous_tissue::musculoskeletal_system::infectious_inflammatory_and_immunologic::infectious_disorders
+       HIGH | infectious disorders | score 3.00
+        phrase unique  3.00  'septic arthritis'
+    -> speedrun::topic::system::musculoskeletal_skin_and_subcutaneous_tissue::musculoskeletal_system::infectious_inflammatory_and_immunologic::inflammatory_disorders
+       HIGH | inflammatory disorders | score 2.00
+        term   unique  2.00  'tenosynovitis'
+
+note 1763943358466  what is the 1 cause of acute infective endocarditis , especially in iv drug users
+    aliases fired: staphylococcus aureus
+    -> speedrun::topic::system::cardiovascular_system::valvular_heart_disease
+       HIGH | Valvular heart disease | score 2.00
+        term   unique  2.00  'tricuspid'
+    -> speedrun::topic::system::musculoskeletal_skin_and_subcutaneous_tissue::musculoskeletal_system::infectious_inflammatory_and_immunologic::infectious_disorders
+       HIGH | infectious disorders | score 2.00
+        term   unique  2.00  'infective'
+    -> speedrun::topic::system::reproductive_and_endocrine_systems::pregnancy_childbirth_and_the_puerperium::adverse_effects_of_drugs_on_pregnancy
+       HIGH | Adverse effects of drugs on pregnancy, childbirth, and the puerperium | score 2.00
+        term   unique  2.00  'toxins'
+
+note 1763943457996  what are the classic clinical features and treatment of impetigo
+    aliases fired: staphylococcus aureus, streptococcus pyogenes
+    -> speedrun::topic::system::musculoskeletal_skin_and_subcutaneous_tissue::skin_and_subcutaneous_tissue::infectious_immunologic_and_inflammatory::infectious_disorders_and_infestations
+       HIGH | infectious disorders and infestations | score 3.80
+        term   unique  2.00  'impetigo'
+        head   unique  1.20  'superficial'
+        head   shared x2  0.60  'streptococcus'
+
+note 1763943555831  what is staphylococcal scalded skin syndrome , and what causes it
+    aliases fired: staphylococcus aureus
+    -> speedrun::topic::system::musculoskeletal_skin_and_subcutaneous_tissue::skin_and_subcutaneous_tissue::infectious_immunologic_and_inflammatory::infectious_disorders_and_infestations
+       HIGH | infectious disorders and infestations | score 3.00
+        phrase unique  3.00  'staphylococcal scalded skin syndrome'
+    -> speedrun::topic::system::musculoskeletal_skin_and_subcutaneous_tissue::skin_and_subcutaneous_tissue::congenital_disorders
+       HIGH | Congenital disorders | score 2.00
+        term   unique  2.00  'children'
+    -> speedrun::topic::system::musculoskeletal_skin_and_subcutaneous_tissue::skin_and_subcutaneous_tissue::infectious_immunologic_and_inflammatory::immunologic_and_inflammatory_disorders
+       HIGH | immunologic and inflammatory disorders | score 2.00
+        term   unique  2.00  'erythema'
+
+note 1763943935098  what are the major antibiotic treatments for staphylococcus species (mssa, mrsa, vrsa)
+    aliases fired: staphylococcus aureus
+    -> speedrun::topic::system::cardiovascular_system::dysrhythmias
+       HIGH | Dysrhythmias | score 2.00
+        term   unique  2.00  'first'
+    -> speedrun::topic::system::respiratory_and_renal_urinary_systems::renal_and_urinary_system::adverse_effects_of_drugs_on_the_renal_and
+       HIGH | Adverse effects of drugs on the renal and urinary system | score 2.00
+        term   unique  2.00  'penicillins'
+
+note 1763944020358  how do you treat suspected staphylococcus aureus endocarditis when you don t yet know whether the organism is  ... [+12 chars]
+    aliases fired: staphylococcus aureus
+    -> speedrun::topic::system::cardiovascular_system::dysrhythmias
+       HIGH | Dysrhythmias | score 2.00
+        term   unique  2.00  'first'
+
+note 1763944186330  how does vancomycin act
+    aliases fired: clostridium difficile
+    -> speedrun::topic::system::gastrointestinal_system::infectious_immunologic_and_inflammatory::infectious_disorders
+       HIGH | infectious disorders | score 4.20
+        phrase unique  3.00  'clostridium difficile'
+        head   unique  1.20  'difficile'
+
+note 1763944475426  a woman 5 weeks postpartum presents with breast pain, erythema, and a fluctuant mass suggesting a breast absce ... [+46 chars]
+    aliases fired: staphylococcus aureus
+    -> speedrun::topic::system::reproductive_and_endocrine_systems::female_and_transgender_reproductive_system_and::breast::infectious_immunologic_and_inflammatory
+       HIGH | infectious, immunologic, and inflammatory disorders, including microbiologic and host response to insult | score 5.00
+        phrase unique  3.00  'breast abscess'
+        term   unique  2.00  'mastitis'
+    -> speedrun::topic::system::behavioral_health_and_nervous_systems_special::behavioral_health::mood_disorders
+       HIGH | Mood disorders | score 2.00
+        term   unique  2.00  'postpartum'
+    -> speedrun::topic::system::musculoskeletal_skin_and_subcutaneous_tissue::skin_and_subcutaneous_tissue::infectious_immunologic_and_inflammatory::immunologic_and_inflammatory_disorders
+       HIGH | immunologic and inflammatory disorders | score 2.00
+        term   unique  2.00  'erythema'
+
+note 1763944528514  1 cause of lactational mastitis and breast abscesses
+    aliases fired: staphylococcus aureus
+    -> speedrun::topic::system::reproductive_and_endocrine_systems::female_and_transgender_reproductive_system_and::breast::infectious_immunologic_and_inflammatory
+       HIGH | infectious, immunologic, and inflammatory disorders, including microbiologic and host response to insult | score 2.00
+        term   unique  2.00  'mastitis'
+
+note 1763944995540  what antibiotics should be used when a patient has a severe penicillin allergy
+    -> speedrun::topic::system::social_sciences_communication_and_interpersonal::social_sciences::systems_based_practice_including_health_systems
+       HIGH | Systems-based practice (including health systems, public health, community, schools) and patient safety (including basic concepts and terminology) | score 1.40
+        term   shared x2  1.40  'antibiotics' [backed off to common ancestor]
+
+note 1763945033773  what if a patient has syphilis and a penicillin allergy
+    -> speedrun::topic::system::behavioral_health_and_nervous_systems_special::nervous_system_and_special_senses::infectious_immunologic_and_inflammatory::infectious_disorders
+       HIGH | infectious disorders | score 2.00
+        term   unique  2.00  'neurosyphilis'
+
+note 1763945295744  what are the key high-yield facts to remember about staphylococcus aureus
+    aliases fired: staphylococcus aureus
+    -> speedrun::topic::system::multisystem_processes_and_disorders::shock
+       HIGH | Shock | score 2.00
+        term   unique  2.00  'shock'
+    -> speedrun::topic::system::reproductive_and_endocrine_systems::pregnancy_childbirth_and_the_puerperium::adverse_effects_of_drugs_on_pregnancy
+       HIGH | Adverse effects of drugs on pregnancy, childbirth, and the puerperium | score 2.00
+        term   unique  2.00  'toxins'
+
+note 1763945430952  aureus mnmeonic
+    -> speedrun::topic::system::multisystem_processes_and_disorders::infectious_immunologic_and_inflammatory::infectious_disorders
+       HIGH | infectious disorders | score 3.00
+        phrase unique  3.00  'toxic shock syndrome'
+    -> speedrun::topic::system::musculoskeletal_skin_and_subcutaneous_tissue::skin_and_subcutaneous_tissue::infectious_immunologic_and_inflammatory::infectious_disorders_and_infestations
+       HIGH | infectious disorders and infestations | score 2.60
+        term   unique  2.00  'impetigo'
+        term   shared x3  0.60  'cellulitis'
+    -> speedrun::topic::system::cardiovascular_system::valvular_heart_disease
+       HIGH | Valvular heart disease | score 2.00
+        term   unique  2.00  'tricuspid'
+    -> speedrun::topic::system::multisystem_processes_and_disorders::shock
+       HIGH | Shock | score 2.00
+        term   unique  2.00  'shock'
+    -> speedrun::topic::system::musculoskeletal_skin_and_subcutaneous_tissue::musculoskeletal_system::infectious_inflammatory_and_immunologic::infectious_disorders
+       HIGH | infectious disorders | score 2.00
+        term   unique  2.00  'osteomyelitis'
+    -> speedrun::topic::system::reproductive_and_endocrine_systems::pregnancy_childbirth_and_the_puerperium::adverse_effects_of_drugs_on_pregnancy
+       HIGH | Adverse effects of drugs on pregnancy, childbirth, and the puerperium | score 2.00
+        term   unique  2.00  'toxins'
+
+note 1763945642589  what are the key high-yield facts about staphylococcus epidermidis
+    aliases fired: staphylococcus epidermidis
+    -> speedrun::topic::system::behavioral_health_and_nervous_systems_special::nervous_system_and_special_senses::infectious_immunologic_and_inflammatory::infectious_disorders
+       HIGH | infectious disorders | score 2.00
+        term   unique  2.00  'epidermidis'
+    -> speedrun::topic::system::musculoskeletal_skin_and_subcutaneous_tissue::musculoskeletal_system::traumatic_and_mechanical_disorders
+       HIGH | Traumatic and mechanical disorders | score 2.00
+        term   unique  2.00  'strains'
+    -> speedrun::topic::system::reproductive_and_endocrine_systems::female_and_transgender_reproductive_system_and::female_reproductive_system::fertility_and_infertility
+       HIGH | Fertility and infertility | score 2.00
+        term   unique  2.00  'implant'
+
+note 1763946024401  what are the key identifying features and clinical associations of staphylococcus saprophyticus
+    aliases fired: staphylococcus saprophyticus
+    -> speedrun::topic::system::respiratory_and_renal_urinary_systems::renal_and_urinary_system::infectious_immunologic_and_inflammatory
+       HIGH | Infectious, immunologic, and inflammatory disorders, including microbiologic and host response to insult | score 1.40
+        term   shared x2  1.40  'cystitis' [backed off to common ancestor]
+
+note 1763946149511  how do you remember the correct order of catalase and coagulase testing in gram-positive cocci
+    aliases fired: staphylococcus aureus, staphylococcus epidermidis, staphylococcus saprophyticus
+    -> speedrun::topic::system::cardiovascular_system::dysrhythmias
+       HIGH | Dysrhythmias | score 4.00
+        term   unique  2.00  'first'
+        term   unique  2.00  'second'
+    -> speedrun::topic::system::behavioral_health_and_nervous_systems_special::nervous_system_and_special_senses::infectious_immunologic_and_inflammatory::infectious_disorders
+       HIGH | infectious disorders | score 3.50
+        term   unique  2.00  'epidermidis'
+        phrase shared x2  1.50  'staphylococcus aureus'
+
+note 1763947058891  how do you identify streptococcus pneumoniae
+    aliases fired: streptococcus pneumoniae
+    -> speedrun::topic::system::behavioral_health_and_nervous_systems_special::nervous_system_and_special_senses::infectious_immunologic_and_inflammatory::infectious_disorders
+       HIGH | infectious disorders | score 3.60
+        phrase unique  3.00  'streptococcus pneumoniae'
+        head   shared x2  0.60  'pneumoniae'
+    -> speedrun::topic::system::blood_and_lymphoreticular_immune_systems::blood_and_lymphoreticular_system
+       HIGH | Blood & Lymphoreticular System | score 1.40
+        term   shared x3  1.40  'hemolysis' [backed off to common ancestor]
+
+note 1763947079222  what are the major virulence factors of strep pneumoniae
+    aliases fired: streptococcus pneumoniae
+    -> speedrun::topic::system::behavioral_health_and_nervous_systems_special::nervous_system_and_special_senses::infectious_immunologic_and_inflammatory::infectious_disorders
+       HIGH | infectious disorders | score 3.60
+        phrase unique  3.00  'streptococcus pneumoniae'
+        head   shared x2  0.60  'pneumoniae'
+
+note 1763947095399  what diseases does strep pneumoniae cause and how is it treated
+    aliases fired: streptococcus pneumoniae
+    -> speedrun::topic::system::behavioral_health_and_nervous_systems_special::nervous_system_and_special_senses::infectious_immunologic_and_inflammatory::infectious_disorders
+       HIGH | infectious disorders | score 4.60
+        phrase unique  3.00  'streptococcus pneumoniae'
+        term   shared x2  1.00  'meningitis'
+        head   shared x2  0.60  'pneumoniae'
+    -> speedrun::topic::system::respiratory_and_renal_urinary_systems::respiratory_system::infectious_immunologic_and_inflammatory::infectious_immunologic_and_inflammatory_2
+       HIGH | infectious, immunologic, and inflammatory disorders of the lower airways | score 4.60
+        phrase unique  3.00  'community-acquired pneumonia'
+        term   shared x2  1.00  'streptococcus'
+        head   shared x2  0.60  'pneumoniae'
+    -> speedrun::topic::system::behavioral_health_and_nervous_systems_special::nervous_system_and_special_senses::disorders_of_the_ear::infectious_and_inflammatory_disorders_of_the
+       HIGH | infectious and inflammatory disorders of the ear, including microbiologic and host response to insult | score 4.00
+        term   unique  2.00  'media'
+        term   unique  2.00  'otitis'
+    -> speedrun::topic::system::musculoskeletal_skin_and_subcutaneous_tissue::musculoskeletal_system::traumatic_and_mechanical_disorders
+       HIGH | Traumatic and mechanical disorders | score 2.60
+        term   unique  2.00  'strains'
+        head   shared x2  0.60  'acquired'
+    -> speedrun::topic::system::social_sciences_communication_and_interpersonal::social_sciences::systems_based_practice_including_health_systems
+       HIGH | Systems-based practice (including health systems, public health, community, schools) and patient safety (including basic concepts and terminology) | score 2.00
+        term   unique  2.00  'community'
+
+note 1763947123915  1 cause of lobar pneumonia (adults) 1 cause of adult meningitis
+    aliases fired: streptococcus pneumoniae
+    -> speedrun::topic::system::behavioral_health_and_nervous_systems_special::nervous_system_and_special_senses::infectious_immunologic_and_inflammatory::infectious_disorders
+       HIGH | infectious disorders | score 4.60
+        phrase unique  3.00  'streptococcus pneumoniae'
+        term   shared x2  1.00  'meningitis'
+        head   shared x2  0.60  'pneumoniae'
+
+note 1763947340274  what are the key features of the viridans streptococci group
+    aliases fired: streptococcus mutans
+    -> speedrun::topic::system::gastrointestinal_system::disorders_of_the_oral_cavity_salivary_glands::oral_cavity_and_salivary_glands
+       HIGH | oral cavity and salivary glands | score 3.00
+        phrase unique  3.00  'dental caries'
+    -> speedrun::topic::system::musculoskeletal_skin_and_subcutaneous_tissue::musculoskeletal_system::infectious_inflammatory_and_immunologic::infectious_disorders
+       HIGH | infectious disorders | score 2.00
+        term   unique  2.00  'infective'
+
+note 1763947357783  what does streptococcus mutans cause, and how is it identified
+    aliases fired: streptococcus mutans
+    -> speedrun::topic::system::gastrointestinal_system::disorders_of_the_oral_cavity_salivary_glands::oral_cavity_and_salivary_glands
+       HIGH | oral cavity and salivary glands | score 3.00
+        phrase unique  3.00  'dental caries'
+    -> speedrun::topic::system::gastrointestinal_system::neoplasms::malignant_neoplasms_and_pre_malignant_conditions
+       HIGH | malignant neoplasms and pre-malignant conditions | score 2.00
+        term   unique  2.00  'mouth'
+    -> speedrun::topic::system::musculoskeletal_skin_and_subcutaneous_tissue::musculoskeletal_system::infectious_inflammatory_and_immunologic::infectious_disorders
+       HIGH | infectious disorders | score 2.00
+        term   unique  2.00  'infective'
+
+note 1763947385705  what are the key facts about streptococcus sanguinis
+    aliases fired: staphylococcus epidermidis
+    -> speedrun::topic::system::behavioral_health_and_nervous_systems_special::nervous_system_and_special_senses::infectious_immunologic_and_inflammatory::infectious_disorders
+       HIGH | infectious disorders | score 2.00
+        term   unique  2.00  'epidermidis'
+    -> speedrun::topic::system::musculoskeletal_skin_and_subcutaneous_tissue::musculoskeletal_system::infectious_inflammatory_and_immunologic::infectious_disorders
+       HIGH | infectious disorders | score 2.00
+        term   unique  2.00  'infective'
+
+note 1763947472708  what are the key features and causes of subacute infective endocarditis
+    aliases fired: streptococcus mutans
+    -> speedrun::topic::system::cardiovascular_system::valvular_heart_disease
+       HIGH | Valvular heart disease | score 3.00
+        term   unique  2.00  'mitral'
+        term   shared x2  1.00  'aortic'
+    -> speedrun::topic::system::gastrointestinal_system::disorders_of_the_oral_cavity_salivary_glands::oral_cavity_and_salivary_glands
+       HIGH | oral cavity and salivary glands | score 3.00
+        phrase unique  3.00  'dental caries'
+    -> speedrun::topic::system::musculoskeletal_skin_and_subcutaneous_tissue::musculoskeletal_system::infectious_inflammatory_and_immunologic::infectious_disorders
+       HIGH | infectious disorders | score 2.00
+        term   unique  2.00  'infective'
+
+note 1763947583120  mutans makes mouth mess, sanguinis sticks to sick valves
+    -> speedrun::topic::system::gastrointestinal_system::disorders_of_the_oral_cavity_salivary_glands::oral_cavity_and_salivary_glands
+       HIGH | oral cavity and salivary glands | score 3.00
+        phrase unique  3.00  'dental caries'
+    -> speedrun::topic::system::gastrointestinal_system::neoplasms::malignant_neoplasms_and_pre_malignant_conditions
+       HIGH | malignant neoplasms and pre-malignant conditions | score 2.00
+        term   unique  2.00  'mouth'
+
+note 1763947681754  what should be done for a patient with an abnormal heart valve who is going to undergo a dental procedure
+    aliases fired: streptococcus mutans
+    -> speedrun::topic::system::musculoskeletal_skin_and_subcutaneous_tissue::musculoskeletal_system::infectious_inflammatory_and_immunologic::infectious_disorders
+       HIGH | infectious disorders | score 2.00
+        term   unique  2.00  'infective'
+
+note 1763949485531  what are the key identifying features of streptococcus pyogenes (group a strep)
+    aliases fired: streptococcus pyogenes
+    -> speedrun::topic::system::blood_and_lymphoreticular_immune_systems::blood_and_lymphoreticular_system
+       HIGH | Blood & Lymphoreticular System | score 1.40
+        term   shared x3  1.40  'hemolysis' [backed off to common ancestor]
+
+note 1763949530189  what is m protein in strep pyogenes , and why is it important
+    aliases fired: streptococcus pyogenes
+    -> speedrun::topic::system::multisystem_processes_and_disorders::infectious_immunologic_and_inflammatory::immunologic_and_inflammatory_disorders
+       HIGH | immunologic and inflammatory disorders | score 3.00
+        phrase unique  3.00  'acute rheumatic fever'
+    -> speedrun::topic::system::cardiovascular_system::valvular_heart_disease
+       HIGH | Valvular heart disease | score 2.00
+        term   unique  2.00  'mitral'
+
+note 1763949572497  what does the smashed mnemonic for strep pyogenes represent
+    aliases fired: streptococcus pyogenes
+    -> speedrun::topic::system::musculoskeletal_skin_and_subcutaneous_tissue::skin_and_subcutaneous_tissue::infectious_immunologic_and_inflammatory::infectious_disorders_and_infestations
+       HIGH | infectious disorders and infestations | score 3.60
+        phrase unique  3.00  'scarlet fever'
+        head   shared x2  0.60  'streptococcus'
+    -> speedrun::topic::system::blood_and_lymphoreticular_immune_systems::blood_and_lymphoreticular_system
+       HIGH | Blood & Lymphoreticular System | score 1.40
+        term   shared x3  1.40  'hemolysis' [backed off to common ancestor]
+
+note 1763949586992  what diseases are caused by strep pyogenes (nipples mnemonic)
+    aliases fired: staphylococcus aureus, streptococcus pyogenes
+    -> speedrun::topic::system::musculoskeletal_skin_and_subcutaneous_tissue::skin_and_subcutaneous_tissue::infectious_immunologic_and_inflammatory::infectious_disorders_and_infestations
+       HIGH | infectious disorders and infestations | score 7.60
+        phrase unique  3.00  'scarlet fever'
+        term   unique  2.00  'erysipelas'
+        term   unique  2.00  'impetigo'
+        head   shared x2  0.60  'streptococcus'
+    -> speedrun::topic::system::musculoskeletal_skin_and_subcutaneous_tissue::musculoskeletal_system::infectious_inflammatory_and_immunologic::infectious_disorders
+       HIGH | infectious disorders | score 3.60
+        phrase unique  3.00  'necrotizing fasciitis'
+        head   shared x2  0.60  'fasciitis'
+    -> speedrun::topic::system::blood_and_lymphoreticular_immune_systems::blood_and_lymphoreticular_system::infectious_and_immunologic_including::primary_infections_of_lymphoid_tissue
+       HIGH | primary infections of lymphoid tissue | score 2.00
+        term   unique  2.00  'lymphangitis'
+    -> speedrun::topic::system::gastrointestinal_system::neoplasms::malignant_neoplasms_and_pre_malignant_conditions
+       HIGH | malignant neoplasms and pre-malignant conditions | score 2.00
+        term   unique  2.00  'tongue'
+    -> speedrun::topic::system::respiratory_and_renal_urinary_systems::respiratory_system::infectious_immunologic_and_inflammatory::infectious_immunologic_and_inflammatory
+       HIGH | infectious, immunologic, and inflammatory disorders of the upper airways | score 2.00
+        term   unique  2.00  'pharyngitis'
+
+note 1763949618858  what are the major immune-mediated complications of strep pyogenes infection
+    aliases fired: streptococcus pyogenes
+    -> speedrun::topic::system::multisystem_processes_and_disorders::infectious_immunologic_and_inflammatory::immunologic_and_inflammatory_disorders
+       HIGH | immunologic and inflammatory disorders | score 3.00
+        phrase unique  3.00  'acute rheumatic fever'
+    -> speedrun::topic::system::musculoskeletal_skin_and_subcutaneous_tissue::skin_and_subcutaneous_tissue::infectious_immunologic_and_inflammatory::infectious_disorders_and_infestations
+       HIGH | infectious disorders and infestations | score 2.60
+        term   unique  2.00  'impetigo'
+        head   shared x2  0.60  'streptococcus'
+    -> speedrun::topic::system::musculoskeletal_skin_and_subcutaneous_tissue::skin_and_subcutaneous_tissue::congenital_disorders
+       HIGH | Congenital disorders | score 2.00
+        term   unique  2.00  'children'
+    -> speedrun::topic::system::respiratory_and_renal_urinary_systems::respiratory_system::infectious_immunologic_and_inflammatory::infectious_immunologic_and_inflammatory
+       HIGH | infectious, immunologic, and inflammatory disorders of the upper airways | score 2.00
+        term   unique  2.00  'pharyngitis'
+
+note 1763949661303  what causes scarlet fever in strep pyogenes infection
+    aliases fired: streptococcus pyogenes
+    -> speedrun::topic::system::musculoskeletal_skin_and_subcutaneous_tissue::skin_and_subcutaneous_tissue::infectious_immunologic_and_inflammatory::infectious_disorders_and_infestations
+       HIGH | infectious disorders and infestations | score 3.60
+        phrase unique  3.00  'scarlet fever'
+        head   shared x2  0.60  'streptococcus'
+    -> speedrun::topic::system::gastrointestinal_system::neoplasms::malignant_neoplasms_and_pre_malignant_conditions
+       HIGH | malignant neoplasms and pre-malignant conditions | score 2.00
+        term   unique  2.00  'tongue'
+    -> speedrun::topic::system::respiratory_and_renal_urinary_systems::respiratory_system::infectious_immunologic_and_inflammatory::infectious_immunologic_and_inflammatory
+       HIGH | infectious, immunologic, and inflammatory disorders of the upper airways | score 2.00
+        term   unique  2.00  'pharyngitis'
+
+note 1763949679252  what is the difference between erysipelas and cellulitis caused by strep pyogenes
+    aliases fired: streptococcus pyogenes
+    -> speedrun::topic::system::musculoskeletal_skin_and_subcutaneous_tissue::skin_and_subcutaneous_tissue::infectious_immunologic_and_inflammatory::infectious_disorders_and_infestations
+       HIGH | infectious disorders and infestations | score 3.20
+        term   unique  2.00  'erysipelas'
+        term   shared x3  0.60  'cellulitis'
+        head   shared x2  0.60  'streptococcus'
+
+note 1763950233633  how do you identify group b streptococcus (strep agalactiae) in the lab
+    aliases fired: streptococcus agalactiae
+    -> speedrun::topic::system::reproductive_and_endocrine_systems::female_and_transgender_reproductive_system_and::female_reproductive_system::neoplasms_of_the_vulva_vagina_cervix_uterus_or
+       HIGH | Neoplasms of the vulva, vagina, cervix, uterus, or ovaries | score 2.00
+        term   unique  2.00  'vagina'
+
+note 1763950243794  what diseases are caused by group b streptococcus in neonates
+    aliases fired: streptococcus agalactiae
+    -> speedrun::topic::system::behavioral_health_and_nervous_systems_special::nervous_system_and_special_senses
+       HIGH | Nervous System & Special Senses | score 1.40
+        term   shared x2  1.40  'meningitis' [backed off to common ancestor]
+    -> speedrun::topic::system::reproductive_and_endocrine_systems::pregnancy_childbirth_and_the_puerperium
+       HIGH | Pregnancy, Childbirth, & the Puerperium | score 1.40
+        term   shared x2  1.40  'maternal' [backed off to common ancestor]
+
+note 1763950261293  how do you prevent and treat infections caused by group b streptococcus
+    aliases fired: streptococcus agalactiae
+    -> speedrun::topic::system::reproductive_and_endocrine_systems::pregnancy_childbirth_and_the_puerperium::labor_and_delivery
+       HIGH | Labor and delivery | score 6.30
+        phrase unique  3.00  'intrapartum prophylaxis'
+        phrase shared x2  1.50  'labor and delivery'
+        head   unique  1.20  'prophylaxis'
+        head   shared x2  0.60  'delivery'
+
+note 1763951220431  what are the key identifying features of enterococci
+    -> speedrun::topic::system::blood_and_lymphoreticular_immune_systems::blood_and_lymphoreticular_system
+       HIGH | Blood & Lymphoreticular System | score 1.40
+        term   shared x3  1.40  'hemolysis' [backed off to common ancestor]
+
+note 1763951233637  when are enterococci most likely to cause infections
+    -> speedrun::topic::system::reproductive_and_endocrine_systems::endocrine_system::diabetes_mellitus_and_other_disorders_of_the::diabetes_mellitus
+       HIGH | diabetes mellitus | score 2.00
+        term   unique  2.00  'gastrointestinal'
+
+note 1763951255989  what diseases are caused by enterococci (e. faecalis, e. faecium)
+    -> speedrun::topic::system::musculoskeletal_skin_and_subcutaneous_tissue::musculoskeletal_system::infectious_inflammatory_and_immunologic::infectious_disorders
+       HIGH | infectious disorders | score 2.00
+        term   unique  2.00  'infective'
+
+note 1763951291687  why are enterococci clinically important in terms of antibiotic resistance
+    -> speedrun::topic::system::respiratory_and_renal_urinary_systems::renal_and_urinary_system::adverse_effects_of_drugs_on_the_renal_and
+       HIGH | Adverse effects of drugs on the renal and urinary system | score 3.00
+        term   unique  2.00  'penicillins'
+        term   shared x2  1.00  'aminoglycosides'
+
+------------------------------------------------------------------------------
+LEFT UNTAGGED -- for human adjudication, NOT counted as coverage
+------------------------------------------------------------------------------
+MEDIUM (25 notes)
+  note 1763040770514  how do you differentiate staphylococcus from streptococcus using the catalase test
+      best candidate: system.biostatistics_and_epidemiology_population_health.biostatistics_epidemiology_population_health.principles_of_testing_and_screening (score 1.20) Principles of testing and screening
+        head   unique  1.20  'negative'
+  note 1763040840194  how do you distinguish between staphylococcus aureus and other staph species
+      best candidate: system.behavioral_health_and_nervous_systems_special.nervous_system_and_special_senses.infectious_immunologic_and_inflammatory.infectious_disorders (score 1.50) infectious disorders
+        phrase shared x2  1.50  'staphylococcus aureus'
+  note 1763041643756  what are the main characteristics of exotoxins
+      best candidate: system.behavioral_health_and_nervous_systems_special.nervous_system_and_special_senses.infectious_immunologic_and_inflammatory.infectious_disorders (score 1.50) infectious disorders
+        phrase shared x2  1.50  'staphylococcus aureus'
+  note 1763042079742  what is a transposon (jumping gene)
+      best candidate: system.biostatistics_and_epidemiology_population_health.biostatistics_epidemiology_population_health.study_interpretation_drawing_conclusions_from.causation (score 1.20) Causation
+        head   unique  1.20  'sequence'
+  note 1763042577447  which bacteria are beta-hemolytic
+      best candidate: system.behavioral_health_and_nervous_systems_special.nervous_system_and_special_senses.infectious_immunologic_and_inflammatory.infectious_disorders (score 1.26) infectious disorders
+        phrase shared x3  0.90  'streptococcus agalactiae'
+        head   shared x3  0.36  'agalactiae'
+  note 1763042943494  what is the morphology of staphylococcus aureus
+      best candidate: system.behavioral_health_and_nervous_systems_special.nervous_system_and_special_senses.infectious_immunologic_and_inflammatory.infectious_disorders (score 1.50) infectious disorders
+        phrase shared x2  1.50  'staphylococcus aureus'
+  note 1763042957683  which enzyme tests identify staphylococcus aureus
+      best candidate: system.behavioral_health_and_nervous_systems_special.nervous_system_and_special_senses.infectious_immunologic_and_inflammatory.infectious_disorders (score 1.50) infectious disorders
+        phrase shared x2  1.50  'staphylococcus aureus'
+  note 1763042976194  what is the most important virulence factor of staphylococcus aureus
+      best candidate: system.behavioral_health_and_nervous_systems_special.nervous_system_and_special_senses.infectious_immunologic_and_inflammatory.infectious_disorders (score 1.50) infectious disorders
+        phrase shared x2  1.50  'staphylococcus aureus'
+  note 1763043121439  what type of pneumonia does staph aureus commonly cause
+      best candidate: system.behavioral_health_and_nervous_systems_special.nervous_system_and_special_senses.infectious_immunologic_and_inflammatory.infectious_disorders (score 1.50) infectious disorders
+        phrase shared x2  1.50  'staphylococcus aureus'
+  note 1763043221476  how do you treat vancomycin-resistant staph aureus (vrsa)
+      best candidate: system.behavioral_health_and_nervous_systems_special.nervous_system_and_special_senses.infectious_immunologic_and_inflammatory.infectious_disorders (score 1.50) infectious disorders
+        phrase shared x2  1.50  'staphylococcus aureus'
+  note 1763043668740  what lab features identify staphylococcus saprophyticus
+      best candidate: system.behavioral_health_and_nervous_systems_special.behavioral_health.mood_disorders (score 1.20) Mood disorders
+        head   unique  1.20  'features'
+  note 1763852116469  what cellular components do nucleic acid inhibitors target
+      best candidate: system.blood_and_lymphoreticular_immune_systems.blood_and_lymphoreticular_system.coagulation_disorders_hypocoagulable_and.reactions_to_blood_components (score 1.20) reactions to blood components
+        head   unique  1.20  'components'
+  note 1763854999437  which drug classes bind the 30s ribosomal subunit
+      best candidate: system.behavioral_health_and_nervous_systems_special.nervous_system_and_special_senses.disorders_of_the_ear.adverse_effects_of_drugs_on_the_ear (score 1.00) adverse effects of drugs on the ear
+        term   shared x2  1.00  'aminoglycosides'
+  note 1763855095886  which membrane-disruptor antibiotic depolarizes membranes
+      best candidate: system.blood_and_lymphoreticular_immune_systems.blood_and_lymphoreticular_system.anemia_cytopenias_and_polycythemia_anemias.disorders_of_hemoglobin_heme_or_membrane (score 0.96) disorders of hemoglobin, heme, or membrane
+        head   shared x2  0.60  'membrane'
+        head   shared x3  0.36  'membranes'
+  note 1763855243832  what is a key step-1 clue for porin-based resistance
+      best candidate: system.biostatistics_and_epidemiology_population_health.biostatistics_epidemiology_population_health.principles_of_testing_and_screening (score 1.20) Principles of testing and screening
+        head   unique  1.20  'negative'
+  note 1763940425590  why are plasmid-encoded virulence factors clinically important
+      best candidate: system.biostatistics_and_epidemiology_population_health.biostatistics_epidemiology_population_health.principles_of_testing_and_screening (score 1.20) Principles of testing and screening
+        head   unique  1.20  'negative'
+  note 1763940655201  what is the dominant flora of the nose
+      best candidate: system.behavioral_health_and_nervous_systems_special.nervous_system_and_special_senses.infectious_immunologic_and_inflammatory.infectious_disorders (score 1.50) infectious disorders
+        phrase shared x2  1.50  'staphylococcus aureus'
+  note 1763940730961  how does the catalase test separate gram-positive cocci
+      best candidate: system.biostatistics_and_epidemiology_population_health.biostatistics_epidemiology_population_health.principles_of_testing_and_screening (score 1.20) Principles of testing and screening
+        head   unique  1.20  'negative'
+  note 1763940794172  which bacteria are beta-hemolytic
+      best candidate: system.behavioral_health_and_nervous_systems_special.nervous_system_and_special_senses.infectious_immunologic_and_inflammatory.infectious_disorders (score 1.26) infectious disorders
+        phrase shared x3  0.90  'streptococcus agalactiae'
+        head   shared x3  0.36  'agalactiae'
+  note 1763942368141  what is the function of protein a in staphylococcus aureus
+      best candidate: system.behavioral_health_and_nervous_systems_special.nervous_system_and_special_senses.infectious_immunologic_and_inflammatory.infectious_disorders (score 1.50) infectious disorders
+        phrase shared x2  1.50  'staphylococcus aureus'
+  note 1763942451798  what is the effect of staph aureus enterotoxin
+      best candidate: system.gastrointestinal_system.infectious_immunologic_and_inflammatory.infectious_disorders (score 2.10) infectious disorders
+        phrase shared x2  1.50  'staphylococcus aureus'
+        head   shared x2  0.60  'diarrhea'
+  note 1763944792239  what is the stepwise treatment approach for staphylococcus aureus when determining mssa nrsa mrsa vrsa
+      best candidate: system.behavioral_health_and_nervous_systems_special.nervous_system_and_special_senses.infectious_immunologic_and_inflammatory.infectious_disorders (score 1.50) infectious disorders
+        phrase shared x2  1.50  'staphylococcus aureus'
+  note 1763945077964  what is the clinical approach to penicillin allergy on step 1
+      best candidate: system.reproductive_and_endocrine_systems.female_and_transgender_reproductive_system_and.female_reproductive_system.infectious_immunologic_and_inflammatory (score 1.00) infectious, immunologic, and inflammatory disorders, including microbiologic and host response to insult
+        term   shared x2  1.00  'syphilis'
+  note 1763949559381  what are f protein and c5a protease in strep pyogenes
+      best candidate: system.respiratory_and_renal_urinary_systems.respiratory_system.infectious_immunologic_and_inflammatory.infectious_immunologic_and_inflammatory_2 (score 1.00) infectious, immunologic, and inflammatory disorders of the lower airways
+        term   shared x2  1.00  'streptococcus'
+  note 1763951302509  hat is an easy mnemonic to remember enterococcus diseases
+      best candidate: system.multisystem_processes_and_disorders.shock (score 1.00) Shock
+        term   shared x2  1.00  'sepsis'
+
+LOW (5 notes)
+  note 1763041019615  why do gram-positive bacteria retain the purple stain
+      best candidate: system.behavioral_health_and_nervous_systems_special.nervous_system_and_special_senses.disorders_of_the_ear.traumatic_and_mechanical_disorders (score 0.60) traumatic and mechanical disorders
+        head   shared x2  0.60  'membrane'
+  note 1763041811041  what defines the gram-positive cell wall
+      best candidate: system.behavioral_health_and_nervous_systems_special.nervous_system_and_special_senses.disorders_of_the_ear.traumatic_and_mechanical_disorders (score 0.60) traumatic and mechanical disorders
+        head   shared x2  0.60  'membrane'
+  note 1763041876182  what is a bacterial mutation
+      best candidate: system.blood_and_lymphoreticular_immune_systems.blood_and_lymphoreticular_system.coagulation_disorders_hypocoagulable_and.hypercoagulable (score 0.60) hypercoagulable
+        head   shared x2  0.60  'mutation'
+  note 1763852059431  what are the 5 major antimicrobial modes of action
+      best candidate: system.behavioral_health_and_nervous_systems_special.nervous_system_and_special_senses.disorders_of_the_ear.traumatic_and_mechanical_disorders (score 0.60) traumatic and mechanical disorders
+        head   shared x2  0.60  'membrane'
+  note 1763854910492  what structure is targeted by membrane-disruptor drugs
+      best candidate: system.behavioral_health_and_nervous_systems_special.nervous_system_and_special_senses.disorders_of_the_ear.traumatic_and_mechanical_disorders (score 0.60) traumatic and mechanical disorders
+        head   shared x2  0.60  'membrane'
+
+NONE (17 notes)
+  note 1763043788786  what is the treatment for staphylococcus saprophyticus
+  note 1763852079549  what are the main targets for cell-wall synthesis inhibitors
+  note 1763852095011  what ribosomal subunits do protein synthesis inhibitors target
+  note 1763854938262  which drug class includes ceftriaxone
+  note 1763854950534  what class includes meropenem
+  note 1763854965302  what class includes aztreonam
+  note 1763854976701  what cell-wall class includes vancomycin
+  note 1763855013138  which antibiotic classes bind the 50s ribosomal subunit
+  note 1763855064927  which drugs inhibit folate synthesis
+  note 1763855139486  what is the decreased uptake mechanism of antibiotic resistance
+  note 1763856455717  which antibiotic classes are affected by decreased influx (porin changes)
+  note 1763940353011  what is target modification as a mechanism of antibiotic resistance
+  note 1763940382867  what is the effect of altered pbps in target modification
+  note 1763940612330  what are the 4 phases of the bacterial growth curve
+  note 1763940628866  what happens in the stationary phase
+  note 1763942946814  what is the treatment rule for mssa vs mrsa pneumonia
+  note 1763943967599  treatment of staphylococcus (mssa, mrsa, vrsa)
+
+------------------------------------------------------------------------------
+OUTLINE TOPICS WITH AT LEAST ONE PROPOSED NOTE
+------------------------------------------------------------------------------
+    24  system.behavioral_health_and_nervous_systems_special.nervous_system_and_special_senses.infectious_immunologic_and_inflammatory.infectious_disorders
+        infectious disorders
+    17  system.musculoskeletal_skin_and_subcutaneous_tissue.musculoskeletal_system.infectious_inflammatory_and_immunologic.infectious_disorders
+        infectious disorders
+    15  system.musculoskeletal_skin_and_subcutaneous_tissue.skin_and_subcutaneous_tissue.infectious_immunologic_and_inflammatory.infectious_disorders_and_infestations
+        infectious disorders and infestations
+    12  system.multisystem_processes_and_disorders.shock
+        Shock
+    12  system.social_sciences_communication_and_interpersonal.social_sciences.systems_based_practice_including_health_systems
+        Systems-based practice (including health systems, public health, community, schools) and patient safety (including basic concepts and terminology)
+    11  system.reproductive_and_endocrine_systems.pregnancy_childbirth_and_the_puerperium.adverse_effects_of_drugs_on_pregnancy
+        Adverse effects of drugs on pregnancy, childbirth, and the puerperium
+    10  system.blood_and_lymphoreticular_immune_systems.blood_and_lymphoreticular_system
+        Blood & Lymphoreticular System
+     8  system.gastrointestinal_system.infectious_immunologic_and_inflammatory.infectious_disorders
+        infectious disorders
+     8  system.respiratory_and_renal_urinary_systems.respiratory_system.infectious_immunologic_and_inflammatory.infectious_immunologic_and_inflammatory_2
+        infectious, immunologic, and inflammatory disorders of the lower airways
+     7  system.cardiovascular_system.dysrhythmias
+        Dysrhythmias
+     6  system.cardiovascular_system.valvular_heart_disease
+        Valvular heart disease
+     6  system.gastrointestinal_system.neoplasms.malignant_neoplasms_and_pre_malignant_conditions
+        malignant neoplasms and pre-malignant conditions
+     5  system.gastrointestinal_system.disorders_of_the_oral_cavity_salivary_glands.oral_cavity_and_salivary_glands
+        oral cavity and salivary glands
+     5  system.multisystem_processes_and_disorders.infectious_immunologic_and_inflammatory.infectious_disorders
+        infectious disorders
+     5  system.respiratory_and_renal_urinary_systems.renal_and_urinary_system.adverse_effects_of_drugs_on_the_renal_and
+        Adverse effects of drugs on the renal and urinary system
+     5  system.respiratory_and_renal_urinary_systems.respiratory_system.infectious_immunologic_and_inflammatory.infectious_immunologic_and_inflammatory
+        infectious, immunologic, and inflammatory disorders of the upper airways
+     4  system.musculoskeletal_skin_and_subcutaneous_tissue.musculoskeletal_system.traumatic_and_mechanical_disorders
+        Traumatic and mechanical disorders
+     4  system.musculoskeletal_skin_and_subcutaneous_tissue.skin_and_subcutaneous_tissue.congenital_disorders
+        Congenital disorders
+     3  system.cardiovascular_system.hypotension
+        Hypotension
+     3  system.reproductive_and_endocrine_systems.female_and_transgender_reproductive_system_and.female_reproductive_system.neoplasms_of_the_vulva_vagina_cervix_uterus_or
+        Neoplasms of the vulva, vagina, cervix, uterus, or ovaries
+     3  system.social_sciences_communication_and_interpersonal.social_sciences.systems_based_practice_including_health_systems.complexity_systems_thinking
+        Complexity/systems thinking
+     2  system.behavioral_health_and_nervous_systems_special.nervous_system_and_special_senses
+        Nervous System & Special Senses
+     2  system.behavioral_health_and_nervous_systems_special.nervous_system_and_special_senses.disorders_of_the_ear.infectious_and_inflammatory_disorders_of_the
+        infectious and inflammatory disorders of the ear, including microbiologic and host response to insult
+     2  system.behavioral_health_and_nervous_systems_special.nervous_system_and_special_senses.disorders_of_the_eye_and_eyelid.disorders_of_the_eye_and_eyelid_structural
+        disorders of the eye and eyelid, structural
+     2  system.behavioral_health_and_nervous_systems_special.nervous_system_and_special_senses.paroxysmal_disorders
+        Paroxysmal disorders
+     2  system.multisystem_processes_and_disorders.genetic_metabolic_and_developmental_disorders.intracellular_extracellular_transport_receptors
+        intracellular/extracellular transport receptors
+     2  system.multisystem_processes_and_disorders.infectious_immunologic_and_inflammatory.immunologic_and_inflammatory_disorders
+        immunologic and inflammatory disorders
+     2  system.musculoskeletal_skin_and_subcutaneous_tissue.skin_and_subcutaneous_tissue.infectious_immunologic_and_inflammatory.immunologic_and_inflammatory_disorders
+        immunologic and inflammatory disorders
+     2  system.reproductive_and_endocrine_systems.female_and_transgender_reproductive_system_and.breast.infectious_immunologic_and_inflammatory
+        infectious, immunologic, and inflammatory disorders, including microbiologic and host response to insult
+     2  system.reproductive_and_endocrine_systems.pregnancy_childbirth_and_the_puerperium.labor_and_delivery
+        Labor and delivery
+     2  system.respiratory_and_renal_urinary_systems.renal_and_urinary_system.infectious_immunologic_and_inflammatory
+        Infectious, immunologic, and inflammatory disorders, including microbiologic and host response to insult
+     2  system.social_sciences_communication_and_interpersonal.social_sciences.systems_based_practice_including_health_systems.patient_safety
+        Patient safety
+     1  system.behavioral_health_and_nervous_systems_special.behavioral_health.mood_disorders
+        Mood disorders
+     1  system.behavioral_health_and_nervous_systems_special.nervous_system_and_special_senses.adverse_effects_of_drugs_on_the_nervous_system
+        Adverse effects of drugs on the nervous system
+     1  system.blood_and_lymphoreticular_immune_systems.blood_and_lymphoreticular_system.coagulation_disorders_hypocoagulable_and.hypocoagulable
+        hypocoagulable
+     1  system.blood_and_lymphoreticular_immune_systems.blood_and_lymphoreticular_system.infectious_and_immunologic_including.primary_infections_of_lymphoid_tissue
+        primary infections of lymphoid tissue
+     1  system.cardiovascular_system.vascular_disorders.disorders_of_the_great_vessels
+        disorders of the great vessels
+     1  system.multisystem_processes_and_disorders.fluid_electrolyte_and_acid_base_balance
+        Fluid, electrolyte, and acid-base balance disorders
+     1  system.multisystem_processes_and_disorders.signs_symptoms_and_ill_defined_disorders
+        Signs, symptoms, and ill-defined disorders
+     1  system.musculoskeletal_skin_and_subcutaneous_tissue.musculoskeletal_system.infectious_inflammatory_and_immunologic.inflammatory_disorders
+        inflammatory disorders
+     1  system.reproductive_and_endocrine_systems.endocrine_system.diabetes_mellitus_and_other_disorders_of_the.diabetes_mellitus
+        diabetes mellitus
+     1  system.reproductive_and_endocrine_systems.female_and_transgender_reproductive_system_and.female_reproductive_system.fertility_and_infertility
+        Fertility and infertility
+     1  system.reproductive_and_endocrine_systems.male_and_transgender_reproductive_system.infectious_immunologic_and_inflammatory.infectious_disorders
+        infectious disorders
+     1  system.reproductive_and_endocrine_systems.pregnancy_childbirth_and_the_puerperium
+        Pregnancy, Childbirth, & the Puerperium
+     1  system.respiratory_and_renal_urinary_systems.renal_and_urinary_system.abnormalities_of_urine_urination
+        Abnormalities of urine/urination
+
+------------------------------------------------------------------------------
+MICROBIOLOGY-RELEVANT OUTLINE TOPICS WITH NO CARD
+------------------------------------------------------------------------------
+  rule: topic NAME matches \b(infectious|infections?|hiv)\b -- the outline's own wording,
+  no clinical judgement of ours layered on top.
+  20 of 27 such topics have at least one proposed note (counting a
+  parent as hit when a child is hit).
+
+  [system] system.blood_and_lymphoreticular_immune_systems.immune_system.hiv_aids
+       HIV/AIDS
+  [system] system.blood_and_lymphoreticular_immune_systems.blood_and_lymphoreticular_system.infectious_and_immunologic_including.infectious_disorders
+       infectious disorders
+  [system] system.behavioral_health_and_nervous_systems_special.nervous_system_and_special_senses.disorders_of_the_eye_and_eyelid.infectious_and_inflammatory_disorders_of_the
+       infectious and inflammatory disorders of the eye, including microbiologic and host response to insult
+  [system] system.cardiovascular_system.infectious_immunologic_and_inflammatory
+       Infectious, immunologic, and inflammatory disorders, including microbiologic and host response to insult
+  [system] system.cardiovascular_system.infectious_immunologic_and_inflammatory.infectious_disorders
+       infectious disorders
+  [system] system.respiratory_and_renal_urinary_systems.renal_and_urinary_system.infectious_immunologic_and_inflammatory.infectious_disorders
+       infectious disorders
+  [system] system.reproductive_and_endocrine_systems.female_and_transgender_reproductive_system_and.female_reproductive_system.infectious_immunologic_and_inflammatory
+       infectious, immunologic, and inflammatory disorders, including microbiologic and host response to insult
+
+------------------------------------------------------------------------------
+KNOWN LIMITATIONS
+------------------------------------------------------------------------------
+  * The 11 discipline-axis topics (Pathology, Microbiology, Pharmacology, ...) carry a one-word name and NO examples in outline.json, so there is no vocabulary to match against and this matcher proposes zero discipline tags. coverage.py will therefore report the whole discipline axis as uncovered. That is a fact about the outline's shape and about keyword matching, NOT evidence that the deck contains no microbiology.
+  * Matching is lexical. A card that teaches a topic without naming it -- mechanism-only cards on Gram staining, toxin biochemistry, plasmid transfer, antibiotic targets -- cannot be matched, because the outline gives those no vocabulary either. Those notes are reported as NONE.
+  * The outline states its examples are 'just examples', so a topic's vocabulary is incomplete by construction. Absence of a hit is weak evidence of absence of coverage.
+  * Head-noun evidence ('endocarditis' from 'bacterial endocarditis') throws the modifier away and can only support a proposal, never establish one.
+  * Nothing here has been applied to any collection. Applying is a separate, explicit step.
